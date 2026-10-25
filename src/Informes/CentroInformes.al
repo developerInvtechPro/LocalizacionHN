@@ -12,7 +12,7 @@ page 71113 "HN Centro Informes"
             group(Indicaciones)
             {
                 Caption = 'Informes y comprobantes';
-                label(Informacion) { ApplicationArea = All; Caption = 'Seleccione un informe en Acciones. Filtre por documento, tercero y fecha antes de imprimir. Los borradores y comprobantes de compra son documentos internos.'; }
+                label(Informacion) { ApplicationArea = All; Caption = 'Seleccione un informe en Acciones. Filtre por documento, tercero y fecha antes de imprimir. Los borradores son documentos de trabajo. La boleta registrada es un comprobante fiscal emitido con CAI propio.'; }
             }
         }
     }
@@ -20,6 +20,8 @@ page 71113 "HN Centro Informes"
     {
         area(Reporting)
         {
+            action(Boleta) { Caption = 'Boleta de compra'; ApplicationArea = All; Image = Print; RunObject = report "HN Boleta Compra"; }
+            action(BorradorBoleta) { Caption = 'Borrador de boleta'; ApplicationArea = All; Image = Print; RunObject = report "HN Borrador Boleta"; }
             action(AplicacionesProveedores) { Caption = 'Aplicaciones y desliquidaciones de proveedores'; ApplicationArea = All; Image = Print; RunObject = report "HN Det. Aplicacion Proveedor"; }
             action(AplicacionesClientes) { Caption = 'Aplicaciones y desliquidaciones de clientes'; ApplicationArea = All; Image = Print; RunObject = report "HN Det. Aplicacion Cliente"; }
             action(MovimientosISV) { Caption = 'Movimientos del impuesto sobre ventas'; ApplicationArea = All; Image = Print; RunObject = report "HN Movimientos ISV"; }

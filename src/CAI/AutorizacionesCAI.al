@@ -99,6 +99,17 @@ codeunit 50100 "HN CAI Management"
             Error('La factura debe utilizar el tipo fiscal 01.');
         if (DocType = DocType::NotaCredito) and (CopyStr(Authorization."Next No.", 9, 2) <> '06') then
             Error('La nota de crédito debe utilizar el tipo fiscal 06.');
+        if (DocType = DocType::BoletaCompra) and (CopyStr(Authorization."Next No.", 9, 2) <> '11') then
+            Error('La boleta de compra debe utilizar el tipo fiscal 11.');
+    end;
+
+    procedure EmitirEnRegistro(Codigo: Code[20]; Tipo: Enum "HN Fiscal Document Type"; Fecha: Date; VistaPrevia: Boolean; var Autorizacion: Record "HN CAI Authorization"): Code[20]
+    begin
+        if not VistaPrevia then exit(Issue(Codigo, Tipo, Fecha, Autorizacion));
+        Autorizacion.Get(Codigo);
+        ValidateAuthorization(Autorizacion, Tipo, Fecha);
+        // La vista previa valida el rango sin asignar ni mostrar un número especulativo.
+        exit('');
     end;
 
     procedure Issue(Code: Code[20]; DocType: Enum "HN Fiscal Document Type"; IssueDate: Date; var Authorization: Record "HN CAI Authorization"): Code[20]
@@ -110,6 +121,7 @@ codeunit 50100 "HN CAI Management"
         SalesInvoice: Record "Sales Invoice Header";
         Abono: Record "Sales Cr.Memo Header";
         Movimiento: Record "HN Movimiento Fiscal";
+        Boleta: Record "Purch. Inv. Header";
     begin
         Authorization.LockTable();
         Authorization.Get(Code);
@@ -136,6 +148,8 @@ codeunit 50100 "HN CAI Management"
             Abono.SetRange("INV POS Transaction No.", Number);
             if not Abono.IsEmpty() then Error('El número fiscal %1 ya existe en un abono POS migrado.', Number);
         end;
+        Boleta.SetRange("HN Numero Boleta", Number);
+        if not Boleta.IsEmpty() then Error('El número fiscal %1 ya existe en una boleta de compra registrada.', Number);
         OtherAuthorization.SetFilter(Code, '<>%1', Code);
         OtherAuthorization.SetRange("Document Type", DocType);
         if OtherAuthorization.FindSet() then

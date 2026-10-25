@@ -24,6 +24,7 @@ enum 50100 "HN Fiscal Document Type"
     value(1; "Debit Note") { Caption = 'Nota de débito'; }
     value(2; Factura) { Caption = 'Factura'; }
     value(3; NotaCredito) { Caption = 'Nota de crédito'; }
+    value(4; BoletaCompra) { Caption = 'Boleta de compra'; }
 }
 enum 50101 "HN Retention Status"
 {

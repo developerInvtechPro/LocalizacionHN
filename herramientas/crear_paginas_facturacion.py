@@ -9,8 +9,6 @@ for no,pg,credit in [(71120,'Sales Order',False),(71121,'Sales Invoice',False),(
     {{
         addlast(General)
         {{
-            field(HNEmitirFiscal; Rec."HN Emitir Documento Fiscal") {{ ApplicationArea = All; }}
-            field(HNCAIVenta; Rec."HN CAI Code") {{ ApplicationArea = All; }}
 '''
  if credit:
   s+='''            field(HNFacturaOrigen; Rec."HN Original Invoice No.")
@@ -44,11 +42,11 @@ for no,pg,credit in [(71120,'Sales Order',False),(71121,'Sales Invoice',False),(
                 trigger OnAction()
                 var
                     Gestion: Codeunit "HN Gestion Facturacion";
+                    Documento: Record "Sales Header";
                 begin
                     CurrPage.SaveRecord();
-                    Rec.TestField("HN Emitir Documento Fiscal", true);
-                    Gestion.ValidarDocumento(Rec);
-                    CurrPage.SaveRecord();
+                    Documento := Rec;
+                    Gestion.ValidarDocumento(Documento);
                     Message('El documento cumple la configuración fiscal de esta extensión.');
                 end;
             }
@@ -88,4 +86,4 @@ for no,pg,table,report in [(71124,'Posted Sales Invoice','Sales Invoice Header',
 }}
 
 '''
-(R/'src/Ventas/Facturacion/PaginasFacturacion.al').write_text(s)
+(R/'src/Ventas/Facturacion/PaginasFacturacion.al').write_text(s.rstrip()+'\n')

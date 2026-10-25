@@ -1,6 +1,6 @@
 # Desarrollo y conservación de datos
 
-Versión 1.1.0.0 · 24 de octubre de 2026
+Versión 1.2.0.0 · 24 de octubre de 2026
 
 ## Organización y responsabilidad
 
@@ -16,7 +16,7 @@ Los nombres técnicos de objetos AL tienen un máximo de 30 caracteres. Los tít
 
 ## Emisión fiscal de ventas
 
-HN Gestion Facturacion se suscribe al registro estándar Sales-Post. Comprueba la marca Aplicar facturación HN y la configuración, dejando el recorrido de notas de débito a su gestor publicado. Los documentos API no reciben automáticamente la marca por habilitar documentos nuevos de la interfaz.
+HN Gestion Facturacion se suscribe al registro estándar Sales-Post y aplica la configuración por empresa automáticamente a pedidos/facturas y abonos/devoluciones. La marca anterior de cabecera y la opción de activar documentos nuevos conservan sus IDs por compatibilidad, pero ya no controlan la emisión ni aparecen en la interfaz. Las notas de débito conservan su gestor. Las ventas con identidad INV POS Transaction No. quedan excluidas para evitar emitir otra vez un documento POS; una referencia fiscal externa sin esa identidad bloquea la emisión para revisión.
 
 Se valida la fecha documento como fecha de emisión y se selecciona tipo 01 o 06. Se conservan cliente y moneda y se exige origen/motivo en notas de crédito. La emisión usa HN CAI Management para bloquear/validar autorización y consumir el correlativo. El pedido no recibe una numeración fiscal fija que se reutilice en facturaciones parciales.
 
@@ -40,7 +40,7 @@ Las retenciones antiguas sin un vínculo fiable no se relacionan por coincidenci
 
 ## Informes
 
-Los datasets se definen en Comprobantes.al y DocumentosYMovimientos.al. Los 18 layouts están en Informes/Disenos/. Los generadores mantienen sincronizados columnas y campos XML. El verificador examina nombres, expresiones, celdas, formatos y conservación del esquema anterior. No sustituye un motor RDLC ni una prueba de impresión.
+Los datasets se definen en Comprobantes.al y DocumentosYMovimientos.al. Los 20 layouts están en Informes/Disenos/. Los generadores mantienen sincronizados columnas y campos XML. El verificador examina nombres, expresiones, celdas, formatos y conservación del esquema anterior. No sustituye un motor RDLC ni una prueba de impresión.
 
 Los movimientos de clientes/proveedores muestran saldo pendiente actual. Los de contabilidad y aplicaciones muestran el importe de cada movimiento. El informe de ISV identifica base e impuesto. No se agregan monedas diferentes ni se presenta el saldo actual como un saldo histórico a fecha de corte.
 
@@ -65,3 +65,16 @@ Los PDF requieren las bibliotecas de requisitos-documentacion.pip. Los generador
 La codeunit de pruebas es 71250. Su ejecución requiere un ejecutor estándar de pruebas AL en una empresa desechable de sandbox. Conserve diagnóstico de compilación, resultado de pruebas, conciliación y PDF impresos de casos reales de prueba.
 
 No publique datos del tenant, símbolos, paquetes anteriores, credenciales o rutas locales del inventario. Git excluye esos archivos; utilice launch.ejemplo.json como plantilla. La publicación en GitHub requiere un repositorio de destino accesible y no implica publicación en Business Central.
+
+
+## Emisión transaccional y boletas, versión 1.2
+
+`HN CAI Management.EmitirEnRegistro` valida y devuelve vacío en vista previa; en registro real llama Issue, que bloquea/relee la autorización y actualiza último/próximo sin Commit. Los suscriptores de inserción de cabeceras registradas llaman este punto después de las validaciones. La creación y la validación manual no llaman Issue. Cada factura parcial consume un correlativo; el fiscal no se almacena en el pedido abierto. La integración respeta la transacción estándar; extensiones externas que introduzcan commits en la fase de contabilización deben auditarse antes del despliegue.
+
+BoletaCompra se añade como valor 4 al enum fiscal existente y exige código 11. Las extensiones de tablas 71116–71118 mantienen campos propios: boleta, identidad y teléfono en Purchase Header; snapshots completos en Purch. Inv. Header; elegibilidad e identidad en Vendor. Las páginas 71114–71116 exponen lista/ficha/histórico y las extensiones 71127–71129 integran los documentos estándar. Se admite factura de compra directa y facturación de pedidos; las recepciones solas no emiten.
+
+`HN Gestion Boletas` valida proveedor natural hondureño, identificación, dirección, teléfono, moneda HNL, datos del emisor, autorización y líneas sin crédito ISV. Omite exclusivamente para boletas la exigencia de número de factura del proveedor mediante OnBeforeCheckExtDocNo. La autorización recibida del proveedor no se usa para este documento. Al insertar la cabecera registrada asigna el fiscal y lo mantiene en la referencia de factura del proveedor de la variable en memoria durante el registro, para que proveedor/contabilidad utilicen ese número. Limpia esa referencia antes de actualizar/archivar el pedido abierto; no persiste un número reservado en el origen. Los abonos/devoluciones que hereden la marca de boleta se bloquean: no se implementa una corrección fiscal automática del tipo 11.
+
+En HN Movimiento Fiscal, Es compra mantiene su ID/valores pero su caption pasa a Recibido de proveedor: true son comprobantes recibidos; false son emitidos con CAI propio (incluye boleta). Esta semántica permite el mismo bloqueo antirrepetición para todas las emisiones propias.
+
+Los informes 71126/71127 y sus RDLC se generan con crear_informes_boletas.py; incluyen letras, firma/huella, datos de contacto, exoneración y destino de ejemplares. Los límites fiscales agregados del art. 22 se controlan fuera de esta versión; no hay anulación fiscal de boletas, cálculo automático de límites anuales ni comunicación SAR.

@@ -163,6 +163,7 @@ codeunit 71111 "HN Gestion CAI Proveedor"
         CodigoElegido: Code[20];
         Movimiento: Record "HN Movimiento Fiscal";
     begin
+        if Cabecera."HN Boleta Compra" then exit;
         if not Configuracion.Get('') then exit;
         if not Configuracion."Validar compras" then exit;
         if Cabecera."Document Type" in [Cabecera."Document Type"::"Credit Memo", Cabecera."Document Type"::"Return Order"] then begin
@@ -224,6 +225,7 @@ codeunit 71111 "HN Gestion CAI Proveedor"
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Purch.-Post", 'OnBeforePurchInvHeaderInsert', '', false, false)]
     local procedure AntesFactura(var PurchInvHeader: Record "Purch. Inv. Header"; var PurchHeader: Record "Purchase Header")
     begin
+        if PurchHeader."HN Boleta Compra" then exit;
         PurchInvHeader."HN Codigo CAI Proveedor" := PurchHeader."HN Codigo CAI Proveedor";
         PurchInvHeader."HN Inicio CAI Proveedor" := PurchHeader."HN Inicio CAI Proveedor";
         PurchInvHeader."HN Fin CAI Proveedor" := PurchHeader."HN Fin CAI Proveedor";
@@ -250,6 +252,7 @@ codeunit 71111 "HN Gestion CAI Proveedor"
         Proveedor: Record Vendor;
     begin
         if EsVistaPrevia then exit;
+        if Cabecera."HN Boleta Compra" then exit;
         if not Configuracion.Get('') then exit;
         if not Configuracion."Validar compras" then exit;
         Autorizacion.LockTable();

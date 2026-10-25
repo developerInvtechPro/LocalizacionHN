@@ -2,7 +2,7 @@
   "id": "0afcac2a-37c1-4666-b0a6-72d4e5320046",
   "name": "LocalizacionHN_V2",
   "publisher": "INVTECH",
-  "version": "1.1.0.0",
+  "version": "1.2.0.0",
   "brief": "Facturación, CAI y retenciones de Honduras",
   "description": "Localización independiente de Honduras con facturación desde pedidos y facturas de venta, notas de crédito y débito, retenciones, CAI de proveedores, informes y preparación de migración POS.",
   "privacyStatement": "",

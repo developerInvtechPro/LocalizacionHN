@@ -20,6 +20,9 @@ def objects(data, category):
 rules = next(obj for obj in objects(symbols, 'Tables') if obj['Name'] == 'HN Retention Rule')
 assert {'Code', 'Percentage', 'Calculation Base', 'G/L Account No.'} <= {f['Name'] for f in rules['Fields']}
 required = {
+    'HN Boleta Cabecera': {'HN Boleta Compra', 'HN Identidad Boleta', 'HN Telefono Boleta'},
+    'HN Boleta Registrada': {'HN Numero Boleta', 'HN CAI Boleta', 'HN RTN Emisor Boleta'},
+    'HN Proveedor Boleta': {'HN Persona Natural Hondurena', 'HN Identidad Boleta'},
     'HN Purchase Retention Line': {'HN Retention Codes', 'HN Retention Amount'},
     'HN Purchase Retention Header': {'HN Vendor CAI', 'HN Retention Amount'},
     'HN Posted Purchase Ret Line': {'HN Retention Codes', 'HN Retention Amount'},
@@ -71,7 +74,7 @@ for archivo in (root / 'src').rglob('*.al'):
                     suma = sum(int(c.findtext('./{*}CellContents/{*}ColSpan', '1')) for c in celdas)
                     assert suma == ancho, f'Cantidad de celdas incompatible en {ruta}: {suma}/{ancho}'
             informes.append(ruta)
-assert len(informes) == 18, f'Se esperaban 18 formatos, se encontraron {len(informes)}'
+assert len(informes) == 20, f'Se esperaban 20 formatos, se encontraron {len(informes)}'
 print(f'{len(informes)} formatos RDLC: datasets, expresiones y estructura XML coherentes.')
 for name in [f'INVTECH_LocalizacionHN_V2_{manifest["version"]}', f'INVTECH_LocalizacionHN_V2_Pruebas_{manifest["version"]}']:
     data = json.loads((root / 'artefactos' / (name + '.diagnostics.json')).read_text())

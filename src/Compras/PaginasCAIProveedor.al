@@ -22,8 +22,14 @@ pageextension 71110 "HN CAI Compra Pagina 71110" extends "Purchase Order"
                 trigger OnAction()
                 var
                     Gestion: Codeunit "HN Gestion CAI Proveedor";
+                    Boletas: Codeunit "HN Gestion Boletas";
                 begin
                     CurrPage.SaveRecord();
+                    if Rec."HN Boleta Compra" then begin
+                        Boletas.Validar(Rec);
+                        Message('Boleta validada con CAI propio. El correlativo se asigna al registrar.');
+                        exit;
+                    end;
                     Gestion.ValidarCompra(Rec);
                     CurrPage.SaveRecord();
                     Message('La comprobación finalizó. Si la validación de compras está habilitada, el documento cumple las reglas configuradas.');
@@ -58,8 +64,14 @@ pageextension 71111 "HN CAI Compra Pagina 71111" extends "Purchase Invoice"
                 trigger OnAction()
                 var
                     Gestion: Codeunit "HN Gestion CAI Proveedor";
+                    Boletas: Codeunit "HN Gestion Boletas";
                 begin
                     CurrPage.SaveRecord();
+                    if Rec."HN Boleta Compra" then begin
+                        Boletas.Validar(Rec);
+                        Message('Boleta validada con CAI propio. El correlativo se asigna al registrar.');
+                        exit;
+                    end;
                     Gestion.ValidarCompra(Rec);
                     CurrPage.SaveRecord();
                     Message('La comprobación finalizó. Si la validación de compras está habilitada, el documento cumple las reglas configuradas.');
@@ -94,8 +106,14 @@ pageextension 71112 "HN CAI Compra Pagina 71112" extends "Purchase Credit Memo"
                 trigger OnAction()
                 var
                     Gestion: Codeunit "HN Gestion CAI Proveedor";
+                    Boletas: Codeunit "HN Gestion Boletas";
                 begin
                     CurrPage.SaveRecord();
+                    if Rec."HN Boleta Compra" then begin
+                        Boletas.Validar(Rec);
+                        Message('Boleta validada con CAI propio. El correlativo se asigna al registrar.');
+                        exit;
+                    end;
                     Gestion.ValidarCompra(Rec);
                     CurrPage.SaveRecord();
                     Message('La comprobación finalizó. Si la validación de compras está habilitada, el documento cumple las reglas configuradas.');
@@ -130,8 +148,14 @@ pageextension 71113 "HN CAI Compra Pagina 71113" extends "Purchase Return Order"
                 trigger OnAction()
                 var
                     Gestion: Codeunit "HN Gestion CAI Proveedor";
+                    Boletas: Codeunit "HN Gestion Boletas";
                 begin
                     CurrPage.SaveRecord();
+                    if Rec."HN Boleta Compra" then begin
+                        Boletas.Validar(Rec);
+                        Message('Boleta validada con CAI propio. El correlativo se asigna al registrar.');
+                        exit;
+                    end;
                     Gestion.ValidarCompra(Rec);
                     CurrPage.SaveRecord();
                     Message('La comprobación finalizó. Si la validación de compras está habilitada, el documento cumple las reglas configuradas.');

@@ -20,7 +20,7 @@ for no,name,target,posted in [(71110,'HN CAI Cabecera Compra','Purchase Header',
   s+='        }\n'
  if target=='Purch. Cr. Memo Hdr.':s+='        field(71144; "HN Vendor CAI"; Code[37]) { Caption = \'CAI del proveedor\'; Editable = false; DataClassification = CustomerContent; }\n'
  s+='    }\n}\n\n'
-(R/'src/Compras/CamposCAIProveedor.al').write_text(s)
+(R/'src/Compras/CamposCAIProveedor.al').write_text(s.rstrip()+'\n')
 s='namespace INVTECH.Honduras;\nusing Microsoft.Purchases.Document;\nusing Microsoft.Purchases.History;\nusing Microsoft.Purchases.Vendor;\n\n'
 for no,pg,anchor,posted in [(71110,'Purchase Order','Vendor Invoice No.',False),(71111,'Purchase Invoice','Vendor Invoice No.',False),(71112,'Purchase Credit Memo','Vendor Cr. Memo No.',False),(71113,'Purchase Return Order','Vendor Cr. Memo No.',False),(71114,'Posted Purchase Invoice','Vendor Invoice No.',True),(71115,'Posted Purchase Credit Memo','Vendor Cr. Memo No.',True)]:
  s+=f'''pageextension {no} "HN CAI Compra Pagina {no}" extends "{pg}"
@@ -44,8 +44,14 @@ for no,pg,anchor,posted in [(71110,'Purchase Order','Vendor Invoice No.',False),
                 trigger OnAction()
                 var
                     Gestion: Codeunit "HN Gestion CAI Proveedor";
+                    Boletas: Codeunit "HN Gestion Boletas";
                 begin
                     CurrPage.SaveRecord();
+                    if Rec."HN Boleta Compra" then begin
+                        Boletas.Validar(Rec);
+                        Message('Boleta validada con CAI propio. El correlativo se asigna al registrar.');
+                        exit;
+                    end;
                     Gestion.ValidarCompra(Rec);
                     CurrPage.SaveRecord();
                     Message('La comprobación finalizó. Si la validación de compras está habilitada, el documento cumple las reglas configuradas.');
@@ -91,4 +97,4 @@ s+='''pageextension 71116 "HN Gestion CAI Ficha Proveedor" extends "Vendor Card"
     }
 }
 '''
-(R/'src/Compras/PaginasCAIProveedor.al').write_text(s)
+(R/'src/Compras/PaginasCAIProveedor.al').write_text(s.rstrip()+'\n')

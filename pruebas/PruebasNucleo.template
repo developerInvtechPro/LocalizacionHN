@@ -1,6 +1,7 @@
 namespace INVTECH.Honduras.Tests;
 using INVTECH.Honduras;
 using Microsoft.Sales.Document;
+using Microsoft.Purchases.Document;
 using Microsoft.Purchases.History;
 using Microsoft.Purchases.Vendor;
 
@@ -424,6 +425,167 @@ codeunit 71250 "HN Core Tests"
         Movimiento.Insert(true);
         asserterror Movimiento.Delete(true);
         asserterror Movimiento.Modify(true);
+    end;
+
+    [Test]
+    procedure VentasAutomaticasSinMarcarDocumento()
+    var Configuracion: Record "HN Config. Facturacion"; Cabecera: Record "Sales Header"; Gestion: Codeunit "HN Gestion Facturacion";
+    begin
+        if not Configuracion.Get('') then begin Configuracion.Init(); Configuracion.Insert(); end;
+        Configuracion."Ventas habilitadas" := true;
+        Configuracion."Activar documentos nuevos" := false;
+        Configuracion.Modify();
+        Cabecera."Document Type" := Cabecera."Document Type"::Order;
+        Assert(Gestion.DebeEmitir(Cabecera), 'El pedido no debe requerir aplicar facturación.');
+        Cabecera."Document Type" := Cabecera."Document Type"::Invoice;
+        Assert(Gestion.DebeEmitir(Cabecera), 'La factura directa no debe requerir aplicación manual.');
+        Cabecera."INV POS Transaction No." := '999-999-01-00000001';
+        Assert(not Gestion.DebeEmitir(Cabecera), 'No debe emitir de nuevo una venta POS.');
+        Clear(Cabecera."INV POS Transaction No.");
+        Cabecera."HN Debit Note" := true;
+        Assert(not Gestion.DebeEmitir(Cabecera), 'La nota de débito conserva su propio tipo fiscal.');
+    end;
+
+    [Test]
+    procedure ResolverCAIVigenteSinReservar()
+    var Configuracion: Record "HN Config. Facturacion"; Cabecera: Record "Sales Header"; Gestion: Codeunit "HN Gestion Facturacion";
+    begin
+        if not Configuracion.Get('') then begin Configuracion.Init(); Configuracion.Insert(); end;
+        Configuracion."Ventas habilitadas" := true;
+        Configuracion."CAI facturas" := 'ACTUAL';
+        Configuracion.Modify();
+        Cabecera."Document Type" := Cabecera."Document Type"::Invoice;
+        Cabecera."HN CAI Code" := 'ANTERIOR';
+        Gestion.PrepararDocumento(Cabecera);
+        Assert(Cabecera."HN CAI Code" = 'ACTUAL', 'La configuración vigente debe sustituir un CAI anterior del borrador.');
+        Assert(Cabecera."HN Fiscal No." = '', 'Resolver el CAI no asigna correlativo.');
+        Assert(Cabecera."External Document No." = '', 'No debe reservar el fiscal como referencia externa.');
+    end;
+
+    [Test]
+    procedure BoletaSoloPermiteTipo11()
+    var Autorizacion: Record "HN CAI Authorization"; Gestion: Codeunit "HN CAI Management";
+    begin
+        InitAuthorization(Autorizacion);
+        Autorizacion."Document Type" := Autorizacion."Document Type"::BoletaCompra;
+        asserterror Gestion.ValidateAuthorization(Autorizacion, Autorizacion."Document Type", DMY2Date(1, 12, 2026));
+        PrepararCAIBoleta(Autorizacion);
+        Gestion.ValidateAuthorization(Autorizacion, Autorizacion."Document Type", DMY2Date(31, 12, 2026));
+        asserterror Gestion.ValidateAuthorization(Autorizacion, Autorizacion."Document Type", DMY2Date(1, 1, 2027));
+    end;
+
+    [Test]
+    procedure VistaPreviaBoletaNoAsignaNumero()
+    var Autorizacion: Record "HN CAI Authorization"; Gestion: Codeunit "HN CAI Management"; Numero: Code[20];
+    begin
+        PrepararCAIBoleta(Autorizacion); Autorizacion.Insert(true);
+        Numero := Gestion.EmitirEnRegistro(Autorizacion.Code, Autorizacion."Document Type", DMY2Date(1, 12, 2026), true, Autorizacion);
+        Assert(Numero = '', 'La vista previa no puede mostrar un fiscal reservado o especulativo.');
+        Autorizacion.Get(Autorizacion.Code);
+        Assert(Autorizacion."Last Issued No." = '', 'Previsualizar no emite.');
+        Assert(Autorizacion."Next No." = Autorizacion."Starting No.", 'Previsualizar no consume.');
+    end;
+
+    [Test]
+    procedure VistaPreviaFacturaNoAsignaNumero()
+    var Autorizacion: Record "HN CAI Authorization"; Gestion: Codeunit "HN CAI Management"; Numero: Code[20];
+    begin
+        InitAuthorization(Autorizacion);
+        Autorizacion."Document Type" := Autorizacion."Document Type"::Factura;
+        Autorizacion."Starting No." := '999-999-01-00000001';
+        Autorizacion."Ending No." := '999-999-01-00000100';
+        Autorizacion."Next No." := Autorizacion."Starting No.";
+        Autorizacion.Insert(true);
+        Numero := Gestion.EmitirEnRegistro(Autorizacion.Code, Autorizacion."Document Type", DMY2Date(1, 12, 2026), true, Autorizacion);
+        Assert(Numero = '', 'La vista previa de venta no asigna fiscal.');
+        Autorizacion.Get(Autorizacion.Code);
+        Assert(Autorizacion."Last Issued No." = '', 'La vista previa de venta no emite.');
+    end;
+
+    [Test]
+    procedure BoletaConsumeSoloAlEmitir()
+    var Autorizacion: Record "HN CAI Authorization"; Gestion: Codeunit "HN CAI Management"; Numero: Code[20];
+    begin
+        PrepararCAIBoleta(Autorizacion); Autorizacion.Insert(true);
+        Numero := Gestion.EmitirEnRegistro(Autorizacion.Code, Autorizacion."Document Type", DMY2Date(1, 12, 2026), false, Autorizacion);
+        Assert(Numero = '999-999-11-00000001', 'Debe emitir el primer correlativo disponible.');
+        Autorizacion.Get(Autorizacion.Code);
+        Assert(Autorizacion."Next No." = '999-999-11-00000002', 'Debe avanzar exactamente un número.');
+        Assert(Autorizacion."Last Issued No." = Numero, 'El último emitido conserva el número.');
+    end;
+
+    [Test]
+    procedure BoletaDuplicadaEnHistoricoSeRechaza()
+    var Autorizacion: Record "HN CAI Authorization"; Boleta: Record "Purch. Inv. Header"; Gestion: Codeunit "HN CAI Management"; Numero: Code[20];
+    begin
+        PrepararCAIBoleta(Autorizacion); Autorizacion.Insert(true);
+        Boleta."No." := 'HN-TEST-BOLETA'; Boleta."HN Numero Boleta" := Autorizacion."Next No."; Boleta.Insert(false);
+        asserterror Numero := Gestion.EmitirEnRegistro(Autorizacion.Code, Autorizacion."Document Type", DMY2Date(1, 12, 2026), false, Autorizacion);
+        Autorizacion.Get(Autorizacion.Code);
+        Assert(Autorizacion."Last Issued No." = '', 'El duplicado no debe consumir el número.');
+    end;
+
+    [Test]
+    procedure PrepararBoletaNoRequiereNiConsumeCAI()
+    var Cabecera: Record "Purchase Header"; Gestion: Codeunit "HN Gestion Boletas";
+    begin
+        Cabecera."Document Type" := Cabecera."Document Type"::Order;
+        Gestion.Preparar(Cabecera);
+        Assert(Cabecera."HN Boleta Compra", 'Debe identificar el documento como boleta.');
+        Assert(Cabecera."Vendor Invoice No." = '', 'El pedido no debe recibir un número fiscal anticipado.');
+        Assert(Cabecera."HN Vendor CAI" = '', 'La boleta no usa CAI del proveedor.');
+    end;
+
+    [Test]
+    procedure ImporteBoletaEnLetras()
+    var Letras: Codeunit "HN Importe En Letras";
+    begin
+        Assert(Letras.Convertir(0) = 'CERO LEMPIRAS CON 00/100', 'Debe convertir cero.');
+        Assert(Letras.Convertir(1234.56) = 'MIL DOSCIENTOS TREINTA Y CUATRO LEMPIRAS CON 56/100', 'Debe incluir lempiras y centavos.');
+        Assert(Letras.Convertir(1000000) = 'UN MILLÓN DE LEMPIRAS CON 00/100', 'Debe convertir millones.');
+        Assert(Letras.Convertir(99.999) = 'CIEN LEMPIRAS CON 00/100', 'Debe redondear al centavo antes de separar enteros.');
+    end;
+
+    [Test]
+    procedure BoletaNoGeneraCreditoISV()
+    var Linea: Record "Purchase Line"; Gestion: Codeunit "HN Gestion Boletas";
+    begin
+        Linea.Type := Linea.Type::"G/L Account"; Linea.Description := 'Servicio'; Linea.Quantity := 1;
+        Linea.Amount := 100; Linea."Amount Including VAT" := 115; Linea."VAT %" := 15;
+        asserterror Gestion.ValidarLinea(Linea);
+        Linea."VAT %" := 0;
+        asserterror Gestion.ValidarLinea(Linea);
+        Linea."Amount Including VAT" := 100;
+        Gestion.ValidarLinea(Linea);
+        Linea.Quantity := -1;
+        asserterror Gestion.ValidarLinea(Linea);
+    end;
+
+    [Test]
+    procedure FalloTrasEmitirBoletaRevierteCorrelativo()
+    var Autorizacion: Record "HN CAI Authorization";
+    begin
+        PrepararCAIBoleta(Autorizacion); Autorizacion.Insert(true);
+        asserterror EmitirBoletaYFallar(Autorizacion.Code);
+        Autorizacion.Get(Autorizacion.Code);
+        Assert(Autorizacion."Next No." = Autorizacion."Starting No.", 'Un fallo posterior no debe dejar un salto fiscal.');
+        Assert(Autorizacion."Last Issued No." = '', 'El último emitido debe revertirse con el documento fallido.');
+    end;
+
+    local procedure EmitirBoletaYFallar(Codigo: Code[20])
+    var Gestion: Codeunit "HN CAI Management"; Autorizacion: Record "HN CAI Authorization"; Numero: Code[20];
+    begin
+        Numero := Gestion.EmitirEnRegistro(Codigo, "HN Fiscal Document Type"::BoletaCompra, DMY2Date(1, 12, 2026), false, Autorizacion);
+        Error('Fallo simulado posterior a %1.', Numero);
+    end;
+
+    local procedure PrepararCAIBoleta(var Autorizacion: Record "HN CAI Authorization")
+    begin
+        InitAuthorization(Autorizacion);
+        Autorizacion."Document Type" := Autorizacion."Document Type"::BoletaCompra;
+        Autorizacion."Starting No." := '999-999-11-00000001';
+        Autorizacion."Ending No." := '999-999-11-00000100';
+        Autorizacion."Next No." := Autorizacion."Starting No.";
     end;
 
     local procedure PrepararAutorizacionProveedor(var Autorizacion: Record "HN CAI Proveedor")

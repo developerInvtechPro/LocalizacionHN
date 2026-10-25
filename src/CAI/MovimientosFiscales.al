@@ -8,7 +8,7 @@ table 71112 "HN Movimiento Fiscal"
     fields
     {
         field(1; "No. movimiento"; Integer) { Caption = 'N.º movimiento'; AutoIncrement = true; }
-        field(2; "Es compra"; Boolean) { Caption = 'Documento de compra'; }
+        field(2; "Es compra"; Boolean) { Caption = 'Recibido de proveedor'; }
         field(3; "Tipo documento"; Enum "HN Fiscal Document Type") { Caption = 'Tipo de documento'; }
         field(4; "No. documento"; Code[20]) { Caption = 'Documento registrado'; }
         field(5; "Numero fiscal"; Code[20]) { Caption = 'Número fiscal'; }

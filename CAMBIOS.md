@@ -1,5 +1,13 @@
 # Cambios
 
+## 1.2.0.0 — 24 de octubre de 2026
+
+- Facturación automática desde pedidos y facturas, sin casilla de aplicación ni CAI editable anticipado. Se conserva el esquema anterior.
+- El CAI se resuelve con la configuración vigente; el próximo fiscal se consume únicamente en el registro real. Vistas previas devuelven fiscal vacío.
+- Boletas de compra tipo 11: configuración, ficha, pedidos/facturas estándar, histórico, campos propios, validación sin crédito ISV y movimiento fiscal emitido.
+- RDLC de boleta registrada y borrador: identificación, contacto, importe en letras, firma/huella y exoneraciones. Total: 20 diseños.
+- 42 pruebas AL preparadas, documentación y manuales PDF actualizados. Compilación local; ejecución y renderizado en BC pendientes.
+
 ## 1.1.0.0 — 24 de octubre de 2026
 
 - Proyecto organizado por módulos y herramientas, documentación, pruebas y metadatos en carpetas propias.

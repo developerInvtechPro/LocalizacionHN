@@ -8,8 +8,6 @@ pageextension 71120 "HN Facturacion Pagina 71120" extends "Sales Order"
     {
         addlast(General)
         {
-            field(HNEmitirFiscal; Rec."HN Emitir Documento Fiscal") { ApplicationArea = All; }
-            field(HNCAIVenta; Rec."HN CAI Code") { ApplicationArea = All; }
         }
     }
     actions
@@ -27,11 +25,11 @@ pageextension 71120 "HN Facturacion Pagina 71120" extends "Sales Order"
                 trigger OnAction()
                 var
                     Gestion: Codeunit "HN Gestion Facturacion";
+                    Documento: Record "Sales Header";
                 begin
                     CurrPage.SaveRecord();
-                    Rec.TestField("HN Emitir Documento Fiscal", true);
-                    Gestion.ValidarDocumento(Rec);
-                    CurrPage.SaveRecord();
+                    Documento := Rec;
+                    Gestion.ValidarDocumento(Documento);
                     Message('El documento cumple la configuración fiscal de esta extensión.');
                 end;
             }
@@ -45,8 +43,6 @@ pageextension 71121 "HN Facturacion Pagina 71121" extends "Sales Invoice"
     {
         addlast(General)
         {
-            field(HNEmitirFiscal; Rec."HN Emitir Documento Fiscal") { ApplicationArea = All; }
-            field(HNCAIVenta; Rec."HN CAI Code") { ApplicationArea = All; }
         }
     }
     actions
@@ -64,11 +60,11 @@ pageextension 71121 "HN Facturacion Pagina 71121" extends "Sales Invoice"
                 trigger OnAction()
                 var
                     Gestion: Codeunit "HN Gestion Facturacion";
+                    Documento: Record "Sales Header";
                 begin
                     CurrPage.SaveRecord();
-                    Rec.TestField("HN Emitir Documento Fiscal", true);
-                    Gestion.ValidarDocumento(Rec);
-                    CurrPage.SaveRecord();
+                    Documento := Rec;
+                    Gestion.ValidarDocumento(Documento);
                     Message('El documento cumple la configuración fiscal de esta extensión.');
                 end;
             }
@@ -82,8 +78,6 @@ pageextension 71122 "HN Facturacion Pagina 71122" extends "Sales Credit Memo"
     {
         addlast(General)
         {
-            field(HNEmitirFiscal; Rec."HN Emitir Documento Fiscal") { ApplicationArea = All; }
-            field(HNCAIVenta; Rec."HN CAI Code") { ApplicationArea = All; }
             field(HNFacturaOrigen; Rec."HN Original Invoice No.")
             {
                 ApplicationArea = All;
@@ -114,11 +108,11 @@ pageextension 71122 "HN Facturacion Pagina 71122" extends "Sales Credit Memo"
                 trigger OnAction()
                 var
                     Gestion: Codeunit "HN Gestion Facturacion";
+                    Documento: Record "Sales Header";
                 begin
                     CurrPage.SaveRecord();
-                    Rec.TestField("HN Emitir Documento Fiscal", true);
-                    Gestion.ValidarDocumento(Rec);
-                    CurrPage.SaveRecord();
+                    Documento := Rec;
+                    Gestion.ValidarDocumento(Documento);
                     Message('El documento cumple la configuración fiscal de esta extensión.');
                 end;
             }
@@ -132,8 +126,6 @@ pageextension 71123 "HN Facturacion Pagina 71123" extends "Sales Return Order"
     {
         addlast(General)
         {
-            field(HNEmitirFiscal; Rec."HN Emitir Documento Fiscal") { ApplicationArea = All; }
-            field(HNCAIVenta; Rec."HN CAI Code") { ApplicationArea = All; }
             field(HNFacturaOrigen; Rec."HN Original Invoice No.")
             {
                 ApplicationArea = All;
@@ -164,11 +156,11 @@ pageextension 71123 "HN Facturacion Pagina 71123" extends "Sales Return Order"
                 trigger OnAction()
                 var
                     Gestion: Codeunit "HN Gestion Facturacion";
+                    Documento: Record "Sales Header";
                 begin
                     CurrPage.SaveRecord();
-                    Rec.TestField("HN Emitir Documento Fiscal", true);
-                    Gestion.ValidarDocumento(Rec);
-                    CurrPage.SaveRecord();
+                    Documento := Rec;
+                    Gestion.ValidarDocumento(Documento);
                     Message('El documento cumple la configuración fiscal de esta extensión.');
                 end;
             }

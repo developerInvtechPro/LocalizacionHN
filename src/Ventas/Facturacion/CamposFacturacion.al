@@ -8,29 +8,10 @@ tableextension 71113 "HN Emision Cabecera Venta" extends "Sales Header"
     {
         field(71140; "HN Emitir Documento Fiscal"; Boolean)
         {
-            Caption = 'Aplicar facturación HN'; DataClassification = CustomerContent;
-            trigger OnValidate()
-            var
-                Gestion: Codeunit "HN Gestion Facturacion";
-            begin
-                if "HN Emitir Documento Fiscal" then Gestion.PrepararDocumento(Rec);
-            end;
+            Caption = 'Emisión fiscal HN (compatibilidad)'; DataClassification = CustomerContent;
+            Editable = false;
         }
     }
-    trigger OnAfterInsert()
-    var
-        Configuracion: Record "HN Config. Facturacion";
-        Gestion: Codeunit "HN Gestion Facturacion";
-    begin
-        if IsTemporary() or not GuiAllowed() then exit;
-        if not ("Document Type" in ["Document Type"::Order, "Document Type"::Invoice, "Document Type"::"Credit Memo", "Document Type"::"Return Order"]) then exit;
-        if Configuracion.Get('') then
-            if Configuracion."Ventas habilitadas" and Configuracion."Activar documentos nuevos" then begin
-                "HN Emitir Documento Fiscal" := true;
-                Gestion.PrepararDocumento(Rec);
-                Modify(false);
-            end;
-    end;
 }
 
 tableextension 71114 "HN Emision Factura Venta" extends "Sales Invoice Header"

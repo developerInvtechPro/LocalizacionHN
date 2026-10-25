@@ -80,7 +80,7 @@ while i<len(lineas):
 
 with TemporaryDirectory(prefix='manual-hn-') as temporal:
  guia=fitz.open(R/'documentacion/Guia_visual_LocalizacionHN_V2.pdf')
- anexos=[(18,'Configuración de facturación'),(19,'Gestión de CAI de proveedores'),(20,'Pedido y factura directa'),(21,'Centro de informes')]
+ anexos=[(18,'Configuración de facturación'),(19,'Gestión de CAI de proveedores'),(20,'Pedido y factura directa'),(21,'Centro de informes'),(22,'Boleta: configuración y captura'),(23,'Boleta: histórico y comprobante')]
  for pagina,titulo in anexos:
   flujo.extend([PageBreak(),Paragraph('Ilustración: '+titulo,estilos['Capitulo'])])
   p=guia[pagina];destino=Path(temporal)/f'figura-{pagina}.png';p.get_pixmap(matrix=fitz.Matrix(1.6,1.6)).save(destino)

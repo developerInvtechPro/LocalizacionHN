@@ -1,8 +1,8 @@
 # Localización Honduras V2
 
-Extensión independiente de INVTECH para Business Central 28, versión **1.1.0.0**.
+Extensión independiente de INVTECH para Business Central 28, versión **1.2.0.0**.
 
-Incluye facturación desde pedidos o facturas directas, notas de crédito y débito, retenciones con varias facturas y anulación, gestión de varios CAI por proveedor, preparación de migración POS y **18 formatos RDLC** para documentos y movimientos.
+Incluye facturación automática al registrar pedidos o facturas directas, boletas de compra con CAI propio, notas de crédito y débito, retenciones con varias facturas y anulación, gestión de varios CAI por proveedor, preparación de migración POS y **20 formatos RDLC** para documentos y movimientos.
 
 ## Documentación
 
@@ -24,7 +24,7 @@ src/
   Comun/                     Enumeraciones compartidas
   Compras/                   Campos, páginas y validación de compras
   Configuracion/             Configuración general y de facturación
-  Informes/Disenos/           Datasets y 18 diseños RDLC
+  Informes/Disenos/           Datasets y 20 diseños RDLC
   IntegracionPOS/             Metadatos propios y transferencia al registrar
   Migracion/                 Mapeo y copia controlada de campos
   Retenciones/               Cálculo, documentos, registro y anulación
@@ -52,8 +52,8 @@ La compilación utiliza una caché aislada con símbolos Microsoft. El proyecto 
 
 Resultados locales:
 
-- `artefactos/INVTECH_LocalizacionHN_V2_1.1.0.0.app`
-- `artefactos/INVTECH_LocalizacionHN_V2_Pruebas_1.1.0.0.app`
+- `artefactos/INVTECH_LocalizacionHN_V2_1.2.0.0.app`
+- `artefactos/INVTECH_LocalizacionHN_V2_Pruebas_1.2.0.0.app`
 
 Las pruebas AL deben ejecutarse en una empresa desechable de sandbox. Su compilación no acredita el registro contable, el comportamiento concurrente ni la impresión real de RDLC.
 
@@ -83,3 +83,5 @@ Los generadores PDF utilizan fuentes Arial de macOS; el manual de desarrollo exp
 Las dependencias de compilación de terceros son `[]`. Eso no desactiva suscriptores de otras aplicaciones ni cambia las escrituras del receptor POS. Los nuevos recorridos se habilitan por empresa y documento, y la migración histórica se ejecuta bajo demanda con permisos separados.
 
 No se ha ejecutado una migración ni modificado la API existente. Antes del corte deben resolverse esquema, receptor, revisión/cierre, catálogos y pruebas completas de ventas, devoluciones, reenvíos y turnos nocturnos.
+
+La versión 1.2 elimina la aplicación manual por documento: el CAI vigente y el próximo fiscal se resuelven al registrar. Crear, validar, imprimir borradores y previsualizar no consumen correlativos. Consulte el capítulo 18 del manual para configurar boletas de compra.

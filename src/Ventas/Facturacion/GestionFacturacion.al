@@ -14,7 +14,7 @@ codeunit 71110 "HN Gestion Facturacion"
         Configuracion: Record "HN Config. Facturacion";
     begin
         if not Configuracion.Get('') then
-            Error('Abra Configuración de facturación HN, complete las autorizaciones y habilite la facturación antes de activar el documento.');
+            Error('Abra Configuración de facturación HN, complete las autorizaciones y habilite la facturación antes de registrar el documento.');
         Configuracion.TestField("Ventas habilitadas", true);
         if Cabecera."HN Debit Note" then
             Error('La nota de débito usa su propia configuración y autorización.');
@@ -25,11 +25,11 @@ codeunit 71110 "HN Gestion Facturacion"
             Error('El documento ya contiene una referencia fiscal externa. Revise su procedencia y la migración antes de generar otra numeración.');
         if Cabecera."INV POS Transaction No." <> '' then
             Error('Este documento conserva una identidad fiscal POS. Complete su adaptación antes de activar una nueva emisión fiscal.');
-        if Cabecera."HN CAI Code" = '' then
-            if EsAbono(Cabecera) then
-                Cabecera."HN CAI Code" := Configuracion."CAI abonos"
-            else
-                Cabecera."HN CAI Code" := Configuracion."CAI facturas";
+        // Siempre resolver desde la configuración vigente al registrar; no reservar en borradores.
+        if EsAbono(Cabecera) then
+            Cabecera."HN CAI Code" := Configuracion."CAI abonos"
+        else
+            Cabecera."HN CAI Code" := Configuracion."CAI facturas";
     end;
 
     procedure EstablecerOrigen(var Cabecera: Record "Sales Header")
@@ -87,6 +87,19 @@ codeunit 71110 "HN Gestion Facturacion"
         end;
     end;
 
+    procedure DebeEmitir(Cabecera: Record "Sales Header"): Boolean
+    var
+        Configuracion: Record "HN Config. Facturacion";
+    begin
+        if Cabecera."HN Debit Note" then exit(false);
+        if not (Cabecera."Document Type" in [Cabecera."Document Type"::Order, Cabecera."Document Type"::Invoice,
+            Cabecera."Document Type"::"Credit Memo", Cabecera."Document Type"::"Return Order"]) then exit(false);
+        // El receptor POS conserva su identidad y no debe emitir un segundo comprobante.
+        if Cabecera."INV POS Transaction No." <> '' then exit(false);
+        if not Configuracion.Get('') then exit(false);
+        exit(Configuracion."Ventas habilitadas");
+    end;
+
     local procedure EsAbono(Cabecera: Record "Sales Header"): Boolean
     begin
         exit(Cabecera."Document Type" in [Cabecera."Document Type"::"Credit Memo", Cabecera."Document Type"::"Return Order"]);
@@ -102,8 +115,8 @@ codeunit 71110 "HN Gestion Facturacion"
     local procedure AntesRegistro(var SalesHeader: Record "Sales Header"; PreviewMode: Boolean)
     begin
         EsVistaPrevia := PreviewMode;
-        if SalesHeader."HN Debit Note" then exit;
-        if SalesHeader."HN Emitir Documento Fiscal" and SalesHeader.Invoice then
+        if not DebeEmitir(SalesHeader) then exit;
+        if SalesHeader.Invoice then
             ValidarDocumento(SalesHeader);
     end;
 
@@ -114,19 +127,13 @@ codeunit 71110 "HN Gestion Facturacion"
         GestionCAI: Codeunit "HN CAI Management";
         Empresa: Record "Company Information";
     begin
-        if not SalesHeader."HN Emitir Documento Fiscal" then exit;
-        if SalesHeader."HN Debit Note" then begin
-            SalesInvHeader."HN Emitir Documento Fiscal" := false;
-            exit;
-        end;
+        SalesInvHeader."HN Emitir Documento Fiscal" := false;
+        if not DebeEmitir(SalesHeader) then exit;
         ValidarDocumento(SalesHeader);
         SalesInvHeader."HN Emitir Documento Fiscal" := true;
         SalesInvHeader."HN CAI Code" := SalesHeader."HN CAI Code";
         Autorizacion.Get(SalesHeader."HN CAI Code");
-        if EsVistaPrevia then
-            SalesInvHeader."HN Fiscal No." := Autorizacion."Next No."
-        else
-            SalesInvHeader."HN Fiscal No." := GestionCAI.Issue(Autorizacion.Code, "HN Fiscal Document Type"::Factura, SalesHeader."Document Date", Autorizacion);
+        SalesInvHeader."HN Fiscal No." := GestionCAI.EmitirEnRegistro(Autorizacion.Code, "HN Fiscal Document Type"::Factura, SalesHeader."Document Date", EsVistaPrevia, Autorizacion);
         SalesInvHeader."HN CAI" := Autorizacion.CAI;
         SalesInvHeader."HN CAI Starting No." := Autorizacion."Starting No.";
         SalesInvHeader."HN CAI Ending No." := Autorizacion."Ending No.";
@@ -148,15 +155,13 @@ codeunit 71110 "HN Gestion Facturacion"
         GestionCAI: Codeunit "HN CAI Management";
         Empresa: Record "Company Information";
     begin
-        if not SalesHeader."HN Emitir Documento Fiscal" then exit;
+        SalesCrMemoHeader."HN Emitir Documento Fiscal" := false;
+        if not DebeEmitir(SalesHeader) then exit;
         ValidarDocumento(SalesHeader);
         Autorizacion.Get(SalesHeader."HN CAI Code");
         SalesCrMemoHeader."HN Emitir Documento Fiscal" := true;
         SalesCrMemoHeader."HN CAI Code" := Autorizacion.Code;
-        if EsVistaPrevia then
-            SalesCrMemoHeader."HN Fiscal No." := Autorizacion."Next No."
-        else
-            SalesCrMemoHeader."HN Fiscal No." := GestionCAI.Issue(Autorizacion.Code, "HN Fiscal Document Type"::NotaCredito, SalesHeader."Document Date", Autorizacion);
+        SalesCrMemoHeader."HN Fiscal No." := GestionCAI.EmitirEnRegistro(Autorizacion.Code, "HN Fiscal Document Type"::NotaCredito, SalesHeader."Document Date", EsVistaPrevia, Autorizacion);
         SalesCrMemoHeader."HN CAI" := Autorizacion.CAI;
         SalesCrMemoHeader."HN CAI Starting No." := Autorizacion."Starting No.";
         SalesCrMemoHeader."HN CAI Ending No." := Autorizacion."Ending No.";

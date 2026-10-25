@@ -20,7 +20,7 @@ W, H = landscape(A4)
 NAVY = HexColor('#102B3B'); TEAL = HexColor('#008478'); BLUE = HexColor('#2174A5')
 INK = HexColor('#203743'); MUTED = HexColor('#617580'); LINE = HexColor('#D7E2E7')
 BG = HexColor('#F2F6F7'); PALE = HexColor('#E6F3EF'); ORANGE = HexColor('#AC6417')
-TOTAL = 22
+TOTAL = 24
 c = canvas.Canvas(str(OUT), pagesize=(W, H), pageCompression=1)
 c.setTitle('Guía visual | Localización Honduras V2')
 c.setAuthor('INVTECH')
@@ -381,7 +381,7 @@ for i,(title,body) in enumerate(controls):
     pill(x+15,y+73,f'CONTROL {i+1:02d}')
     text(x+15,y+51,title,13,NAVY,True)
     para(x+15,y+32,body,342,9.5,MUTED,13)
-notes([('Independencia comprobada','Compila usando solo símbolos de Microsoft y campos propios.'),('Pruebas preparadas','31 pruebas AL compiladas; pendientes de ejecución en sandbox.'),('Comprobantes','Datasets y XML verificados; renderizado e impresión real pendientes.')],y=62,h=74)
+notes([('Independencia comprobada','Compila usando solo símbolos de Microsoft y campos propios.'),('Pruebas preparadas','42 pruebas AL compiladas; pendientes de ejecución en sandbox.'),('Comprobantes','Datasets y XML verificados; renderizado e impresión real pendientes.')],y=62,h=74)
 end()
 
 # 16 — Recorrido completo y pendientes.
@@ -409,7 +409,7 @@ para(542,216,'V2 no desactiva sus suscriptores. Se debe dejar fuera de operació
 notes([('Lo que acredita este PDF','Explica el código y el flujo previsto con ilustraciones; no acredita pruebas operativas.'),('Después del sandbox','Las ilustraciones pueden sustituirse por capturas reales y resultados de las pruebas.'),('Referencia del proyecto','Código en src/ y procedimiento detallado en documentacion/VALIDACION_SANDBOX.md.')],y=62,h=74)
 end()
 # 17 — Facturas agrupadas y anulación.
-page(17,'17 · Facturas múltiples y anulación','Conservar el comprobante y sus movimientos','Pantallas ilustrativas de la versión 1.1.0.0; los movimientos y la impresión requieren prueba real en sandbox.')
+page(17,'17 · Facturas múltiples y anulación','Conservar el comprobante y sus movimientos','Pantallas ilustrativas de la versión 1.2.0.0; los movimientos y la impresión requieren prueba real en sandbox.')
 x,y,w=screen(40,166,465,307,'Comprobante de retención HN',['Agregar facturas','Anular','Crear sustituto'])
 field(x,y,'Proveedor / moneda','PROV-001 · HNL',w)
 table(x,y-55,w,['Factura proveedor','Base','Retención'],[
@@ -443,9 +443,9 @@ x,y,w=screen(40,166,465,307,'Configuración de facturación HN',['Autorizaciones
 field(x,y,'Habilitar facturación de ventas HN','Sí',w)
 field(x,y-52,'Autorización de facturas / tipo 01','FACT-2026',w)
 field(x,y-104,'Autorización de notas de crédito / tipo 06','NC-2026',w)
-field(x,y-156,'Activar documentos nuevos de la interfaz','Opcional; no adapta la API',w)
+field(x,y-156,'Aplicación al registrar','Automática; sin reservar en borradores',w)
 x,y,w=screen(525,166,276,307,'Controles antes de emitir')
-para(x,y,'1. Información de empresa y RTN.\n2. Series estándar de BC.\n3. CAI y rango por tipo fiscal.\n4. Fecha de emisión válida.\n5. Aplicar facturación HN en el documento.\n6. Vista previa y registro.',w,11,INK,19)
+para(x,y,'1. Información de empresa y RTN.\n2. Series estándar de BC.\n3. CAI y rango por tipo fiscal.\n4. Fecha de emisión válida.\n5. Preparar el documento sin fiscal.\n6. Vista previa y registro.',w,11,INK,19)
 notes([('Número interno','Se mantiene el documento estándar de Business Central.'),('Número fiscal','Se consume al facturar, con un correlativo nuevo por factura registrada.'),('Compras','La misma configuración permite exigir la autorización del proveedor al contabilizar.')],y=62,h=74)
 end()
 
@@ -462,7 +462,7 @@ end()
 
 # 21 — Registro común de la facturación.
 page(21,'21 · Factura desde pedido o factura directa','Un control de CAI para ambos recorridos','Los envíos sin facturación no consumen número de factura. Los borradores se identifican como documentos de trabajo.')
-for x,title,steps in [(40,'PEDIDO DE VENTA',['Cliente, fechas, líneas y dimensiones','Aplicar facturación HN y elegir CAI','Enviar y facturar / facturar parcialmente']), (431,'FACTURA DIRECTA',['Cliente, fechas y líneas','Aplicar facturación HN y elegir CAI','Validar y registrar'])]:
+for x,title,steps in [(40,'PEDIDO DE VENTA',['Cliente, fechas, líneas y dimensiones','CAI automático al registrar','Enviar y facturar / facturar parcialmente']), (431,'FACTURA DIRECTA',['Cliente, fechas y líneas','CAI automático al registrar','Validar y registrar'])]:
  box(x,275,370,198,white,None)
  text(x+18,443,title,14,NAVY,True)
  yy=414
@@ -474,15 +474,42 @@ notes([('Previsualizar','Revisar antes de contabilizar; comprobar en sandbox que
 end()
 
 # 22 — Todos los formatos y su finalidad.
-page(22,'22 · Centro de informes','18 formatos RDLC para documentos y movimientos','Filtrar por documento interno BC, tercero y fechas. La impresión real de RDLC debe verificarse en Business Central.')
-listas=[('COMPROBANTES',['Retención emitida o anulada','Nota de débito','Factura de venta','Nota de crédito de venta','Factura de compra interna','Abono de compra interno']),('BORRADORES Y CATÁLOGOS',['Borrador de venta','Borrador de compra','Borrador de retención','Autorizaciones CAI de ventas','Autorizaciones CAI de proveedores','Movimientos fiscales y CAI']),('MOVIMIENTOS',['Contabilidad','Proveedores y saldo pendiente','Clientes y saldo pendiente','Aplicaciones de proveedores','Aplicaciones de clientes','Impuesto sobre ventas'])]
+page(22,'22 · Centro de informes','20 formatos RDLC para documentos y movimientos','Filtrar por documento interno BC, tercero y fechas. La impresión real de RDLC debe verificarse en Business Central.')
+listas=[('COMPROBANTES',['Retención emitida o anulada','Nota de débito','Factura de venta','Nota de crédito de venta','Factura de compra interna','Abono de compra interno','Boleta de compra tipo 11']),('BORRADORES Y CATÁLOGOS',['Borrador de venta','Borrador de compra','Borrador de retención','Borrador de boleta','Autorizaciones CAI de ventas','Autorizaciones CAI de proveedores','Movimientos fiscales y CAI']),('MOVIMIENTOS',['Contabilidad','Proveedores y saldo pendiente','Clientes y saldo pendiente','Aplicaciones de proveedores','Aplicaciones de clientes','Impuesto sobre ventas'])]
 for i,(titulo,lineas) in enumerate(listas):
  xx=40+i*259
  box(xx,166,243,307,white,None)
  text(xx+14,446,titulo,11,TEAL,True)
  yy=416
- for linea in lineas:yy=para(xx+14,yy,'• '+linea,213,10,INK,15)-17
+ for linea in lineas:yy=para(xx+14,yy,'• '+linea,213,10,INK,14)-13
 notes([('Sin duplicar documentos','Reimprimir un comprobante registrado no emite otro correlativo.'),('Moneda','Los movimientos muestran su moneda; no se suman divisas distintas.'),('Manual completo','MANUAL_USUARIO.pdf contiene configuración, pasos, incidencias y aceptación.')],y=62,h=74)
+end()
+# 23 — Boleta de compra: configuración y captura sin reserva.
+page(23,'23 · Boleta de compra HN','Preparar el comprobante del adquirente','Pantalla ilustrativa. Tipo fiscal 11 con autorización propia; no utiliza el CAI de una factura del proveedor.')
+x,y,w=screen(40,166,370,307,'Configuración y proveedor',['Configurar CAI'])
+field(x,y,'Habilitar boletas / autorización','Sí / BOL-2026 · Tipo 11',w)
+field(x,y-54,'Proveedor','Persona natural hondureña verificada',w)
+field(x,y-108,'Identidad, dirección y teléfono','Obligatorios en el comprobante',w)
+para(x,y-164,'Configurar RTN, dirección, teléfono y correo del emisor. Moneda local HNL. Conciliar procedencia y límites fiscales con contabilidad.',w,10,INK,14)
+x,y,w=screen(431,166,370,307,'Boleta de compra HN',['Validar','Borrador','Registrar'])
+field(x,y,'Número interno / fiscal','BC-00001 / SIN EMITIR',w)
+field(x,y-54,'Descripción / cantidad / costo','Servicio o bien · 1 · 1.000,00',w)
+field(x,y-108,'ISV / crédito fiscal','0 % / no permitido',w)
+para(x,y-164,'Desde pedido: Acciones → Emitir como boleta de compra. Identifica el documento sin reservar autorización ni correlativo.',w,10,INK,14)
+notes([('Crear y validar','No modifica próximo ni último número emitido.'),('Vista previa','Sin número fiscal asignado. Una recepción sola no emite.'),('Registrar','Obtiene el próximo fiscal disponible dentro de la transacción contable.')],y=62,h=74)
+end()
+
+# 24 — Histórico y comprobante fiscal de boleta.
+page(24,'24 · Registrar e imprimir la boleta','Conservar la emisión y sus movimientos','El correlativo se asigna al registrar. Un error revierte el consumo; cada facturación parcial genera una boleta distinta.')
+x,y,w=screen(40,166,465,307,'Boletas de compra registradas HN',['Abrir','Imprimir boleta'])
+field(x,y,'Documento BC / fiscal','FC-00001 / 000-001-11-00000001',w)
+field(x,y-54,'Emisor / proveedor','Empresa adquirente / persona natural',w)
+field(x,y-108,'CAI / rango / fecha límite','Datos conservados al registrar',w)
+para(x,y-166,'Comprobante: detalle, total en lempiras y letras, contactos, exoneraciones cuando correspondan y espacios para firma y huella del proveedor.',w,10,INK,14)
+x,y,w=screen(525,166,276,307,'Trazabilidad y reimpresión')
+para(x,y,'Movimientos estándar de proveedor y contabilidad. Movimiento fiscal emitido con CAI propio. El pedido abierto no conserva una reserva fiscal.',w,11,INK,16)
+para(x,y-113,'Reimprimir conserva el mismo número. Recoger firma y huella en el comprobante físico. No borrar ni reutilizar números emitidos.',w,11,INK,16)
+notes([('Tratamiento fiscal','No genera crédito ISV. Límites del art. 22: conciliación contable externa.'),('Correcciones','Anulación fiscal de boletas pendiente de un desarrollo específico.'),('Validación operativa','Comprobar facturación parcial, concurrencia, reversión por error y RDLC en sandbox.')],y=62,h=74)
 end()
 c.save()
 print(OUT)

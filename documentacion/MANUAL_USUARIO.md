@@ -1,6 +1,6 @@
 # Manual de usuario de Localización Honduras V2
 
-Versión 1.1.0.0 · 24 de octubre de 2026 · INVTECH
+Versión 1.2.0.0 · 24 de octubre de 2026 · INVTECH
 
 Este manual explica la configuración y el uso de los módulos implementados. Las pantallas de la guía visual son ilustraciones del código, no capturas de un entorno operativo. La compilación y las comprobaciones locales no sustituyen la validación del registro y de la impresión en Business Central.
 
@@ -29,7 +29,7 @@ Este manual explica la configuración y el uso de los módulos implementados. La
 3. Complete código, CAI, número inicial, número final, próximo número, fecha inicial y fecha límite de emisión.
 4. El CAI utiliza 37 caracteres en grupos XXXXXX-XXXXXX-XXXXXX-XXXXXX-XXXXXX-XX. El número fiscal utiliza 000-000-00-00000000.
 5. Verifique establecimiento y punto de emisión. Inicial, final y próximo número deben compartir el mismo prefijo.
-6. Los tipos soportados son 01 factura, 05 retención, 06 nota de crédito y 07 nota de débito. Cada autorización debe corresponder al documento que emitirá.
+6. Los tipos soportados son 01 factura, 05 retención, 06 nota de crédito, 07 nota de débito y 11 boleta de compra. Cada autorización debe corresponder al documento que emitirá.
 7. Concilie el próximo número con los comprobantes emitidos anteriormente y luego habilite la autorización.
 8. Al renovar, cree otra autorización. Después de emitir, la autorización conserva su rango, vigencia y correlativos para auditoría; puede deshabilitarla.
 
@@ -43,8 +43,8 @@ La vigencia incluye el último día y el rango incluye el último número. Cuand
 2. Seleccione la autorización predeterminada de facturas, de tipo 01.
 3. Si emitirá abonos fiscales, seleccione una autorización predeterminada de notas de crédito, de tipo 06.
 4. Active Habilitar facturación de ventas HN.
-5. Opcionalmente active Activar facturación HN en documentos nuevos de la interfaz. Esta opción se aplica a documentos creados de forma interactiva; no cambia automáticamente documentos existentes ni el receptor API.
-6. En cada pedido, factura o abono que corresponda, revise Aplicar facturación HN y la autorización propuesta.
+5. Guarde la configuración. Aplica automáticamente al registrar pedidos y facturas, incluidos los borradores existentes.
+6. No hay casilla de aplicación por documento. El CAI se resuelve desde esta configuración al registrar; crear documentos no lo reserva ni asigna correlativos.
 7. Valide la fecha documento: representa la fecha de emisión y debe encontrarse dentro de la vigencia autorizada. La fecha de registro continúa sujeta a los controles contables estándar.
 
 Los documentos POS con identidad propia o referencia fiscal externa requieren revisar su procedencia antes de activar otra emisión. No genere otro número fiscal para una venta ya emitida por el POS. La adaptación del receptor y del cierre se realiza como parte de la migración pendiente.
@@ -54,7 +54,7 @@ Los documentos POS con identidad propia o referencia fiscal externa requieren re
 1. Abra Pedidos de venta y cree un pedido.
 2. Seleccione cliente, fechas, moneda, almacén y dimensiones.
 3. Complete líneas, cantidades, unidades, precios, descuentos y grupos de ISV.
-4. Active Aplicar facturación HN, si la configuración no lo propuso, y seleccione su autorización.
+4. Complete el documento. Se utilizará automáticamente el CAI predeterminado vigente al registrar.
 5. Abra Acciones → Validar facturación HN y corrija cualquier incidencia.
 6. Si necesita revisar el documento antes del registro, use Centro de informes de localización HN → Borrador de venta y filtre por tipo y número interno. El borrador no tiene validez fiscal.
 7. Ejecute la vista previa contable estándar y compruebe importes y dimensiones.
@@ -69,7 +69,7 @@ Enviar sin facturar no consume un número de factura fiscal. Si factura parcialm
 
 1. Abra Facturas de venta → Nuevo.
 2. Complete cliente, fecha documento, fecha de registro, moneda y líneas.
-3. Revise Aplicar facturación HN y la autorización de factura.
+3. Complete las líneas. La configuración de facturación HN se aplica automáticamente al registrar.
 4. Use Validar facturación HN y la vista previa estándar.
 5. Registre el documento.
 6. Abra la factura registrada y use Imprimir comprobante fiscal HN.
@@ -80,7 +80,7 @@ La asignación fiscal utiliza el mismo control desde pedidos y facturas directas
 ## 7. Emitir una nota de crédito de venta
 
 1. Cree un abono de venta o una devolución estándar que vaya a facturarse.
-2. Active Aplicar facturación HN y seleccione una autorización de tipo 06.
+2. Revise en Configuración de facturación HN la autorización predeterminada de tipo 06; no hay aplicación manual por documento.
 3. Seleccione Factura origen. Debe corresponder al mismo cliente de venta, cliente de facturación y moneda.
 4. Revise número fiscal y CAI de origen. El sistema propone datos propios V2 o los metadatos POS preparados; no inventa un CAI ausente.
 5. Complete el motivo de la nota de crédito.
@@ -164,7 +164,7 @@ No se elimina el comprobante ni se reutiliza el número anulado. Los comprobante
 
 El CAI no ocupa un panel permanente en la página principal de notas de débito. Su configuración y los datos fiscales se abren desde acciones. La autorización de facturas de tipo 01 no sustituye la de notas de débito de tipo 07.
 
-## 13. Consultar e imprimir los 18 formatos RDLC
+## 13. Consultar e imprimir los 20 formatos RDLC
 
 Abra Centro de informes de localización HN. Elija el informe, aplique los filtros y revise antes de exportar a PDF o imprimir. Los comprobantes de documentos también están disponibles desde sus páginas registradas.
 
@@ -176,6 +176,8 @@ Abra Centro de informes de localización HN. Elija el informe, aplique los filtr
 | Nota de crédito de venta | Documento correctivo y referencia fiscal de origen. |
 | Comprobante interno de compra | Respaldo de la factura de compra registrada. |
 | Comprobante interno de abono de compra | Respaldo del abono registrado del proveedor. |
+| Boleta de compra | Comprobante fiscal propio de tipo 11; se imprime después de registrar. |
+| Borrador de boleta | Revisión sin número reservado ni validez fiscal. |
 | Borrador de venta | Revisión de pedidos, facturas, abonos y notas de débito abiertos. |
 | Borrador de compra | Revisión del documento de compra abierto. |
 | Borrador de retención | Revisión previa sin emisión fiscal. |
@@ -230,8 +232,37 @@ Crear campos no redirige las escrituras de la API actual. Los campos publicados 
 5. Registrar varias retenciones, agrupar facturas, anular, sustituir y conciliar cuentas/aplicaciones.
 6. Registrar nota de débito con origen y datos fiscales completos.
 7. Verificar que las vistas previas no consuman números y que un fallo contable no deje estados o emisiones parciales.
-8. Imprimir los 18 formatos, incluidos documentos largos de varias páginas, signos, moneda, direcciones, RTN, CAI, rangos y totales.
+8. Imprimir los 20 formatos, incluidos documentos largos de varias páginas, signos, moneda, direcciones, RTN, CAI, rangos y totales.
 9. Ejecutar las pruebas AL con un ejecutor de pruebas estándar en una empresa desechable de sandbox y conservar evidencia.
 10. Completar recepción POS, devoluciones, reenvíos, T3 y cierre antes de retirar dependencias.
 
 Estado de esta entrega: código y pruebas preparados para compilación/verificación local. Sin resultados de ejecución en Business Central ni validación de impresión real. No se han migrado datos ni modificado las ventas recibidas por la API.
+
+
+## 18. Configurar y registrar boletas de compra
+
+1. En Información de empresa complete nombre, RTN, dirección, teléfono y correo electrónico. Configure la moneda local HNL y las series internas estándar de compras.
+2. Abra Configuración de facturación HN → Acciones → CAI de boletas de compra. Cree una autorización de tipo Boleta de compra (11), con CAI completo, rango `000-001-11-00000001` a su límite real, próximo número y fechas vigentes. Habilítela.
+3. En Configuración de facturación HN seleccione Autorización de boletas de compra y active Habilitar boletas de compra HN. Esta opción es independiente de la validación del CAI recibido del proveedor.
+4. En la ficha del proveedor confirme Persona natural hondureña para boletas y capture RTN o identidad para boletas, nombre y apellidos, dirección y teléfono. La condición debe verificarse documentalmente antes de habilitarla.
+5. Busque Boletas de compra HN → Nueva boleta de compra. Seleccione el proveedor, revise su identidad, teléfono, dirección, fechas, términos y forma de pago. No capture una factura ni un CAI del proveedor: el emisor de esta boleta es la empresa adquirente.
+6. Añada bienes o servicios de mano de obra no calificada, descripción detallada, cantidades y costos. Use grupos contables de impuesto con ISV 0 %, cálculo normal y sin diferencia entre importe e importe con impuestos. El sistema rechaza líneas que generen crédito fiscal de ISV, cantidades no positivas o importes negativos.
+7. Si corresponde, complete orden de compra exenta, constancia de exonerados y registro SAG en el grupo Datos del adquirente exonerado.
+8. Use Validar boleta e Imprimir borrador sin validez fiscal. El borrador indica SIN EMITIR. La vista previa permite revisar la contabilidad sin emitir ni mostrar un número fiscal especulativo.
+9. Pulse Registrar. Solo al crear la factura registrada se obtiene el próximo correlativo disponible del CAI vigente. La autorización, el histórico y los movimientos forman parte de la misma transacción de registro; un error revierte el consumo.
+10. Abra Boletas de compra registradas HN, seleccione el documento y pulse Imprimir boleta de compra. El comprobante incluye CAI, rango, vencimiento, datos del emisor y proveedor, detalle, total en lempiras y letras, firma y huella. Reimprimir no consume otro número. Recoja firma y huella del proveedor en el comprobante físico.
+11. Consulte los movimientos estándar de proveedor, contabilidad e ISV y el movimiento fiscal propio. El campo Recibido de proveedor aparece desactivado porque la boleta se emite con CAI de la empresa, aunque contabilice una compra.
+
+Para emitir desde un pedido de compra, capture el proveedor y use Acciones → Emitir como boleta de compra. Esta acción identifica la clase de documento y no asigna ni reserva CAI ni correlativo. Complete los datos de identidad y teléfono visibles en el pedido. Recibir sin facturar no emite boleta. Cada facturación parcial genera su propia boleta; el pedido conserva únicamente su número interno. Si eligió la clase equivocada antes de registrar, use Volver a factura de proveedor y capture los datos fiscales del proveedor que correspondan.
+
+Las boletas no reemplazan indiscriminadamente las facturas de proveedores. Los artículos 20–22 del [reglamento consolidado publicado por el SAR](https://www.sar.gob.hn/download/texto-consolidado-del-reglamento-del-regimen-de-facturacion-otros-documentos-fiscales-y-registro-de-imprentas-segun-acuerdos-609-2017-725-2018-y-817-2018-elaborado-por-la-direccion-nacional-juridc/) exigen su uso para los supuestos admitidos, establecen un límite agregado del 5 % de gastos operativos deducibles, excluidos los financieros, y un límite por persona vinculado a la base exenta anual de ISR. Esta versión valida los datos del comprobante y evita crédito de ISV; la procedencia fiscal, los límites anuales y los gastos externos deben conciliarse por contabilidad. No calcula automáticamente esos límites ni presenta declaraciones. La corrección/anulación fiscal de boletas emitidas requiere un desarrollo específico posterior; esta versión no habilita reutilizar ni borrar su correlativo.
+
+### Comprobar que no se reservan números anticipados
+
+1. Anote el Próximo número y Último número emitido de una autorización.
+2. Cree dos pedidos y dos facturas de venta, guárdelos en distinto orden y elimine uno sin registrar. Ninguno debe tener número fiscal ni modificar el rango.
+3. Valide e imprima borradores y ejecute vistas previas: los números deben seguir iguales y la vista previa no debe mostrar un fiscal especulativo.
+4. Registre primero el documento creado al final: recibe el próximo número disponible. El siguiente registro exitoso recibe el consecutivo posterior.
+5. Repita con una boleta directa y un pedido de compra identificado como boleta, incluyendo recepción sin factura y facturación parcial.
+6. Provoque un error de contabilización posterior a la asignación en una empresa de pruebas. Compruebe que no existe documento/movimiento fiscal emitido ni avance del correlativo; corrija y registre de nuevo.
+7. Pruebe dos sesiones que registren a la vez. El bloqueo de autorización debe serializar la emisión sin números duplicados. Esta comprobación operativa está pendiente en sandbox.

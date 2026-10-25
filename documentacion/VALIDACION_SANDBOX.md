@@ -2,10 +2,10 @@
 
 ## Identidad y publicación
 
-- Aplicación: `LocalizacionHN_V2`, publisher `INVTECH`, versión `1.1.0.0`.
+- Aplicación: `LocalizacionHN_V2`, publisher `INVTECH`, versión `1.2.0.0`.
 - ID propio: `0afcac2a-37c1-4666-b0a6-72d4e5320046`.
 - BC28/runtime17; sin dependencias de extensiones de terceros.
-- Paquete local de preparación: `artefactos/INVTECH_LocalizacionHN_V2_1.1.0.0.app`. **No publicar junto a API_BCPOS 1.0.0.41** hasta resolver los conflictos de IDs documentados en [MIGRACION_POS.md](MIGRACION_POS.md). Las pruebas iniciales requieren un sandbox aislado compatible y sincronización normal.
+- Paquete local de preparación: `artefactos/INVTECH_LocalizacionHN_V2_1.2.0.0.app`. **No publicar junto a API_BCPOS 1.0.0.41** hasta resolver los conflictos de IDs documentados en [MIGRACION_POS.md](MIGRACION_POS.md). Las pruebas iniciales requieren un sandbox aislado compatible y sincronización normal.
 - No requiere el paquete anterior de compatibilidad 1.0.1.74 ni sus fuentes.
 
 El manifiesto y el paquete compilado fueron comprobados sin dependencias. La compilación se ejecuta con símbolos de Microsoft únicamente. Las pruebas AL se compilaron, pero no se ejecutaron en Business Central; tampoco se validó visualmente la impresión.
@@ -66,7 +66,7 @@ Se valida cliente de venta/facturación, moneda, fecha, motivo y datos fiscales 
 
 `python3 herramientas/compilar.py` compila V2 y el proyecto de pruebas con una caché aislada de Microsoft, sin símbolos de la localización anterior. `python3 herramientas/verificar_artefactos.py` comprueba que no hay dependencias en el manifiesto ni en el paquete, que los campos requeridos están declarados por V2 y que los datasets coinciden con las expresiones RDLC.
 
-El archivo `pruebas/PruebasNucleo.template` contiene 31 pruebas AL. Para ejecutarlas, instalar `artefactos/INVTECH_LocalizacionHN_V2_Pruebas_1.1.0.0.app` en sandbox y ejecutar la codeunit **71250 HN Core Tests** con el ejecutor de pruebas de Business Central.
+El archivo `pruebas/PruebasNucleo.template` contiene 42 pruebas AL. Para ejecutarlas, instalar `artefactos/INVTECH_LocalizacionHN_V2_Pruebas_1.2.0.0.app` en sandbox y ejecutar la codeunit **71250 HN Core Tests** con el ejecutor de pruebas de Business Central.
 
 Escenarios de aceptación que requieren Business Central:
 
@@ -93,8 +93,25 @@ Están preparados los campos y la copia histórica de metadatos POS; faltan reso
 - No se borran históricos ni se reutiliza el correlativo anulado. Documentos V2 anteriores sin vínculo al movimiento de proveedor requieren conciliación; no se deduce ese vínculo por importes parecidos.
 - Probar anulación en moneda local/extranjera, varias facturas/conceptos, documentos pagados y períodos cerrados; comprobar saldo, diferencias de cambio, dimensiones, cierre de movimientos compensados e impresión multipágina.
 
-## Facturación, proveedores e informes de la versión 1.1.0.0
+## Facturación, proveedores e informes de la versión 1.2.0.0
 
 Seguir MANUAL_USUARIO.md para habilitar la configuración de facturación y los CAI por tipo. Probar emisión desde pedido y factura directa, facturación parcial, envío sin factura, abono de venta con origen y comprobantes recibidos de proveedores. Verificar último día, último número, tipo/prefijo incorrectos y dos autorizaciones del mismo proveedor.
 
-Ejecutar las 31 pruebas AL en una empresa desechable y revisar los 18 RDLC en el motor de Business Central, incluidos documentos multipágina y movimientos/aplicaciones en moneda extranjera. La validación local de XML no acredita renderizado real.
+Ejecutar las 42 pruebas AL en una empresa desechable y revisar los 20 RDLC en el motor de Business Central, incluidos documentos multipágina y movimientos/aplicaciones en moneda extranjera. La validación local de XML no acredita renderizado real.
+
+
+## Emisión sin reserva y boleta de compra 1.2
+
+- Habilitar ventas, dejar la antigua marca por documento desactivada y registrar desde pedido/factura: debe emitir automáticamente.
+- Crear varios documentos; validar, guardar, eliminar un borrador y previsualizar. CAI/último/próximo deben conservarse; la vista previa no asigna número.
+- Cambiar la autorización predeterminada entre creación y registro; debe utilizar la configuración vigente al registrar.
+- Registrar en orden distinto al de creación y desde dos sesiones simultáneas; comprobar consecutivos únicos. Simular un error contable posterior a asignar y comprobar rollback del fiscal y movimiento.
+- Configurar boletas tipo 11; proveedor natural hondureño, identidad, dirección, teléfono; emisor con contactos y moneda local HNL.
+- Crear boleta directa y pedido convertido a boleta. Recibir sin facturar, facturar parcialmente, previsualizar y registrar. Cada factura parcial tiene su propio fiscal; el pedido no conserva una reserva.
+- Exigir CAI de proveedores simultáneamente: la boleta usa la autorización propia y no debe pedir número ni CAI del proveedor.
+- Rechazar proveedor no elegible, datos incompletos, CAI vencido/agotado/tipo incorrecto, ISV mayor a cero, inversión de sujeto pasivo, moneda extranjera, cantidades no positivas y valores negativos.
+- Conciliar referencia fiscal en el histórico y movimientos de proveedor/contabilidad. En Movimiento fiscal, Recibido de proveedor=false para boletas emitidas.
+- Imprimir borrador de pedido y boleta directa con SIN EMITIR, comprobante fiscal con número real, importe en letras, contactos, exoneraciones, firma/huella y destino de ejemplares; reimpresión sin avanzar correlativos.
+- Conciliar por separado límites fiscales anuales de boletas y gastos externos. Probar que no se registra un abono/devolución que herede el indicador de boleta, sin un tratamiento fiscal específico.
+
+Estado: 42 pruebas AL compilables; su ejecución y las comprobaciones de integración anteriores requieren sandbox. No se publicaron cambios ni se ejecutó migración.

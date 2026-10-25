@@ -87,5 +87,12 @@ permissionset 50100 "HN LOCALIZATION"
         report "HN Listado CAI Proveedores" = X,
         report "HN Det. Aplicacion Proveedor" = X,
         report "HN Det. Aplicacion Cliente" = X,
-        report "HN Movimientos ISV" = X;
+        report "HN Movimientos ISV" = X,
+        codeunit "HN Gestion Boletas" = X,
+        codeunit "HN Importe En Letras" = X,
+        page "HN Boletas Compra" = X,
+        page "HN Boleta Compra" = X,
+        page "HN Boletas Registradas" = X,
+        report "HN Boleta Compra" = X,
+        report "HN Borrador Boleta" = X;
 }
