@@ -1,0 +1,727 @@
+{
+  "Tables": [
+    {
+      "Id": 50101,
+      "Name": "HN CAI Authorization",
+      "Fields": [
+        {
+          "Id": 1,
+          "Name": "Code",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 2,
+          "Name": "Document Type",
+          "TypeDefinition": {
+            "Name": "Enum",
+            "Subtype": {
+              "Name": "HN Fiscal Document Type",
+              "Id": 50100
+            }
+          }
+        },
+        {
+          "Id": 3,
+          "Name": "CAI",
+          "TypeDefinition": {
+            "Name": "Code[37]"
+          }
+        },
+        {
+          "Id": 4,
+          "Name": "Starting No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 5,
+          "Name": "Ending No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 6,
+          "Name": "Next No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 7,
+          "Name": "Valid From",
+          "TypeDefinition": {
+            "Name": "Date"
+          }
+        },
+        {
+          "Id": 8,
+          "Name": "Valid Until",
+          "TypeDefinition": {
+            "Name": "Date"
+          }
+        },
+        {
+          "Id": 9,
+          "Name": "Enabled",
+          "TypeDefinition": {
+            "Name": "Boolean"
+          }
+        },
+        {
+          "Id": 10,
+          "Name": "Last Issued No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        }
+      ]
+    },
+    {
+      "Id": 50100,
+      "Name": "HN Localization Setup",
+      "Fields": [
+        {
+          "Id": 1,
+          "Name": "Primary Key",
+          "TypeDefinition": {
+            "Name": "Code[10]"
+          }
+        },
+        {
+          "Id": 2,
+          "Name": "Retentions Enabled",
+          "TypeDefinition": {
+            "Name": "Boolean"
+          }
+        },
+        {
+          "Id": 3,
+          "Name": "Retention Nos.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 4,
+          "Name": "Debit Note Nos.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 5,
+          "Name": "Debit Notes Enabled",
+          "TypeDefinition": {
+            "Name": "Boolean"
+          }
+        }
+      ]
+    },
+    {
+      "Id": 50104,
+      "Name": "HN Retention Rule",
+      "Fields": [
+        {
+          "Id": 1,
+          "Name": "Code",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 2,
+          "Name": "Description",
+          "TypeDefinition": {
+            "Name": "Text[100]"
+          }
+        },
+        {
+          "Id": 3,
+          "Name": "Percentage",
+          "TypeDefinition": {
+            "Name": "Decimal"
+          }
+        },
+        {
+          "Id": 4,
+          "Name": "Minimum Base",
+          "TypeDefinition": {
+            "Name": "Decimal"
+          }
+        },
+        {
+          "Id": 5,
+          "Name": "Enabled",
+          "TypeDefinition": {
+            "Name": "Boolean"
+          }
+        },
+        {
+          "Id": 6,
+          "Name": "G/L Account No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 7,
+          "Name": "Calculation Base",
+          "TypeDefinition": {
+            "Name": "Enum",
+            "Subtype": {
+              "Name": "HN Retention Base",
+              "Id": 50102
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Id": 50102,
+      "Name": "HN Retention Header",
+      "Fields": [
+        {
+          "Id": 1,
+          "Name": "No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 2,
+          "Name": "Status",
+          "TypeDefinition": {
+            "Name": "Enum",
+            "Subtype": {
+              "Name": "HN Retention Status",
+              "Id": 50101
+            }
+          }
+        },
+        {
+          "Id": 3,
+          "Name": "Vendor No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 4,
+          "Name": "Vendor Name",
+          "TypeDefinition": {
+            "Name": "Text[100]"
+          }
+        },
+        {
+          "Id": 5,
+          "Name": "Vendor RTN",
+          "TypeDefinition": {
+            "Name": "Text[20]"
+          }
+        },
+        {
+          "Id": 6,
+          "Name": "Invoice No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 7,
+          "Name": "Vendor Invoice No.",
+          "TypeDefinition": {
+            "Name": "Code[35]"
+          }
+        },
+        {
+          "Id": 8,
+          "Name": "Posting Date",
+          "TypeDefinition": {
+            "Name": "Date"
+          }
+        },
+        {
+          "Id": 9,
+          "Name": "Currency Code",
+          "TypeDefinition": {
+            "Name": "Code[10]"
+          }
+        },
+        {
+          "Id": 10,
+          "Name": "CAI Code",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 11,
+          "Name": "Fiscal No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 12,
+          "Name": "CAI",
+          "TypeDefinition": {
+            "Name": "Code[37]"
+          }
+        },
+        {
+          "Id": 13,
+          "Name": "CAI Starting No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 14,
+          "Name": "CAI Ending No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 15,
+          "Name": "CAI Valid Until",
+          "TypeDefinition": {
+            "Name": "Date"
+          }
+        },
+        {
+          "Id": 16,
+          "Name": "Amount",
+          "TypeDefinition": {
+            "Name": "Decimal"
+          }
+        },
+        {
+          "Id": 17,
+          "Name": "Registered At",
+          "TypeDefinition": {
+            "Name": "DateTime"
+          }
+        },
+        {
+          "Id": 18,
+          "Name": "Registered By",
+          "TypeDefinition": {
+            "Name": "Code[50]"
+          }
+        },
+        {
+          "Id": 19,
+          "Name": "Dimension Set ID",
+          "TypeDefinition": {
+            "Name": "Integer"
+          }
+        },
+        {
+          "Id": 21,
+          "Name": "Issuer Name",
+          "TypeDefinition": {
+            "Name": "Text[100]"
+          }
+        },
+        {
+          "Id": 22,
+          "Name": "Issuer RTN",
+          "TypeDefinition": {
+            "Name": "Text[20]"
+          }
+        },
+        {
+          "Id": 23,
+          "Name": "Issuer Address",
+          "TypeDefinition": {
+            "Name": "Text[200]"
+          }
+        },
+        {
+          "Id": 20,
+          "Name": "Invoice CAI",
+          "TypeDefinition": {
+            "Name": "Code[37]"
+          }
+        }
+      ]
+    },
+    {
+      "Id": 50103,
+      "Name": "HN Retention Line",
+      "Fields": [
+        {
+          "Id": 1,
+          "Name": "Document No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 2,
+          "Name": "Line No.",
+          "TypeDefinition": {
+            "Name": "Integer"
+          }
+        },
+        {
+          "Id": 3,
+          "Name": "Invoice Line No.",
+          "TypeDefinition": {
+            "Name": "Integer"
+          }
+        },
+        {
+          "Id": 4,
+          "Name": "Retention Code",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 5,
+          "Name": "Description",
+          "TypeDefinition": {
+            "Name": "Text[100]"
+          }
+        },
+        {
+          "Id": 6,
+          "Name": "Base",
+          "TypeDefinition": {
+            "Name": "Decimal"
+          }
+        },
+        {
+          "Id": 7,
+          "Name": "Percentage",
+          "TypeDefinition": {
+            "Name": "Decimal"
+          }
+        },
+        {
+          "Id": 8,
+          "Name": "Amount",
+          "TypeDefinition": {
+            "Name": "Decimal"
+          }
+        },
+        {
+          "Id": 9,
+          "Name": "G/L Account No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 10,
+          "Name": "Dimension Set ID",
+          "TypeDefinition": {
+            "Name": "Integer"
+          }
+        }
+      ]
+    }
+  ],
+  "TableExtensions": [
+    {
+      "Id": 50104,
+      "Name": "HN Purchase Retention Line",
+      "Fields": [
+        {
+          "Id": 50100,
+          "Name": "HN Retention Codes",
+          "TypeDefinition": {
+            "Name": "Text[250]"
+          }
+        },
+        {
+          "Id": 50101,
+          "Name": "HN Retention Amount",
+          "TypeDefinition": {
+            "Name": "Decimal"
+          }
+        }
+      ]
+    },
+    {
+      "Id": 50105,
+      "Name": "HN Purchase Retention Header",
+      "Fields": [
+        {
+          "Id": 50100,
+          "Name": "HN Retention Amount",
+          "TypeDefinition": {
+            "Name": "Decimal"
+          }
+        },
+        {
+          "Id": 50102,
+          "Name": "HN Vendor CAI",
+          "TypeDefinition": {
+            "Name": "Code[37]"
+          }
+        }
+      ]
+    },
+    {
+      "Id": 50106,
+      "Name": "HN Posted Purchase Ret Line",
+      "Fields": [
+        {
+          "Id": 50100,
+          "Name": "HN Retention Codes",
+          "TypeDefinition": {
+            "Name": "Text[250]"
+          }
+        },
+        {
+          "Id": 50101,
+          "Name": "HN Retention Amount",
+          "TypeDefinition": {
+            "Name": "Decimal"
+          }
+        }
+      ]
+    },
+    {
+      "Id": 50107,
+      "Name": "HN Posted Purchase Ret Header",
+      "Fields": [
+        {
+          "Id": 50102,
+          "Name": "HN Vendor CAI",
+          "TypeDefinition": {
+            "Name": "Code[37]"
+          }
+        }
+      ]
+    },
+    {
+      "Id": 50101,
+      "Name": "HN Debit Sales Header",
+      "Fields": [
+        {
+          "Id": 50105,
+          "Name": "HN Source Fiscal No.",
+          "TypeDefinition": {
+            "Name": "Code[30]"
+          }
+        },
+        {
+          "Id": 50106,
+          "Name": "HN Source CAI",
+          "TypeDefinition": {
+            "Name": "Code[37]"
+          }
+        },
+        {
+          "Id": 50100,
+          "Name": "HN Debit Note",
+          "TypeDefinition": {
+            "Name": "Boolean"
+          }
+        },
+        {
+          "Id": 50107,
+          "Name": "HN Original Invoice No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 50108,
+          "Name": "HN Original Invoice Date",
+          "TypeDefinition": {
+            "Name": "Date"
+          }
+        },
+        {
+          "Id": 50109,
+          "Name": "HN Debit Reason",
+          "TypeDefinition": {
+            "Name": "Text[250]"
+          }
+        },
+        {
+          "Id": 50112,
+          "Name": "HN Fiscal No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 50113,
+          "Name": "HN CAI",
+          "TypeDefinition": {
+            "Name": "Code[37]"
+          }
+        },
+        {
+          "Id": 50114,
+          "Name": "HN CAI Starting No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 50115,
+          "Name": "HN CAI Ending No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 50116,
+          "Name": "HN CAI Valid Until",
+          "TypeDefinition": {
+            "Name": "Date"
+          }
+        },
+        {
+          "Id": 50101,
+          "Name": "HN CAI Code",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        }
+      ]
+    },
+    {
+      "Id": 50102,
+      "Name": "HN Debit Posted Header",
+      "Fields": [
+        {
+          "Id": 50100,
+          "Name": "HN Debit Note",
+          "TypeDefinition": {
+            "Name": "Boolean"
+          }
+        },
+        {
+          "Id": 50107,
+          "Name": "HN Original Invoice No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 50108,
+          "Name": "HN Original Invoice Date",
+          "TypeDefinition": {
+            "Name": "Date"
+          }
+        },
+        {
+          "Id": 50109,
+          "Name": "HN Debit Reason",
+          "TypeDefinition": {
+            "Name": "Text[250]"
+          }
+        },
+        {
+          "Id": 50112,
+          "Name": "HN Fiscal No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 50113,
+          "Name": "HN CAI",
+          "TypeDefinition": {
+            "Name": "Code[37]"
+          }
+        },
+        {
+          "Id": 50114,
+          "Name": "HN CAI Starting No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 50115,
+          "Name": "HN CAI Ending No.",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 50116,
+          "Name": "HN CAI Valid Until",
+          "TypeDefinition": {
+            "Name": "Date"
+          }
+        },
+        {
+          "Id": 50101,
+          "Name": "HN CAI Code",
+          "TypeDefinition": {
+            "Name": "Code[20]"
+          }
+        },
+        {
+          "Id": 50102,
+          "Name": "HN Issuer Name",
+          "TypeDefinition": {
+            "Name": "Text[100]"
+          }
+        },
+        {
+          "Id": 50103,
+          "Name": "HN Issuer RTN",
+          "TypeDefinition": {
+            "Name": "Text[20]"
+          }
+        },
+        {
+          "Id": 50104,
+          "Name": "HN Issuer Address",
+          "TypeDefinition": {
+            "Name": "Text[200]"
+          }
+        },
+        {
+          "Id": 50105,
+          "Name": "HN Source Fiscal No.",
+          "TypeDefinition": {
+            "Name": "Code[30]"
+          }
+        },
+        {
+          "Id": 50106,
+          "Name": "HN Source CAI",
+          "TypeDefinition": {
+            "Name": "Code[37]"
+          }
+        }
+      ]
+    },
+    {
+      "Id": 50103,
+      "Name": "HN Vendor Retentions",
+      "Fields": [
+        {
+          "Id": 50100,
+          "Name": "HN Subject to Retention",
+          "TypeDefinition": {
+            "Name": "Boolean"
+          }
+        },
+        {
+          "Id": 50101,
+          "Name": "HN Retention Valid Until",
+          "TypeDefinition": {
+            "Name": "Date"
+          }
+        }
+      ]
+    }
+  ]
+}

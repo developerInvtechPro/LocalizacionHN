@@ -1,0 +1,19 @@
+# Símbolos, paquetes y resultados locales de compilación.
+.alpackages/
+.snapshots/
+artefactos/
+archivo/
+*.app
+*.zip
+*.diagnostics.json
+__pycache__/
+*.pyc
+.DS_Store
+
+# Configuración privada del entorno y archivos temporales del editor.
+.vscode/*
+!.vscode/launch.ejemplo.json
+.env
+.env.*
+*.log
+migracion/inventario.json

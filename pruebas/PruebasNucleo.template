@@ -1,0 +1,471 @@
+namespace INVTECH.Honduras.Tests;
+using INVTECH.Honduras;
+using Microsoft.Sales.Document;
+using Microsoft.Purchases.History;
+using Microsoft.Purchases.Vendor;
+
+codeunit 71250 "HN Core Tests"
+{
+    Subtype = Test;
+
+    [Test]
+    procedure NormalizeSelectedCodes()
+    var
+        Management: Codeunit "HN Retention Management";
+        Codes: List of [Text];
+    begin
+        Codes := Management.NormalizeCodes(' isr , honp ,, ');
+        Assert(Codes.Count() = 2, 'Deben existir dos códigos.');
+        Assert(Codes.Get(1) = 'ISR', 'Debe normalizar espacios y mayúsculas.');
+    end;
+
+    [Test]
+    procedure RejectRepeatedCodes()
+    var
+        Management: Codeunit "HN Retention Management";
+        Codes: List of [Text];
+    begin
+        asserterror Codes := Management.NormalizeCodes('ISR, isr');
+    end;
+
+    [Test]
+    procedure CalculateNetOnBilledAmount()
+    var
+        Management: Codeunit "HN Retention Management";
+        Rule: Record "HN Retention Rule";
+    begin
+        Rule.Percentage := 12.5;
+        Rule."Minimum Base" := 100;
+        Rule."Calculation Base" := Rule."Calculation Base"::Net;
+        Assert(Management.CalculateAmount(Rule, 200, 30, 0.01) = 25, 'Debe calcular sobre la base facturada.');
+        Assert(Management.CalculateAmount(Rule, 99, 15, 0.01) = 0, 'Debe respetar el mínimo.');
+        Assert(Management.CalculateAmount(Rule, 100, 15, 0.01) = 12.5, 'Debe incluir el mínimo exacto.');
+    end;
+
+    [Test]
+    procedure CalculateOnTaxAndCurrencyRounding()
+    var
+        Management: Codeunit "HN Retention Management";
+        Rule: Record "HN Retention Rule";
+    begin
+        Rule.Percentage := 50;
+        Rule."Calculation Base" := Rule."Calculation Base"::VAT;
+        Assert(Management.CalculateAmount(Rule, 1000, 150.01, 0.01) = 75.01, 'Debe usar el impuesto y redondear en moneda.');
+    end;
+
+    [Test]
+    procedure RejectInvalidPercentage()
+    var
+        Management: Codeunit "HN Retention Management";
+        Rule: Record "HN Retention Rule";
+        Amount: Decimal;
+    begin
+        Rule.Percentage := 101;
+        asserterror Amount := Management.CalculateAmount(Rule, 100, 15, 0.01);
+    end;
+
+    [Test]
+    procedure LastDayIsValid()
+    var
+        Management: Codeunit "HN CAI Management";
+        Authorization: Record "HN CAI Authorization";
+    begin
+        InitAuthorization(Authorization);
+        Management.ValidateAuthorization(Authorization, "HN Fiscal Document Type"::Retention, DMY2Date(31, 12, 2026));
+        asserterror Management.ValidateAuthorization(Authorization, "HN Fiscal Document Type"::Retention, DMY2Date(1, 1, 2027));
+    end;
+
+    [Test]
+    procedure RejectWrongFiscalType()
+    var
+        Management: Codeunit "HN CAI Management";
+        Authorization: Record "HN CAI Authorization";
+    begin
+        InitAuthorization(Authorization);
+        asserterror Management.ValidateAuthorization(Authorization, "HN Fiscal Document Type"::"Debit Note", DMY2Date(1, 12, 2026));
+    end;
+
+    [Test]
+    procedure LastNumberCanBeIssuedExactlyOnce()
+    var
+        Management: Codeunit "HN CAI Management";
+        Authorization: Record "HN CAI Authorization";
+        Issued: Record "HN CAI Authorization";
+        Number: Code[20];
+    begin
+        InitAuthorization(Authorization);
+        Authorization."Ending No." := Authorization."Next No.";
+        Authorization.Insert(true);
+        Number := Management.Issue(Authorization.Code, "HN Fiscal Document Type"::Retention, DMY2Date(1, 12, 2026), Issued);
+        Assert(Number = Authorization."Ending No.", 'Debe permitir utilizar el último número.');
+        Issued.Get(Authorization.Code);
+        Assert(not Issued.Enabled, 'Debe deshabilitar la autorización agotada.');
+        asserterror Issued.Validate(Enabled, true);
+        asserterror Number := Management.Issue(Authorization.Code, "HN Fiscal Document Type"::Retention, DMY2Date(1, 12, 2026), Issued);
+    end;
+
+    [Test]
+    procedure ErrorRollsBackFiscalNumber()
+    var
+        Authorization: Record "HN CAI Authorization";
+    begin
+        InitAuthorization(Authorization);
+        Authorization.Insert(true);
+        asserterror IssueAndFail(Authorization.Code);
+        Authorization.Get(Authorization.Code);
+        Assert(Authorization."Last Issued No." = '', 'Un fallo no debe consumir el número.');
+        Assert(Authorization."Next No." = '999-999-05-00000001', 'Debe conservar el próximo número.');
+    end;
+
+    [Test]
+    procedure UsedAuthorizationCannotBeRewritten()
+    var
+        Management: Codeunit "HN CAI Management";
+        Authorization: Record "HN CAI Authorization";
+        Issued: Record "HN CAI Authorization";
+        Number: Code[20];
+    begin
+        InitAuthorization(Authorization);
+        Authorization.Insert(true);
+        Number := Management.Issue(Authorization.Code, "HN Fiscal Document Type"::Retention, DMY2Date(1, 12, 2026), Issued);
+        Issued.Get(Authorization.Code);
+        Issued."Next No." := '999-999-05-00000099';
+        asserterror Issued.Modify(true);
+    end;
+
+    [Test]
+    procedure PostedRetentionCannotBeDeleted()
+    var
+        Header: Record "HN Retention Header";
+    begin
+        Header."No." := 'HN-TEST-IMMUTABLE';
+        Header.Status := Header.Status::Posted;
+        Header.Insert(true);
+        asserterror Header.Delete(true);
+    end;
+
+    [Test]
+    procedure RejectDifferentPointOfIssue()
+    var
+        Management: Codeunit "HN CAI Management";
+        Authorization: Record "HN CAI Authorization";
+    begin
+        InitAuthorization(Authorization);
+        Authorization."Next No." := '999-998-05-00000001';
+        asserterror Management.ValidateAuthorization(Authorization, "HN Fiscal Document Type"::Retention, DMY2Date(1, 12, 2026));
+    end;
+
+    [Test]
+    procedure DuplicateFiscalNumberInOwnHistoryIsRejected()
+    var
+        Management: Codeunit "HN CAI Management";
+        Authorization: Record "HN CAI Authorization";
+        Issued: Record "HN CAI Authorization";
+        Retention: Record "HN Retention Header";
+        Number: Code[20];
+    begin
+        InitAuthorization(Authorization);
+        Authorization.Insert(true);
+        Retention."No." := 'HN-TEST-DUPLICATE';
+        Retention."Fiscal No." := Authorization."Next No.";
+        Retention.Status := Retention.Status::Posted;
+        Retention.Insert(true);
+        asserterror Number := Management.Issue(Authorization.Code, "HN Fiscal Document Type"::Retention, DMY2Date(1, 12, 2026), Issued);
+    end;
+
+    [Test]
+    procedure SetupCreatedOnFirstAccess()
+    var
+        Setup: Record "HN Localization Setup";
+        Management: Codeunit "HN Setup Management";
+    begin
+        Setup.DeleteAll();
+        Management.GetSetup(Setup);
+        Assert(Setup.Get(''), 'La configuración debe existir antes de guardar una nueva nota.');
+        Assert(not Setup."Debit Notes Enabled", 'No debe habilitar módulos automáticamente.');
+        Assert(Setup."Debit Note Nos." = '', 'No debe inventar una serie interna.');
+    end;
+
+    [Test]
+    procedure ExistingSetupIsPreserved()
+    var
+        Setup: Record "HN Localization Setup";
+        Management: Codeunit "HN Setup Management";
+    begin
+        Management.GetSetup(Setup);
+        Setup."Debit Notes Enabled" := true;
+        Setup."Debit Note Nos." := 'HN-TEST-SERIES';
+        Setup.Modify();
+        Clear(Setup);
+        Management.GetSetup(Setup);
+        Assert(Setup."Debit Notes Enabled", 'La configuración existente no debe reiniciarse.');
+        Assert(Setup."Debit Note Nos." = 'HN-TEST-SERIES', 'Debe conservar la serie configurada.');
+    end;
+
+    [Test]
+    procedure MissingDebitConfigurationHasGuidance()
+    var
+        Setup: Record "HN Localization Setup";
+        Management: Codeunit "HN Setup Management";
+    begin
+        Setup.DeleteAll();
+        asserterror Management.CheckDebitConfiguration(Setup);
+        Assert(StrPos(GetLastErrorText(), 'Configuración general') > 0, 'Debe indicar cómo configurar la nota, sin exponer un error de registro inexistente.');
+    end;
+
+    [Test]
+    procedure CannotGroupDifferentVendors()
+    var
+        Header: Record "HN Retention Header";
+        Invoice: Record "Purch. Inv. Header";
+        Management: Codeunit "HN Retention Management";
+    begin
+        Header."No." := 'HN-GROUP-VENDOR';
+        Header."Vendor No." := 'VENDOR-A';
+        Header.Insert(true);
+        Invoice."No." := 'INV-A';
+        Invoice."Pay-to Vendor No." := 'VENDOR-B';
+        asserterror Management.AddInvoice(Header, Invoice);
+    end;
+
+    [Test]
+    procedure CannotGroupDifferentCurrencies()
+    var
+        Header: Record "HN Retention Header";
+        Invoice: Record "Purch. Inv. Header";
+        Management: Codeunit "HN Retention Management";
+    begin
+        Header."No." := 'HN-GROUP-CURRENCY';
+        Header."Vendor No." := 'VENDOR-A';
+        Header.Insert(true);
+        Invoice."No." := 'INV-A';
+        Invoice."Pay-to Vendor No." := 'VENDOR-A';
+        Invoice."Currency Code" := 'USD';
+        asserterror Management.AddInvoice(Header, Invoice);
+    end;
+
+    [Test]
+    procedure CannotSelectInvoiceTwice()
+    var
+        Header: Record "HN Retention Header";
+        Source: Record "HN Retention Invoice";
+        Vendor: Record Vendor;
+        Invoice: Record "Purch. Inv. Header";
+        Management: Codeunit "HN Retention Management";
+    begin
+        Vendor."No." := 'HN-TEST-VENDOR';
+        Vendor."HN Subject to Retention" := true;
+        Vendor.Insert(false);
+        Header."No." := 'HN-GROUP-DUP';
+        Header."Vendor No." := Vendor."No.";
+        Header.Insert(true);
+        Source."Document No." := Header."No.";
+        Source."Invoice No." := 'HN-TEST-INVOICE';
+        Source.Insert(true);
+        Invoice."No." := Source."Invoice No.";
+        Invoice."Pay-to Vendor No." := Vendor."No.";
+        asserterror Management.AddInvoice(Header, Invoice);
+        Assert(StrPos(GetLastErrorText(), 'ya está incluida') > 0, 'Debe impedir reservar dos veces una factura.');
+    end;
+
+    [Test]
+    procedure CancellationRequiresFiscalReviewReference()
+    var
+        Header: Record "HN Retention Header";
+        Cancellation: Codeunit "HN Retention Cancellation";
+    begin
+        Header."No." := 'HN-CANCEL-REPORTED';
+        Header.Status := Header.Status::Posted;
+        Header."Posting Date" := WorkDate();
+        Header."Tax Reported" := true;
+        Header.Insert(true);
+        asserterror Cancellation.Cancel(Header, 'Error de importe', WorkDate(), '');
+        Assert(StrPos(GetLastErrorText(), 'rectificación') > 0, 'Una retención declarada requiere tratamiento fiscal documentado.');
+        Header.Get(Header."No.");
+        Assert(Header.Status = Header.Status::Posted, 'Un fallo no debe anular parcialmente el documento.');
+    end;
+
+    [Test]
+    procedure CancelledRetentionAndLinesAreImmutable()
+    var
+        Header: Record "HN Retention Header";
+        Source: Record "HN Retention Invoice";
+        Line: Record "HN Retention Line";
+    begin
+        Header."No." := 'HN-CANCEL-IMMUTABLE';
+        Header.Status := Header.Status::Cancelled;
+        Header.Insert(true);
+        asserterror Header.Delete(true);
+        Source."Document No." := Header."No.";
+        Source."Invoice No." := 'HN-TEST-INVOICE';
+        asserterror Source.Insert(true);
+        Line."Document No." := Header."No.";
+        Line."Line No." := 10000;
+        asserterror Line.Insert(true);
+    end;
+
+    [Test]
+    procedure MigrationDoesNotAcceptUnlistedTables()
+    var
+        Mapping: Codeunit "HN Migration Field Map";
+        Map: Record "HN Migration Field" temporary;
+    begin
+        asserterror Mapping.Fill(17, Map);
+        Assert(StrPos(GetLastErrorText(), 'no autorizada') > 0, 'No se permite copiar campos a movimientos contables.');
+    end;
+
+    [Test]
+    procedure HistoricalCAIMappingUsesActualSourceIDs()
+    var
+        Mapping: Codeunit "HN Migration Field Map";
+        Map: Record "HN Migration Field" temporary;
+    begin
+        Mapping.Fill(36, Map);
+        Assert(Map.Get(60100), 'La cabecera abierta usa el ID 60100 para el CAI completo.');
+        Assert(Map."Target ID" = 71115, 'El CAI completo debe conservar un destino estable.');
+        Mapping.Fill(112, Map);
+        Assert(Map.Get(60460), 'La factura registrada usa un ID de CAI distinto del abierto.');
+        Assert(Map."Target ID" = 71115, 'Ambos CAI deben ir al mismo concepto, sin copiar por ID entre tablas.');
+    end;
+
+    [Test]
+    procedure FacturaUsaTipoFiscal01()
+    var
+        Autorizacion: Record "HN CAI Authorization";
+        Gestion: Codeunit "HN CAI Management";
+    begin
+        InitAuthorization(Autorizacion);
+        Autorizacion."Document Type" := Autorizacion."Document Type"::Factura;
+        Autorizacion."Starting No." := '999-999-01-00000001';
+        Autorizacion."Ending No." := '999-999-01-00000100';
+        Autorizacion."Next No." := Autorizacion."Starting No.";
+        Gestion.ValidateAuthorization(Autorizacion, Autorizacion."Document Type", DMY2Date(1, 12, 2026));
+        Autorizacion."Document Type" := Autorizacion."Document Type"::NotaCredito;
+        asserterror Gestion.ValidateAuthorization(Autorizacion, Autorizacion."Document Type", DMY2Date(1, 12, 2026));
+    end;
+
+    [Test]
+    procedure NotaCreditoUsaTipoFiscal06()
+    var
+        Autorizacion: Record "HN CAI Authorization";
+        Gestion: Codeunit "HN CAI Management";
+    begin
+        InitAuthorization(Autorizacion);
+        Autorizacion."Document Type" := Autorizacion."Document Type"::NotaCredito;
+        Autorizacion."Starting No." := '999-999-06-00000001';
+        Autorizacion."Ending No." := '999-999-06-00000100';
+        Autorizacion."Next No." := Autorizacion."Starting No.";
+        Gestion.ValidateAuthorization(Autorizacion, Autorizacion."Document Type", DMY2Date(1, 12, 2026));
+    end;
+
+    [Test]
+    procedure RechazaCAISinSeparadores()
+    var
+        Gestion: Codeunit "HN CAI Management";
+    begin
+        asserterror Gestion.ValidarClave('123456X123456X123456X123456X123456X12');
+    end;
+
+    [Test]
+    procedure CAIProveedorIncluyeUltimoDia()
+    var
+        Autorizacion: Record "HN CAI Proveedor";
+        Gestion: Codeunit "HN Gestion CAI Proveedor";
+    begin
+        PrepararAutorizacionProveedor(Autorizacion);
+        Gestion.ComprobarDocumento(Autorizacion, '999-999-01-00000001', DMY2Date(31, 12, 2026), "HN Fiscal Document Type"::Factura);
+        asserterror Gestion.ComprobarDocumento(Autorizacion, '999-999-01-00000001', DMY2Date(1, 1, 2027), "HN Fiscal Document Type"::Factura);
+    end;
+
+    [Test]
+    procedure CAIProveedorRechazaFueraDeRango()
+    var
+        Autorizacion: Record "HN CAI Proveedor";
+        Gestion: Codeunit "HN Gestion CAI Proveedor";
+    begin
+        PrepararAutorizacionProveedor(Autorizacion);
+        asserterror Gestion.ComprobarDocumento(Autorizacion, '999-998-01-00000001', DMY2Date(1, 12, 2026), "HN Fiscal Document Type"::Factura);
+        asserterror Gestion.ComprobarDocumento(Autorizacion, '999-999-01-00000101', DMY2Date(1, 12, 2026), "HN Fiscal Document Type"::Factura);
+    end;
+
+    [Test]
+    procedure ProveedorConservaVariasAutorizaciones()
+    var
+        Autorizacion: Record "HN CAI Proveedor";
+    begin
+        PrepararAutorizacionProveedor(Autorizacion);
+        Autorizacion.Insert(true);
+        Autorizacion.Codigo := 'HN-PRUEBA-CAI-2';
+        Autorizacion.Insert(true);
+        Autorizacion.SetRange("No. proveedor", 'HN-PRUEBA-PROVEEDOR');
+        Assert(Autorizacion.Count() = 2, 'El catálogo debe admitir dos CAI del mismo proveedor.');
+    end;
+
+    [Test]
+    procedure CAIProveedorUsadoNoSeReescribe()
+    var
+        Autorizacion: Record "HN CAI Proveedor";
+    begin
+        PrepararAutorizacionProveedor(Autorizacion);
+        Autorizacion."Ultima utilizacion" := CurrentDateTime();
+        Autorizacion.Insert(true);
+        Autorizacion.Get(Autorizacion."No. proveedor", Autorizacion.Codigo);
+        Autorizacion."Fecha limite" := DMY2Date(31, 12, 2027);
+        asserterror Autorizacion.Modify(true);
+    end;
+
+    [Test]
+    procedure RegistroFiscalNoSeBorraNiModifica()
+    var
+        Movimiento: Record "HN Movimiento Fiscal";
+    begin
+        Movimiento."Numero fiscal" := '999-999-01-90000123';
+        Movimiento."Tipo documento" := Movimiento."Tipo documento"::Factura;
+        Movimiento.Insert(true);
+        asserterror Movimiento.Delete(true);
+        asserterror Movimiento.Modify(true);
+    end;
+
+    local procedure PrepararAutorizacionProveedor(var Autorizacion: Record "HN CAI Proveedor")
+    begin
+        Autorizacion.Init();
+        Autorizacion."No. proveedor" := 'HN-PRUEBA-PROVEEDOR';
+        Autorizacion.Codigo := 'HN-PRUEBA-CAI';
+        Autorizacion.CAI := '123456-123456-123456-123456-123456-12';
+        Autorizacion."Tipo documento" := Autorizacion."Tipo documento"::Factura;
+        Autorizacion."Numero inicial" := '999-999-01-00000001';
+        Autorizacion."Numero final" := '999-999-01-00000100';
+        Autorizacion."Vigente desde" := DMY2Date(1, 1, 2026);
+        Autorizacion."Fecha limite" := DMY2Date(31, 12, 2026);
+        Autorizacion.Habilitado := true;
+    end;
+
+    local procedure InitAuthorization(var Authorization: Record "HN CAI Authorization")
+    begin
+        Authorization.Init();
+        Authorization.Code := 'HN-TEST-CAI';
+        Authorization."Document Type" := "HN Fiscal Document Type"::Retention;
+        Authorization.CAI := '123456-123456-123456-123456-123456-12';
+        Authorization."Starting No." := '999-999-05-00000001';
+        Authorization."Ending No." := '999-999-05-00000100';
+        Authorization."Next No." := Authorization."Starting No.";
+        Authorization."Valid From" := DMY2Date(1, 1, 2026);
+        Authorization."Valid Until" := DMY2Date(31, 12, 2026);
+        Authorization.Enabled := true;
+    end;
+
+    local procedure IssueAndFail(Code: Code[20])
+    var
+        Management: Codeunit "HN CAI Management";
+        Issued: Record "HN CAI Authorization";
+        Number: Code[20];
+    begin
+        Number := Management.Issue(Code, "HN Fiscal Document Type"::Retention, DMY2Date(1, 12, 2026), Issued);
+        Error('Fallo simulado después de asignar el correlativo %1.', Number);
+    end;
+
+    local procedure Assert(Condition: Boolean; Message: Text)
+    begin
+        if not Condition then Error(Message);
+    end;
+}

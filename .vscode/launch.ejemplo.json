@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Sandbox de Business Central",
+      "type": "al",
+      "request": "launch",
+      "environmentType": "Sandbox",
+      "environmentName": "NOMBRE_DEL_SANDBOX",
+      "tenant": "ID_DEL_TENANT",
+      "startupObjectId": 71110,
+      "startupObjectType": "Page",
+      "breakOnError": "All",
+      "launchBrowser": true
+    }
+  ]
+}

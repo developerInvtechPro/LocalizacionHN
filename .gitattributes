@@ -1,0 +1,9 @@
+# Finales de línea uniformes y documentos PDF tratados como binarios.
+* text=auto
+*.al text eol=lf
+*.rdlc text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.template text eol=lf
+*.pdf binary

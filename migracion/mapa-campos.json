@@ -1,0 +1,618 @@
+{
+  "sourceAppId": "ba215fdf-ea75-4dcd-875e-70dd8c5c9ff8",
+  "sourceSymbolVersion": "1.0.1.73",
+  "fields": [
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60452,
+      "sourceName": "TransactionNumber",
+      "targetId": 71100,
+      "targetName": "INV POS Transaction No.",
+      "type": "Code[30]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60481,
+      "sourceName": "Gas Station Code",
+      "targetId": 71101,
+      "targetName": "INV POS Station",
+      "type": "Code[5]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60482,
+      "sourceName": "POS Code",
+      "targetId": 71102,
+      "targetName": "INV POS Terminal",
+      "type": "Code[5]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60451,
+      "sourceName": "Batch",
+      "targetId": 71103,
+      "targetName": "INV POS Shift",
+      "type": "Integer"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60477,
+      "sourceName": "POS Sales Doc_ Type",
+      "targetId": 71104,
+      "targetName": "INV POS Document Type",
+      "type": "Integer"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60478,
+      "sourceName": "Billing Type",
+      "targetId": 71105,
+      "targetName": "INV POS Billing Type",
+      "type": "Integer"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60479,
+      "sourceName": "AmountTotal",
+      "targetId": 71106,
+      "targetName": "INV POS Received Total",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60480,
+      "sourceName": "VATAmount",
+      "targetId": 71107,
+      "targetName": "INV POS Received VAT",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60506,
+      "sourceName": "Usuario",
+      "targetId": 71108,
+      "targetName": "INV POS Operator",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60487,
+      "sourceName": "OC",
+      "targetId": 71109,
+      "targetName": "INV POS Purchase Order",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60488,
+      "sourceName": "NumeroDePlaca",
+      "targetId": 71110,
+      "targetName": "INV POS Plate",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60489,
+      "sourceName": "Kilometraje",
+      "targetId": 71111,
+      "targetName": "INV POS Mileage",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60490,
+      "sourceName": "Chofer",
+      "targetId": 71112,
+      "targetName": "INV POS Driver",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60483,
+      "sourceName": "Comentario",
+      "targetId": 71113,
+      "targetName": "INV POS Comment",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60106,
+      "sourceName": "Código CAI",
+      "targetId": 71114,
+      "targetName": "INV POS CAI Code",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60100,
+      "sourceName": "No. CAI",
+      "targetId": 71115,
+      "targetName": "INV POS CAI",
+      "type": "Code[37]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60120,
+      "sourceName": "Fecha Límite Emisión",
+      "targetId": 71116,
+      "targetName": "INV POS CAI Expiration",
+      "type": "Date"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60121,
+      "sourceName": "Factura Inicial",
+      "targetId": 71117,
+      "targetName": "INV POS CAI Start",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60122,
+      "sourceName": "Factura Final",
+      "targetId": 71118,
+      "targetName": "INV POS CAI End",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60103,
+      "sourceName": "Código Exoneración",
+      "targetId": 71119,
+      "targetName": "INV POS Exemption Code",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60101,
+      "sourceName": "Monto Exonerado",
+      "targetId": 71120,
+      "targetName": "INV POS Exempted Amount",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60133,
+      "sourceName": "OrdenDeCompraEXENTA",
+      "targetId": 71121,
+      "targetName": "INV POS Exempt Order",
+      "type": "Code[50]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60134,
+      "sourceName": "OrdenDeRegistroExonerados",
+      "targetId": 71122,
+      "targetName": "INV POS Exemption Register",
+      "type": "Code[50]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60135,
+      "sourceName": "OrdenDeCompraSAG",
+      "targetId": 71123,
+      "targetName": "INV POS SAG Reference",
+      "type": "Code[50]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60463,
+      "sourceName": "TransactionNumber",
+      "targetId": 71100,
+      "targetName": "INV POS Transaction No.",
+      "type": "Code[30]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60481,
+      "sourceName": "Gas Station Code",
+      "targetId": 71101,
+      "targetName": "INV POS Station",
+      "type": "Code[5]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60482,
+      "sourceName": "POS Code",
+      "targetId": 71102,
+      "targetName": "INV POS Terminal",
+      "type": "Code[5]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60462,
+      "sourceName": "Batch",
+      "targetId": 71103,
+      "targetName": "INV POS Shift",
+      "type": "Integer"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60477,
+      "sourceName": "POS Sales Doc_ Type",
+      "targetId": 71104,
+      "targetName": "INV POS Document Type",
+      "type": "Integer"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60478,
+      "sourceName": "Billing Type",
+      "targetId": 71105,
+      "targetName": "INV POS Billing Type",
+      "type": "Integer"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60479,
+      "sourceName": "AmountTotal",
+      "targetId": 71106,
+      "targetName": "INV POS Received Total",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60480,
+      "sourceName": "VATAmount",
+      "targetId": 71107,
+      "targetName": "INV POS Received VAT",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60506,
+      "sourceName": "Usuario",
+      "targetId": 71108,
+      "targetName": "INV POS Operator",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60487,
+      "sourceName": "OC",
+      "targetId": 71109,
+      "targetName": "INV POS Purchase Order",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60488,
+      "sourceName": "NumeroDePlaca",
+      "targetId": 71110,
+      "targetName": "INV POS Plate",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60489,
+      "sourceName": "Kilometraje",
+      "targetId": 71111,
+      "targetName": "INV POS Mileage",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60490,
+      "sourceName": "Chofer",
+      "targetId": 71112,
+      "targetName": "INV POS Driver",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60483,
+      "sourceName": "Comentario",
+      "targetId": 71113,
+      "targetName": "INV POS Comment",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60484,
+      "sourceName": "Código CAI",
+      "targetId": 71114,
+      "targetName": "INV POS CAI Code",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60460,
+      "sourceName": "No. CAI",
+      "targetId": 71115,
+      "targetName": "INV POS CAI",
+      "type": "Code[37]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60120,
+      "sourceName": "Fecha Límite Emisión",
+      "targetId": 71116,
+      "targetName": "INV POS CAI Expiration",
+      "type": "Date"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60121,
+      "sourceName": "Factura Inicial",
+      "targetId": 71117,
+      "targetName": "INV POS CAI Start",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60122,
+      "sourceName": "Factura Final",
+      "targetId": 71118,
+      "targetName": "INV POS CAI End",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60461,
+      "sourceName": "CAI",
+      "targetId": 71124,
+      "targetName": "INV POS Additional CAI",
+      "type": "Code[37]"
+    },
+    {
+      "tableId": 114,
+      "table": "Sales Cr.Memo Header",
+      "sourceId": 60463,
+      "sourceName": "TransactionNumber",
+      "targetId": 71100,
+      "targetName": "INV POS Transaction No.",
+      "type": "Code[30]"
+    },
+    {
+      "tableId": 114,
+      "table": "Sales Cr.Memo Header",
+      "sourceId": 60462,
+      "sourceName": "Batch",
+      "targetId": 71103,
+      "targetName": "INV POS Shift",
+      "type": "Integer"
+    },
+    {
+      "tableId": 114,
+      "table": "Sales Cr.Memo Header",
+      "sourceId": 60484,
+      "sourceName": "Código CAI",
+      "targetId": 71114,
+      "targetName": "INV POS CAI Code",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 114,
+      "table": "Sales Cr.Memo Header",
+      "sourceId": 60460,
+      "sourceName": "No. CAI",
+      "targetId": 71115,
+      "targetName": "INV POS CAI",
+      "type": "Code[37]"
+    },
+    {
+      "tableId": 114,
+      "table": "Sales Cr.Memo Header",
+      "sourceId": 60120,
+      "sourceName": "Fecha Límite Emisión",
+      "targetId": 71116,
+      "targetName": "INV POS CAI Expiration",
+      "type": "Date"
+    },
+    {
+      "tableId": 114,
+      "table": "Sales Cr.Memo Header",
+      "sourceId": 60121,
+      "sourceName": "Factura Inicial",
+      "targetId": 71117,
+      "targetName": "INV POS CAI Start",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 114,
+      "table": "Sales Cr.Memo Header",
+      "sourceId": 60122,
+      "sourceName": "Factura Final",
+      "targetId": 71118,
+      "targetName": "INV POS CAI End",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 114,
+      "table": "Sales Cr.Memo Header",
+      "sourceId": 60461,
+      "sourceName": "CAI",
+      "targetId": 71124,
+      "targetName": "INV POS Additional CAI",
+      "type": "Code[37]"
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "sourceId": 60451,
+      "sourceName": "Pump_No",
+      "targetId": 71100,
+      "targetName": "INV POS Pump",
+      "type": "Code[10]"
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "sourceId": 60452,
+      "sourceName": "Pump_Position_No",
+      "targetId": 71101,
+      "targetName": "INV POS Pump Position",
+      "type": "Code[10]"
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "sourceId": 60453,
+      "sourceName": "Tank_No",
+      "targetId": 71102,
+      "targetName": "INV POS Tank",
+      "type": "Code[10]"
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "sourceId": 60462,
+      "sourceName": "Usuario",
+      "targetId": 71103,
+      "targetName": "INV POS Line Operator",
+      "type": "Code[50]"
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "sourceId": 60454,
+      "sourceName": "VAT_PROD_POSTING_GROUP",
+      "targetId": 71104,
+      "targetName": "INV POS Received VAT Rate",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "sourceId": 60455,
+      "sourceName": "VAT_AMOUNT",
+      "targetId": 71105,
+      "targetName": "INV POS Line Received VAT",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "sourceId": 60456,
+      "sourceName": "AMOUNT_INCLUDING_VAT",
+      "targetId": 71106,
+      "targetName": "INV POS Line Received Total",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 113,
+      "table": "Sales Invoice Line",
+      "sourceId": 60451,
+      "sourceName": "Pump_No",
+      "targetId": 71100,
+      "targetName": "INV POS Pump",
+      "type": "Code[10]"
+    },
+    {
+      "tableId": 113,
+      "table": "Sales Invoice Line",
+      "sourceId": 60452,
+      "sourceName": "Pump_Position_No",
+      "targetId": 71101,
+      "targetName": "INV POS Pump Position",
+      "type": "Code[10]"
+    },
+    {
+      "tableId": 113,
+      "table": "Sales Invoice Line",
+      "sourceId": 60453,
+      "sourceName": "Tank_No",
+      "targetId": 71102,
+      "targetName": "INV POS Tank",
+      "type": "Code[10]"
+    },
+    {
+      "tableId": 113,
+      "table": "Sales Invoice Line",
+      "sourceId": 60462,
+      "sourceName": "Usuario",
+      "targetId": 71103,
+      "targetName": "INV POS Line Operator",
+      "type": "Code[50]"
+    },
+    {
+      "tableId": 113,
+      "table": "Sales Invoice Line",
+      "sourceId": 60454,
+      "sourceName": "VAT_PROD_POSTING_GROUP",
+      "targetId": 71104,
+      "targetName": "INV POS Received VAT Rate",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 113,
+      "table": "Sales Invoice Line",
+      "sourceId": 60455,
+      "sourceName": "VAT_AMOUNT",
+      "targetId": 71105,
+      "targetName": "INV POS Line Received VAT",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 113,
+      "table": "Sales Invoice Line",
+      "sourceId": 60456,
+      "sourceName": "AMOUNT_INCLUDING_VAT",
+      "targetId": 71106,
+      "targetName": "INV POS Line Received Total",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 18,
+      "table": "Customer",
+      "sourceId": 60483,
+      "sourceName": "RTN",
+      "targetId": 71100,
+      "targetName": "INV HN RTN",
+      "type": "Code[50]"
+    },
+    {
+      "tableId": 18,
+      "table": "Customer",
+      "sourceId": 60484,
+      "sourceName": "CLienteExonerado",
+      "targetId": 71101,
+      "targetName": "INV HN Exempt Customer",
+      "type": "Boolean"
+    }
+  ]
+}
