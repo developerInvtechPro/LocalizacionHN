@@ -2,8 +2,15 @@ namespace INVTECH.Honduras.Tests;
 using INVTECH.Honduras;
 using Microsoft.Sales.Document;
 using Microsoft.Purchases.Document;
+using Microsoft.Finance.GeneralLedger.Setup;
+using Microsoft.Finance.GeneralLedger.Journal;
+using Microsoft.Finance.GeneralLedger.Account;
+using Microsoft.Finance.GeneralLedger.Posting;
+using Microsoft.Foundation.AuditCodes;
 using Microsoft.Purchases.History;
 using Microsoft.Purchases.Vendor;
+using System.Reflection;
+using System.Apps;
 
 codeunit 71250 "HN Core Tests"
 {
@@ -579,6 +586,541 @@ codeunit 71250 "HN Core Tests"
         Error('Fallo simulado posterior a %1.', Numero);
     end;
 
+    [Test]
+    procedure NuevoCAIRespetaGruposDeFiltro()
+    var Autorizacion: Record "HN CAI Authorization" temporary; Gestion: Codeunit "HN CAI Management"; Grupo: Integer; Fijo: Boolean;
+    begin
+        for Grupo := 0 to 4 do begin
+            Autorizacion.Reset();
+            Autorizacion.FilterGroup(Grupo);
+            Autorizacion.SetRange("Document Type", Autorizacion."Document Type"::"Debit Note");
+            Autorizacion.FilterGroup(0);
+            Fijo := Gestion.InicializarNuevaAutorizacion(Autorizacion);
+            Assert(Fijo, 'Un filtro único debe fijar el tipo de documento.');
+            Assert(Autorizacion."Document Type" = Autorizacion."Document Type"::"Debit Note", 'El nuevo CAI debe pertenecer a la vista del módulo.');
+        end;
+    end;
+
+    [Test]
+    procedure NuevoCAIMultiplesTiposNoSaleDeVista()
+    var Autorizacion: Record "HN CAI Authorization" temporary; Gestion: Codeunit "HN CAI Management"; Fijo: Boolean;
+    begin
+        Autorizacion.FilterGroup(3);
+        Autorizacion.SetFilter("Document Type", '%1|%2', Autorizacion."Document Type"::BoletaCompra, Autorizacion."Document Type"::NotaCredito);
+        Autorizacion.FilterGroup(0);
+        Fijo := Gestion.InicializarNuevaAutorizacion(Autorizacion);
+        Assert(not Fijo, 'La vista de varios tipos debe permitir elegir.');
+        Assert(Autorizacion."Document Type" in [Autorizacion."Document Type"::BoletaCompra, Autorizacion."Document Type"::NotaCredito], 'El valor inicial debe estar permitido por el filtro.');
+    end;
+
+    [Test]
+    procedure NuevoCAISinFiltrosPermiteCorreccion()
+    var Autorizacion: Record "HN CAI Authorization" temporary; Gestion: Codeunit "HN CAI Management"; Fijo: Boolean;
+    begin
+        Fijo := Gestion.InicializarNuevaAutorizacion(Autorizacion);
+        Assert(not Fijo, 'El catálogo general debe permitir corregir el tipo de un CAI no usado.');
+        Assert(Autorizacion."Document Type" = Autorizacion."Document Type"::Factura, 'El catálogo general debe iniciar en factura.');
+    end;
+
+    [Test]
+    procedure CAIRechazaFechasInvertidasEnCaptura()
+    var Autorizacion: Record "HN CAI Authorization";
+    begin
+        InitAuthorization(Autorizacion);
+        asserterror Autorizacion.Validate("Valid From", DMY2Date(1, 1, 2027));
+        InitAuthorization(Autorizacion);
+        asserterror Autorizacion.Validate("Valid Until", DMY2Date(31, 12, 2025));
+        InitAuthorization(Autorizacion);
+        Autorizacion.Validate("Valid Until", Autorizacion."Valid From");
+    end;
+
+    [Test]
+    procedure CAIRechazaRangoInvertidoEnAmbosCampos()
+    var Autorizacion: Record "HN CAI Authorization";
+    begin
+        InitAuthorization(Autorizacion);
+        asserterror Autorizacion.Validate("Starting No.", '999-999-05-00000200');
+        InitAuthorization(Autorizacion);
+        Autorizacion."Starting No." := '999-999-05-00000010';
+        Autorizacion."Next No." := Autorizacion."Starting No.";
+        asserterror Autorizacion.Validate("Ending No.", '999-999-05-00000009');
+    end;
+
+    [Test]
+    procedure CAIRechazaProximoFueraDeRango()
+    var Autorizacion: Record "HN CAI Authorization";
+    begin
+        InitAuthorization(Autorizacion);
+        asserterror Autorizacion.Validate("Next No.", '999-999-05-00000101');
+        InitAuthorization(Autorizacion);
+        Autorizacion."Starting No." := '999-999-05-00000010';
+        asserterror Autorizacion.Validate("Next No.", '999-999-05-00000009');
+    end;
+
+    [Test]
+    procedure CAIRechazaTipoYEstablecimientoIncorrectos()
+    var Autorizacion: Record "HN CAI Authorization";
+    begin
+        InitAuthorization(Autorizacion);
+        asserterror Autorizacion.Validate("Starting No.", '999-999-06-00000001');
+        InitAuthorization(Autorizacion);
+        asserterror Autorizacion.Validate("Document Type", Autorizacion."Document Type"::NotaCredito);
+        InitAuthorization(Autorizacion);
+        asserterror Autorizacion.Validate("Ending No.", '999-998-05-00000100');
+    end;
+
+    [Test]
+    procedure CAIPermiteRangoDeUnSoloNumero()
+    var Autorizacion: Record "HN CAI Authorization"; Gestion: Codeunit "HN CAI Management";
+    begin
+        InitAuthorization(Autorizacion);
+        Autorizacion.Validate("Ending No.", Autorizacion."Starting No.");
+        Gestion.ValidateAuthorization(Autorizacion, Autorizacion."Document Type", Autorizacion."Valid From");
+    end;
+
+    [Test]
+    procedure CAINoGuardaContradiccionesConAsignacionDirecta()
+    var Autorizacion: Record "HN CAI Authorization";
+    begin
+        InitAuthorization(Autorizacion);
+        Autorizacion.Enabled := false;
+        Autorizacion."Ending No." := '999-999-05-00000000';
+        asserterror Autorizacion.Insert(true);
+    end;
+
+    [Test]
+    procedure MigracionVerificarNoEscribeYConservaTexto()
+    var Datos: Record "HN Prueba Datos Migracion" temporary; Ref: RecordRef; Origen: FieldRef; Destino: FieldRef; Gestion: Codeunit "HN Metadata Migration"; Estado: Enum "HN Comparacion Migracion";
+    begin
+        Datos.Origen := '0001-Ñ-Cliente'; Datos.Insert(); Ref.GetTable(Datos);
+        Origen := Ref.Field(2); Destino := Ref.Field(3);
+        Estado := Gestion.CompararCampo(Origen, Destino, false);
+        Assert(Estado = Estado::Pendiente, 'La verificación debe identificar el destino vacío.');
+        Assert(Format(Destino.Value) = '', 'La verificación no puede copiar.');
+        Assert(Format(Origen.Value) = '0001-Ñ-Cliente', 'El origen debe conservarse exactamente.');
+    end;
+
+    [Test]
+    procedure MigracionCopiaFiscalSinDuplicarSegundaPasada()
+    var Datos: Record "HN Prueba Datos Migracion" temporary; Ref: RecordRef; Origen: FieldRef; Destino: FieldRef; Gestion: Codeunit "HN Metadata Migration"; Estado: Enum "HN Comparacion Migracion";
+    begin
+        Datos."Numero origen" := '001-002-01-00252209'; Datos.Insert(); Ref.GetTable(Datos);
+        Origen := Ref.Field(4); Destino := Ref.Field(5);
+        Estado := Gestion.CompararCampo(Origen, Destino, true);
+        Assert(Estado = Estado::Pendiente, 'La primera pasada debe copiar.');
+        Assert(Format(Destino.Value) = '001-002-01-00252209', 'Debe conservar número fiscal, ceros y separadores.');
+        Estado := Gestion.CompararCampo(Origen, Destino, true);
+        Assert(Estado = Estado::Igual, 'Repetir la copia no debe volver a cambiar el destino.');
+    end;
+
+    [Test]
+    procedure MigracionConservaDestinoQueNoCoincide()
+    var Datos: Record "HN Prueba Datos Migracion" temporary; Ref: RecordRef; Origen: FieldRef; Destino: FieldRef; Gestion: Codeunit "HN Metadata Migration"; Estado: Enum "HN Comparacion Migracion";
+    begin
+        Datos.Origen := 'ANTERIOR'; Datos.Destino := 'YA-CONCILIADO'; Datos.Insert(); Ref.GetTable(Datos);
+        Origen := Ref.Field(2); Destino := Ref.Field(3);
+        Estado := Gestion.CompararCampo(Origen, Destino, true);
+        Assert(Estado = Estado::Conflicto, 'Un destino distinto debe bloquear la ejecución.');
+        Assert(Format(Destino.Value) = 'YA-CONCILIADO', 'No debe sobrescribir el destino.');
+        Assert(Format(Origen.Value) = 'ANTERIOR', 'No debe modificar el origen.');
+    end;
+
+    [Test]
+    procedure MigracionNoTruncaUnDestinoMasCorto()
+    var Datos: Record "HN Prueba Datos Migracion" temporary; Ref: RecordRef; Origen: FieldRef; Destino: FieldRef; Gestion: Codeunit "HN Metadata Migration"; Estado: Enum "HN Comparacion Migracion";
+    begin
+        Datos.Origen := 'TEXTO CON MAS DE DIEZ CARACTERES'; Datos.Insert(); Ref.GetTable(Datos);
+        Origen := Ref.Field(2); Destino := Ref.Field(12);
+        asserterror Estado := Gestion.CompararCampo(Origen, Destino, true);
+        Assert(Format(Destino.Value) = '', 'La diferencia de longitudes no debe truncar ni copiar.');
+    end;
+
+    [Test]
+    procedure MigracionConservaFechaImporteYLogico()
+    var Datos: Record "HN Prueba Datos Migracion" temporary; Ref: RecordRef; Origen: FieldRef; Destino: FieldRef; Gestion: Codeunit "HN Metadata Migration"; Estado: Enum "HN Comparacion Migracion";
+    begin
+        Datos."Fecha origen" := DMY2Date(31, 12, 2026); Datos."Importe origen" := 1234.56789; Datos."Logico origen" := true;
+        Datos.Insert(); Ref.GetTable(Datos);
+        Origen := Ref.Field(6); Destino := Ref.Field(7); Estado := Gestion.CompararCampo(Origen, Destino, true);
+        Assert(Format(Destino.Value, 0, 9) = Format(Origen.Value, 0, 9), 'La fecha no debe desplazarse.');
+        Origen := Ref.Field(8); Destino := Ref.Field(9); Estado := Gestion.CompararCampo(Origen, Destino, true);
+        Assert(Format(Destino.Value, 0, 9) = Format(Origen.Value, 0, 9), 'No debe redondear un metadato decimal.');
+        Origen := Ref.Field(10); Destino := Ref.Field(11); Estado := Gestion.CompararCampo(Origen, Destino, true);
+        Assert(Format(Destino.Value, 0, 9) = Format(Origen.Value, 0, 9), 'Debe conservar el lógico informado.');
+    end;
+
+    [Test]
+    procedure MigracionOrigenVacioNoBorraDestino()
+    var Datos: Record "HN Prueba Datos Migracion" temporary; Ref: RecordRef; Origen: FieldRef; Destino: FieldRef; Gestion: Codeunit "HN Metadata Migration"; Estado: Enum "HN Comparacion Migracion";
+    begin
+        Datos.Destino := 'VENTA-NUEVA-V2'; Datos.Insert(); Ref.GetTable(Datos);
+        Origen := Ref.Field(2); Destino := Ref.Field(3); Estado := Gestion.CompararCampo(Origen, Destino, true);
+        Assert(Estado = Estado::OrigenVacio, 'Un origen vacío queda explícitamente fuera de la copia.');
+        Assert(Format(Destino.Value) = 'VENTA-NUEVA-V2', 'El origen vacío no debe borrar información nueva.');
+    end;
+
+    [Test]
+    procedure MigracionResultadoExigeCeroPendientesYConflictos()
+    var Gestion: Codeunit "HN Metadata Migration";
+    begin
+        Assert(Gestion.ObtenerResultado(0, 0) = "HN Resultado Migracion"::Correcto, 'Sin diferencias el resultado es correcto.');
+        Assert(Gestion.ObtenerResultado(1, 0) = "HN Resultado Migracion"::Pendiente, 'Un destino pendiente impide dar la validación por correcta.');
+        Assert(Gestion.ObtenerResultado(1, 1) = "HN Resultado Migracion"::Bloqueado, 'Los conflictos tienen prioridad y bloquean la copia.');
+    end;
+
+    [Test]
+    procedure ReferenciaVaciaNoAceptaUnDestinoDiferente()
+    var Datos: Record "HN Prueba Datos Migracion" temporary; Ref: RecordRef; Origen: FieldRef; Destino: FieldRef; Gestion: Codeunit "HN Metadata Migration"; Estado: Enum "HN Comparacion Migracion";
+    begin
+        Datos."Logico destino" := true; Datos.Insert(); Ref.GetTable(Datos);
+        Origen := Ref.Field(10); Destino := Ref.Field(11);
+        Estado := Gestion.CompararReferencia(Origen, Destino, true);
+        Assert(Estado = Estado::Conflicto, 'Una referencia false debe detectar el destino true como diferencia.');
+        Assert(Format(Destino.Value, 0, 9) <> Format(Origen.Value, 0, 9), 'La validación no debe borrar para forzar una igualdad.');
+    end;
+
+    [Test]
+    procedure ReferenciaGuidSeCopiaSinConvertirATexto()
+    var Datos: Record "HN Prueba Datos Migracion" temporary; Ref: RecordRef; Origen: FieldRef; Destino: FieldRef; Gestion: Codeunit "HN Metadata Migration"; Estado: Enum "HN Comparacion Migracion";
+    begin
+        Datos."Guid origen" := CreateGuid(); Datos.Insert(); Ref.GetTable(Datos);
+        Origen := Ref.Field(15); Destino := Ref.Field(16);
+        Estado := Gestion.CompararReferencia(Origen, Destino, true);
+        Assert(Estado = Estado::Pendiente, 'Debe copiar el identificador original.');
+        Assert(Format(Origen.Value,0,9) = Format(Destino.Value,0,9), 'El GUID debe conservarse exactamente.');
+    end;
+
+    [Test]
+    procedure ReferenciaEstadoAnteriorNoActivaDocumento()
+    var Datos: Record "HN Prueba Datos Migracion" temporary; Ref: RecordRef; Origen: FieldRef; Destino: FieldRef; Gestion: Codeunit "HN Metadata Migration"; Estado: Enum "HN Comparacion Migracion";
+    begin
+        Datos."Estado origen" := Datos."Estado origen"::Canceled; Datos.Insert(); Ref.GetTable(Datos);
+        Origen := Ref.Field(17); Destino := Ref.Field(18);
+        Estado := Gestion.CompararReferencia(Origen, Destino, true);
+        Assert(Format(Origen.Value,0,9) = Format(Destino.Value,0,9), 'Se conserva el ordinal de la opción, sin convertirla a un tipo fiscal.');
+        Origen := Ref.Field(19); Destino := Ref.Field(20);
+        Origen.Value := "Sales Document Type"::"Credit Memo";
+        Estado := Gestion.CompararReferencia(Origen, Destino, true);
+        Assert(Format(Origen.Value,0,9) = Format(Destino.Value,0,9), 'El tipo estándar de documento de una referencia de pago debe conservarse.');
+    end;
+
+    [Test]
+    procedure ReferenciaAdjuntaConservaBytesYEsIdempotente()
+    var Datos: Record "HN Prueba Datos Migracion" temporary; Ref: RecordRef; Origen: FieldRef; Destino: FieldRef; Gestion: Codeunit "HN Metadata Migration"; Estado: Enum "HN Comparacion Migracion"; Salida: OutStream;
+    begin
+        Datos."Adjunto origen".CreateOutStream(Salida, TextEncoding::UTF8); Salida.WriteText('REFERENCIA Ñ 000123'); Datos.Insert(); Ref.GetTable(Datos);
+        Origen := Ref.Field(13); Destino := Ref.Field(14);
+        Estado := Gestion.CompararReferencia(Origen, Destino, true);
+        Assert(Estado = Estado::Pendiente, 'Debe copiar el adjunto vacío en destino.');
+        Estado := Gestion.CompararReferencia(Origen, Destino, true);
+        Assert(Estado = Estado::Igual, 'La segunda pasada debe reconocer los mismos bytes.');
+    end;
+
+    [Test]
+    procedure ReferenciaCatalogoRespetaClaveCompuesta()
+    var
+        Origen: Record "HN Prueba Origen Ref" temporary; Destino: Record "HN Prueba Destino Ref" temporary;
+        RefOrigen: RecordRef; RefDestino: RecordRef; Mapa: Record "HN Migration Field" temporary;
+        Gestion: Codeunit "HN Metadata Migration"; CampoOrigen: FieldRef; CampoDestino: FieldRef;
+        Indice: Integer; Estado: Enum "HN Comparacion Migracion";
+    begin
+        Origen.Proveedor := 'P-001'; Origen.CAI := '123456-123456-123456-123456-123456-12'; Origen.Sucursal := 'S-01'; Origen.Detalle := 'Catálogo anterior'; Origen.Insert();
+        RefOrigen.GetTable(Origen); RefDestino.GetTable(Destino);
+        for Indice := 1 to 4 do begin Mapa.Init(); Mapa."Source ID" := Indice; Mapa."Target ID" := Indice + 10; Mapa.Insert(); end;
+        Assert(not Gestion.PrepararDestino(RefOrigen,RefDestino,Mapa), 'La referencia aún no existe.');
+        for Indice := 1 to 4 do begin
+            CampoOrigen := RefOrigen.Field(Indice); CampoDestino := RefDestino.Field(Indice+10);
+            Estado := Gestion.CompararReferencia(CampoOrigen,CampoDestino,true);
+        end;
+        RefDestino.Insert(false);
+        Assert(Gestion.PrepararDestino(RefOrigen,RefDestino,Mapa), 'Debe reencontrar proveedor, CAI y sucursal sin generar otra clave.');
+        Origen.Sucursal := 'S-02'; RefOrigen.GetTable(Origen);
+        Assert(not Gestion.PrepararDestino(RefOrigen,RefDestino,Mapa), 'La segunda sucursal no debe sobrescribir la primera.');
+    end;
+
+    [Test]
+    procedure RetencionPosteriorSeleccionaSinEditarFactura()
+    var Header: Record "HN Retention Header"; Seleccion: Record "HN Seleccion Ret. Factura"; Linea: Record "HN Retention Line"; FacturaLinea: Record "Purch. Inv. Line"; Gestion: Codeunit "HN Retention Management";
+    begin
+        PrepararFacturaSinRetencion(Header);
+        Gestion.PrepararSeleccion(Header); Gestion.Recalculate(Header);
+        asserterror Gestion.ComprobarImportesPorFactura(Header);
+        Seleccion.Get(Header."No.",'HN-TEST-INV-RET',10000);
+        Seleccion.Validate(Conceptos,'HN-TEST-MANUAL'); Seleccion.Modify(true);
+        Gestion.Recalculate(Header); Gestion.ComprobarImportesPorFactura(Header);
+        Linea.SetRange("Document No.",Header."No."); Linea.FindFirst();
+        Assert(Linea.Base=1000,'Debe usar el importe realmente registrado.');
+        Assert(Linea.Amount=100,'Debe calcular la regla sobre la factura, sin base manual.');
+        FacturaLinea.Get('HN-TEST-INV-RET',10000);
+        Assert(FacturaLinea."HN Retention Codes"='','No debe escribir los conceptos sobre la factura registrada.');
+        Assert(Header."Fiscal No."='','Preparar y recalcular no deben emitir un comprobante fiscal.');
+    end;
+
+    [Test]
+    procedure RetencionSeleccionVaciaNoSeRestauraDesdeFactura()
+    var Header: Record "HN Retention Header"; Seleccion: Record "HN Seleccion Ret. Factura"; FacturaLinea: Record "Purch. Inv. Line"; Gestion: Codeunit "HN Retention Management";
+    begin
+        PrepararFacturaSinRetencion(Header);
+        FacturaLinea.Get('HN-TEST-INV-RET',10000); FacturaLinea."HN Retention Codes" := 'HN-TEST-MANUAL'; FacturaLinea.Modify(false);
+        Gestion.PrepararSeleccion(Header); Seleccion.Get(Header."No.",'HN-TEST-INV-RET',10000);
+        Assert(Seleccion.Conceptos='HN-TEST-MANUAL','Debe proponer lo seleccionado antes de registrar.');
+        Seleccion.Validate(Conceptos,''); Seleccion.Modify(true);
+        Gestion.PrepararSeleccion(Header); Gestion.Recalculate(Header);
+        asserterror Gestion.ComprobarImportesPorFactura(Header);
+        FacturaLinea.Get('HN-TEST-INV-RET',10000);
+        Assert(FacturaLinea."HN Retention Codes"='HN-TEST-MANUAL','Vaciar la selección del borrador no debe cambiar la factura ni reactivarse al recalcular.');
+    end;
+
+    [Test]
+    procedure RetencionAgrupadaExigeImporteEnCadaFactura()
+    var Header: Record "HN Retention Header"; Seleccion: Record "HN Seleccion Ret. Factura"; Factura: Record "Purch. Inv. Header"; Fuente: Record "HN Retention Invoice"; Gestion: Codeunit "HN Retention Management";
+    begin
+        PrepararFacturaSinRetencion(Header); Gestion.PrepararSeleccion(Header);
+        Seleccion.Get(Header."No.",'HN-TEST-INV-RET',10000); Seleccion.Validate(Conceptos,'HN-TEST-MANUAL'); Seleccion.Modify(true);
+        Factura."No." := 'HN-TEST-SIN-RET-2'; Factura."Pay-to Vendor No." := Header."Vendor No."; Factura.Insert(false);
+        Fuente."Document No." := Header."No."; Fuente."Invoice No." := Factura."No."; Fuente.Insert(true);
+        Gestion.Recalculate(Header);
+        asserterror Gestion.ComprobarImportesPorFactura(Header);
+        Assert(StrPos(GetLastErrorText(),'HN-TEST-SIN-RET-2')>0,'No debe registrar un grupo dejando una factura sin conceptos positivos.');
+    end;
+
+    [Test]
+    [HandlerFunctions('ElegirConceptoRetencion')]
+    procedure SelectorRetencionConservaElValorAlCerrar()
+    var
+        Header: Record "HN Retention Header";
+        Seleccion: Record "HN Seleccion Ret. Factura";
+        Gestion: Codeunit "HN Retention Management";
+        Pagina: TestPage "HN Conceptos Factura Ret.";
+    begin
+        PrepararFacturaSinRetencion(Header);
+        Gestion.PrepararSeleccion(Header);
+        Pagina.OpenEdit();
+        Seleccion.Get(Header."No.",'HN-TEST-INV-RET',10000);
+        Pagina.GoToRecord(Seleccion);
+        Pagina.Conceptos.Lookup();
+        Pagina.Conceptos.AssertEquals('HN-TEST-MANUAL');
+        Pagina.Close();
+        Seleccion.Get(Header."No.",'HN-TEST-INV-RET',10000);
+        Assert(Seleccion.Conceptos='HN-TEST-MANUAL','Cerrar la página no debe restaurar el texto vacío del control.');
+        Gestion.Recalculate(Header);
+        Gestion.ComprobarImportesPorFactura(Header);
+    end;
+
+    [ModalPageHandler]
+    procedure ElegirConceptoRetencion(var Pagina: TestPage "HN Retention Rules")
+    begin
+        Pagina.Filter.SetFilter(Code,'HN-TEST-MANUAL');
+        Pagina.First();
+        Pagina.OK().Invoke();
+    end;
+
+    [Test]
+    procedure RTNProveedorAgrupaValoresIguales()
+    var Proveedor: Record Vendor; Opciones: Record "HN Opcion RTN Proveedor" temporary; Gestion: Codeunit "HN Gestion RTN Proveedor";
+    begin
+        Proveedor."No." := 'HN-RTN-SIN-DATOS'; Proveedor."HN RTN Proveedor" := '08019999123456';
+        Proveedor."HN Ref 60450" := Proveedor."HN RTN Proveedor"; Proveedor."VAT Registration No." := Proveedor."HN RTN Proveedor";
+        Gestion.ObtenerOpciones(Proveedor,Opciones);
+        Assert(Opciones.Count()=1,'El mismo RTN no debe aparecer duplicado por existir en varias fuentes.');
+    end;
+
+    [Test]
+    procedure RTNProveedorDistintoRequiereEleccion()
+    var Proveedor: Record Vendor; Opciones: Record "HN Opcion RTN Proveedor" temporary; Gestion: Codeunit "HN Gestion RTN Proveedor"; Header: Record "HN Retention Header";
+    begin
+        Proveedor."No." := 'HN-RTN-DOS-VALORES'; Proveedor."HN RTN Proveedor" := '08019999123456'; Proveedor."HN Ref 60450" := '08019999654321'; Proveedor.Insert(false);
+        Gestion.ObtenerOpciones(Proveedor,Opciones); Assert(Opciones.Count()=2,'Dos valores distintos deben estar disponibles para elegir.');
+        Header."Vendor No." := Proveedor."No."; Gestion.Proponer(Header);
+        Assert(Header.ObtenerRTNProveedor()='','No debe elegir silenciosamente entre dos RTN distintos.');
+    end;
+
+    [Test]
+    procedure RTNProveedorCompletoNoSeTrunca()
+    var Proveedor: Record Vendor; Header: Record "HN Retention Header"; Gestion: Codeunit "HN Gestion RTN Proveedor";
+    begin
+        Proveedor."No." := 'HN-RTN-LARGO'; Proveedor."HN RTN Proveedor" := 'REFERENCIA-RTN-ANTERIOR-MAS-DE-VEINTE'; Proveedor.Insert(false);
+        Header."Vendor No." := Proveedor."No."; Gestion.Proponer(Header);
+        Assert(Header.ObtenerRTNProveedor()=Proveedor."HN RTN Proveedor",'El comprobante y su informe deben conservar el valor completo.');
+        Assert(Header."Vendor RTN"='','El campo publicado de 20 caracteres no debe recibir un valor truncado.');
+    end;
+
+    [Test]
+    procedure RTNProveedorAnteriorConservaCompatibilidad()
+    var Header: Record "HN Retention Header";
+    begin
+        Header."Vendor RTN" := '08019999123456';
+        Assert(Header.ObtenerRTNProveedor()='08019999123456','Los documentos ya emitidos deben seguir mostrando el RTN almacenado.');
+    end;
+
+    [Test]
+    procedure RTNVacioIdentificaProveedorYCampo()
+    var Proveedor: Record Vendor; Header: Record "HN Retention Header"; Gestion: Codeunit "HN Gestion RTN Proveedor"; Mensaje: Text;
+    begin
+        Proveedor."No." := 'HN-RTN-VACIO'; Proveedor.Insert(false);
+        Header."Vendor No." := Proveedor."No.";
+        asserterror Gestion.ValidarEleccion(Header,'05011989042249');
+        Mensaje := GetLastErrorText();
+        Assert(StrPos(Mensaje,Proveedor."No.")>0,'El error debe identificar al proveedor consultado.');
+        Assert(StrPos(Mensaje,'RTN proveedor HN (V2)')>0,'El error debe indicar el campo editable que falta completar.');
+    end;
+
+    [Test]
+    procedure RTNConsultaCampoAnteriorGuardado()
+    var Proveedor: Record Vendor; Opciones: Record "HN Opcion RTN Proveedor" temporary; Gestion: Codeunit "HN Gestion RTN Proveedor";
+        Datos: RecordRef; Campo: FieldRef; Metadatos: Record Field; Aplicacion: Record "NAV App Installed App"; IdOrigen: Guid;
+    begin
+        Proveedor."No." := 'HN-RTN-LECTURA'; Proveedor."HN RTN Proveedor" := '08019999123456'; Proveedor.Insert(false);
+        Datos.Open(Database::Vendor);
+        if not Datos.FieldExist(60450) then begin
+            Gestion.ObtenerOpciones(Proveedor,Opciones);
+            Assert(Opciones.Count()=1,'Sin la extensión anterior debe funcionar el RTN propio.'); exit;
+        end;
+        // La rama de convivencia solo puede ejecutarse con el paquete anterior instalado.
+        Campo := Datos.Field(60450);
+        Assert((Campo.Name='RTN') and (Campo.Type=FieldType::Code) and (Campo.Length=50),'La prueba requiere el esquema anterior verificado.');
+        Metadatos.Get(Database::Vendor,60450); IdOrigen := 'ba215fdf-ea75-4dcd-875e-70dd8c5c9ff8';
+        Aplicacion.SetRange("App ID",IdOrigen);
+        Aplicacion.SetFilter("Package ID",'%1|%2',Metadatos."App Package ID",Metadatos."App Runtime Package ID");
+        Assert(not Aplicacion.IsEmpty(),'La prueba de convivencia requiere el propietario esperado del RTN.');
+        Datos.Get(Proveedor.RecordId); Campo := Datos.Field(60450); Campo.Value := '05011989042249'; Datos.Modify(false);
+        // Se vacía el búfer tipado: el RTN anterior debe proceder del registro guardado.
+        Clear(Proveedor); Proveedor.SetLoadFields("No.","HN RTN Proveedor","HN Ref 60450","VAT Registration No."); Proveedor.Get('HN-RTN-LECTURA');
+        Gestion.ObtenerOpciones(Proveedor,Opciones); Opciones.SetRange(RTN,'05011989042249');
+        Assert(Opciones.FindFirst(),'El RTN anterior guardado debe aparecer aunque no esté en los campos cargados por V2.');
+        Assert(StrPos(Opciones.Origen,'Localización anterior')>0,'Debe conservar el origen del RTN anterior.');
+        Proveedor.Get('HN-RTN-LECTURA');
+        Assert(Proveedor."HN RTN Proveedor"='08019999123456','Consultar no debe sobrescribir el RTN propio.');
+    end;
+
+    [Test]
+    procedure RetencionPermiteFinalizarRegistro()
+    var Header: Record "HN Retention Header"; Guardado: Record "HN Retention Header";
+    begin
+        Header."No." := 'HN-TEST-FINALIZAR'; Header.Insert(true);
+        Header.Status := Header.Status::Posted;
+        Header."Registered At" := CurrentDateTime();
+        Header.Modify(true);
+        Guardado.Get(Header."No.");
+        Assert(Guardado.Status=Guardado.Status::Posted,'Debe permitir finalizar el registro cuando la cabecera guardada aún es borrador.');
+        Assert(Guardado."Registered At"=Header."Registered At",'Debe persistir la información de registro en la misma modificación.');
+    end;
+
+    [Test]
+    procedure RetencionRegistradaSigueInmutable()
+    var Header: Record "HN Retention Header"; Guardado: Record "HN Retention Header";
+    begin
+        Header."No." := 'HN-TEST-INMUTABLE'; Header.Status := Header.Status::Posted; Header.Insert(false);
+        Header."Vendor Name" := 'CAMBIO NO PERMITIDO';
+        asserterror Header.Modify(true);
+        Guardado.Get(Header."No.");
+        Assert(Guardado."Vendor Name"='','Debe impedir cambios en cabeceras ya registradas.');
+    end;
+
+    [Test]
+    procedure RetencionBloqueaBufferDesactualizado()
+    var Borrador: Record "HN Retention Header"; OtraSesion: Record "HN Retention Header";
+    begin
+        Borrador."No." := 'HN-TEST-BUFFER'; Borrador.Insert(true);
+        OtraSesion.Get(Borrador."No."); OtraSesion.Status := OtraSesion.Status::Posted; OtraSesion.Modify(true);
+        Borrador."Vendor Name" := 'BORRADOR DESACTUALIZADO';
+        asserterror Borrador.Modify(true);
+        OtraSesion.Get(Borrador."No.");
+        Assert(OtraSesion.Status=OtraSesion.Status::Posted,'Un búfer que aún dice borrador no debe sobrescribir el estado registrado.');
+        Assert(OtraSesion."Vendor Name"='','Debe conservar los datos del registro guardado.');
+    end;
+
+    [Test]
+    procedure LetrasMonedaDocumentoUSD()
+    var Letras: Codeunit "HN Importe En Letras"; Texto: Text;
+    begin
+        Texto := Letras.ConvertirMoneda(126.50,'USD');
+        Assert(StrPos(Texto,'DÓLARES ESTADOUNIDENSES')>0,'Un documento USD debe expresarse en dólares.');
+        Assert(StrPos(Texto,'LEMPIRAS')=0,'No debe rotular moneda extranjera como lempiras.');
+        Assert(StrPos(Texto,'50/100')>0,'Debe conservar dos posiciones de centavos.');
+    end;
+
+    [Test]
+    procedure LetrasImporteNegativoYRedondeo()
+    var Letras: Codeunit "HN Importe En Letras"; Texto: Text;
+    begin
+        Texto := Letras.ConvertirMoneda(-1.999,'HNL');
+        Assert(Texto='MENOS DOS LEMPIRAS CON 00/100','Debe redondear antes de separar entero y centavos.');
+        Texto := Letras.ConvertirMoneda(1,'EUR');
+        Assert(StrPos(Texto,'EUROS')>0,'No debe heredar la moneda del diseño anterior.');
+    end;
+
+    [Test]
+    procedure RetencionGeneraTipoPago()
+    var Header: Record "HN Retention Header"; Linea: Record "HN Retention Line"; Diario: Record "Gen. Journal Line"; Gestion: Codeunit "HN Retention Management";
+    begin
+        PrepararTipoDocumentoRetencion(Header,Linea);
+        Gestion.InitJournal(Diario,Header,Linea,Header."Posting Date",876.49);
+        Assert(Diario."Document Type"=Diario."Document Type"::Payment,'La retención debe generar un movimiento tipo Pago.');
+        Assert(Diario."Account Type"=Diario."Account Type"::Vendor,'Debe seguir afectando al proveedor.');
+        Assert(Diario."Bal. Account No."=Linea."G/L Account No.",'La contrapartida debe conservar la cuenta de retención.');
+        Assert(Diario."External Document No."=Header."Fiscal No.",'Debe conservar el número fiscal del comprobante.');
+    end;
+
+    [Test]
+    procedure AnulacionRetencionGeneraReembolso()
+    var Header: Record "HN Retention Header"; Linea: Record "HN Retention Line"; Diario: Record "Gen. Journal Line"; Gestion: Codeunit "HN Retention Management";
+    begin
+        PrepararTipoDocumentoRetencion(Header,Linea);
+        Gestion.InitJournal(Diario,Header,Linea,Header."Posting Date",-876.49);
+        Assert(Diario."Document Type"=Diario."Document Type"::Refund,'La compensación debe generar Reembolso para admitir el signo negativo.');
+        Assert(Diario.Amount=-876.49,'Clasificar el documento no debe invertir nuevamente su importe.');
+        Assert(Diario."External Document No."=Header."Fiscal No.",'La compensación debe conservar el vínculo fiscal.');
+    end;
+
+    local procedure PrepararTipoDocumentoRetencion(var Header: Record "HN Retention Header"; var Linea: Record "HN Retention Line")
+    var Configuracion: Record "General Ledger Setup"; Origenes: Record "Source Code Setup"; Origen: Record "Source Code";
+        Proveedor: Record Vendor; Cuenta: Record "G/L Account";
+    begin
+        if not Configuracion.Get() then begin Configuracion.Init(); Configuracion.Insert(false); end;
+        Configuracion."Amount Rounding Precision" := 0.01; Configuracion."LCY Code" := 'HNL'; Configuracion.Modify(false);
+        Origen.Code := 'HN-DOCTEST'; Origen.Insert(false);
+        if not Origenes.Get() then begin Origenes.Init(); Origenes.Insert(false); end;
+        Origenes."General Journal" := Origen.Code; Origenes.Modify(false);
+        Proveedor."No." := 'HN-TEST-TIPODOC'; Proveedor.Name := 'Proveedor de pruebas'; Proveedor.Insert(false);
+        Cuenta."No." := 'HN-TEST-CUENTARET'; Cuenta."Direct Posting" := true; Cuenta.Insert(false);
+        Header."No." := 'HN-TEST-DOCPAGO'; Header."Vendor No." := Proveedor."No.";
+        Header."Posting Date" := DMY2Date(27,10,2026); Header."Fiscal No." := '999-999-05-00000001';
+        Linea."G/L Account No." := Cuenta."No."; Linea."Retention Code" := 'TEST'; Linea."Vendor Invoice No." := 'FACTURA-TEST';
+    end;
+
+    [Test]
+    procedure FormatosActivosDeEstaEtapa()
+    var Formatos: Codeunit "HN Datos Formatos";
+    begin
+        Formatos.ComprobarFormatoActivo(Report::"HN Retention Certificate");
+        Formatos.ComprobarFormatoActivo(Report::"HN Borrador Retencion");
+        Formatos.ComprobarFormatoActivo(Report::"HN Debit Note Certificate");
+    end;
+
+    [Test]
+    procedure FormatosPospuestosNoSeEjecutan()
+    var Formatos: Codeunit "HN Datos Formatos";
+    begin
+        asserterror Formatos.ComprobarFormatoActivo(Report::"HN Factura Venta");
+        Assert(StrPos(GetLastErrorText(),'formato anterior')>0,'Debe indicar el uso del formato anterior durante esta etapa.');
+        asserterror Formatos.ComprobarFormatoActivo(Report::"HN Boleta Compra");
+        asserterror Formatos.ComprobarFormatoActivo(Report::"HN Movimientos Proveedor");
+    end;
+
+    local procedure PrepararFacturaSinRetencion(var Header: Record "HN Retention Header")
+    var GL: Record "General Ledger Setup"; Factura: Record "Purch. Inv. Header"; FacturaLinea: Record "Purch. Inv. Line"; Fuente: Record "HN Retention Invoice"; Regla: Record "HN Retention Rule";
+    begin
+        if not GL.Get() then begin GL.Init(); GL.Insert(); end;
+        GL."Amount Rounding Precision" := 0.01; GL.Modify(false);
+        Header."No." := 'HN-TEST-RET-POST'; Header."Vendor No." := 'HN-TEST-VEND'; Header."Posting Date" := DMY2Date(31,12,2026); Header.Insert(true);
+        Factura."No." := 'HN-TEST-INV-RET'; Factura."Pay-to Vendor No." := Header."Vendor No."; Factura."Posting Date" := DMY2Date(1,1,2026); Factura.Insert(false);
+        FacturaLinea."Document No." := Factura."No."; FacturaLinea."Line No." := 10000; FacturaLinea.Type := FacturaLinea.Type::"G/L Account";
+        FacturaLinea.Amount := 1000; FacturaLinea."Amount Including VAT" := 1150; FacturaLinea.Insert(false);
+        Fuente."Document No." := Header."No."; Fuente."Invoice No." := Factura."No."; Fuente.Insert(true);
+        Regla.Code := 'HN-TEST-MANUAL'; Regla.Percentage := 10; Regla.Enabled := true; Regla."G/L Account No." := 'HN-RET-FISCO'; Regla.Insert(true);
+    end;
+
     local procedure PrepararCAIBoleta(var Autorizacion: Record "HN CAI Authorization")
     begin
         InitAuthorization(Autorizacion);
@@ -630,4 +1172,61 @@ codeunit 71250 "HN Core Tests"
     begin
         if not Condition then Error(Message);
     end;
+}
+
+table 71250 "HN Prueba Datos Migracion"
+{
+    TableType = Temporary;
+    DataClassification = CustomerContent;
+    fields
+    {
+        field(1; Clave; Integer) { }
+        field(2; Origen; Text[60]) { }
+        field(3; Destino; Text[60]) { }
+        field(4; "Numero origen"; Code[30]) { }
+        field(5; "Numero destino"; Code[30]) { }
+        field(6; "Fecha origen"; Date) { }
+        field(7; "Fecha destino"; Date) { }
+        field(8; "Importe origen"; Decimal) { }
+        field(9; "Importe destino"; Decimal) { }
+        field(10; "Logico origen"; Boolean) { }
+        field(11; "Logico destino"; Boolean) { }
+        field(12; Corto; Text[10]) { }
+        field(13; "Adjunto origen"; Blob) { }
+        field(14; "Adjunto destino"; Blob) { }
+        field(15; "Guid origen"; Guid) { }
+        field(16; "Guid destino"; Guid) { }
+        field(17; "Estado origen"; Option) { OptionMembers = Pending,Processed,Canceled; }
+        field(18; "Estado destino"; Option) { OptionMembers = Pending,Processed,Canceled; }
+        field(19; "Tipo origen"; Enum "Sales Document Type") { }
+        field(20; "Tipo destino"; Enum "Sales Document Type") { }
+    }
+    keys { key(PK; Clave) { Clustered = true; } }
+}
+
+table 71251 "HN Prueba Origen Ref"
+{
+    TableType = Temporary;
+    DataClassification = CustomerContent;
+    fields
+    {
+        field(1; Proveedor; Code[20]) { }
+        field(2; CAI; Code[37]) { }
+        field(3; Sucursal; Code[20]) { }
+        field(4; Detalle; Text[100]) { }
+    }
+    keys { key(PK; Proveedor,CAI,Sucursal) { Clustered = true; } }
+}
+table 71252 "HN Prueba Destino Ref"
+{
+    TableType = Temporary;
+    DataClassification = CustomerContent;
+    fields
+    {
+        field(11; Proveedor; Code[20]) { }
+        field(12; CAI; Code[37]) { }
+        field(13; Sucursal; Code[20]) { }
+        field(14; Detalle; Text[100]) { }
+    }
+    keys { key(PK; Proveedor,CAI,Sucursal) { Clustered = true; } }
 }

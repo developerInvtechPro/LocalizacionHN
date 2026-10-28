@@ -25,6 +25,7 @@ pageextension 71127 "HN Boleta Pagina 71127" extends "Purchase Order"
             }
             action(BorradorBoleta)
             {
+                Visible = false;
                 Caption = 'Imprimir borrador de boleta'; ApplicationArea = All; Image = Print;
                 trigger OnAction()
                 var Documento: Record "Purchase Header";
@@ -63,6 +64,7 @@ pageextension 71128 "HN Boleta Pagina 71128" extends "Purchase Invoice"
             }
             action(BorradorBoleta)
             {
+                Visible = false;
                 Caption = 'Imprimir borrador de boleta'; ApplicationArea = All; Image = Print;
                 trigger OnAction()
                 var Documento: Record "Purchase Header";
@@ -93,6 +95,7 @@ pageextension 71129 "HN Boleta Historico Pagina" extends "Posted Purchase Invoic
         {
             action(ImprimirBoleta)
             {
+                Visible = false;
                 Caption = 'Imprimir boleta de compra HN'; ApplicationArea = All; Image = Print;
                 trigger OnAction()
                 var Documento: Record "Purch. Inv. Header";

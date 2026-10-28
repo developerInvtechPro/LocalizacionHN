@@ -81,6 +81,7 @@ page 71112 "HN Movimientos Fiscales"
         {
             action(Imprimir)
             {
+                Visible = false;
                 Caption = 'Imprimir movimientos fiscales'; ApplicationArea = All; Image = Print;
                 trigger OnAction()
                 var

@@ -21,6 +21,28 @@ tableextension 50101 "HN Debit Sales Header" extends "Sales Header"
 {
     fields
     {
+        modify("Sell-to Customer No.")
+        {
+            trigger OnAfterValidate()
+            begin
+                if "HN Debit Note" and ("Sell-to Customer No." <> xRec."Sell-to Customer No.") then LimpiarOrigen();
+            end;
+        }
+        modify("Bill-to Customer No.")
+        {
+            trigger OnAfterValidate()
+            begin
+                if "HN Debit Note" and ("Bill-to Customer No." <> xRec."Bill-to Customer No.") then LimpiarOrigen();
+            end;
+        }
+        modify("Currency Code")
+        {
+            trigger OnAfterValidate()
+            begin
+                if "HN Debit Note" and ("Currency Code" <> xRec."Currency Code") then LimpiarOrigen();
+            end;
+        }
+
         field(50105; "HN Source Fiscal No."; Code[30]) { Caption = 'Número fiscal factura origen'; }
         field(50106; "HN Source CAI"; Code[37]) { Caption = 'CAI factura origen'; }
         field(50100; "HN Debit Note"; Boolean) { Caption = 'Nota de débito HN'; Editable = false; }
@@ -37,6 +59,14 @@ tableextension 50101 "HN Debit Sales Header" extends "Sales Header"
             else if ("Document Type" = const("Return Order")) "HN CAI Authorization" where("Document Type" = const(NotaCredito))
             else "HN CAI Authorization" where("Document Type" = const(Factura)); }
     }
+    local procedure LimpiarOrigen()
+    begin
+        Clear("HN Original Invoice No.");
+        Clear("HN Original Invoice Date");
+        Clear("HN Source Fiscal No.");
+        Clear("HN Source CAI");
+    end;
+
 }
 tableextension 50102 "HN Debit Posted Header" extends "Sales Invoice Header"
 {
@@ -80,8 +110,11 @@ codeunit 50102 "HN Debit Note Management"
         Invoices: Page "Posted Sales Invoices";
     begin
         Header.TestField("HN Debit Note", true);
+        Header.TestField("No.");
         Header.TestField("Sell-to Customer No.");
         Original.SetRange("Sell-to Customer No.", Header."Sell-to Customer No.");
+        Original.SetRange("Bill-to Customer No.", Header."Bill-to Customer No.");
+        Original.SetRange("Currency Code", Header."Currency Code");
         Original.SetRange("HN Debit Note", false);
         Invoices.SetTableView(Original);
         Invoices.LookupMode(true);
@@ -91,6 +124,10 @@ codeunit 50102 "HN Debit Note Management"
             Header."HN Original Invoice Date" := Original."Posting Date";
             Header."HN Source Fiscal No." := Original."HN Fiscal No.";
             Header."HN Source CAI" := Original."HN CAI";
+            if Header."HN Source Fiscal No." = '' then begin
+                Header."HN Source Fiscal No." := Original."INV POS Transaction No.";
+                Header."HN Source CAI" := Original."INV POS CAI";
+            end;
             if Header."HN Source Fiscal No." = '' then
                 Header."HN Source Fiscal No." := CopyStr(Original."External Document No.", 1, MaxStrLen(Header."HN Source Fiscal No."));
             Header.Modify(true);

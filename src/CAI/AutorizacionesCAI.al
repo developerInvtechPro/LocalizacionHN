@@ -24,13 +24,69 @@ table 50101 "HN CAI Authorization"
     fields
     {
         field(1; Code; Code[20]) { Caption = 'Código'; NotBlank = true; }
-        field(2; "Document Type"; Enum "HN Fiscal Document Type") { Caption = 'Tipo de documento'; }
-        field(3; CAI; Code[37]) { Caption = 'CAI'; }
-        field(4; "Starting No."; Code[20]) { Caption = 'Número inicial'; }
-        field(5; "Ending No."; Code[20]) { Caption = 'Número final'; }
-        field(6; "Next No."; Code[20]) { Caption = 'Próximo número'; }
-        field(7; "Valid From"; Date) { Caption = 'Vigente desde'; }
-        field(8; "Valid Until"; Date) { Caption = 'Fecha límite de emisión'; }
+        field(2; "Document Type"; Enum "HN Fiscal Document Type")
+        {
+            Caption = 'Tipo de documento';
+            trigger OnValidate()
+            var Gestion: Codeunit "HN CAI Management";
+            begin
+                Gestion.ValidarCaptura(Rec);
+            end;
+        }
+        field(3; CAI; Code[37])
+        {
+            Caption = 'CAI';
+            trigger OnValidate()
+            var Gestion: Codeunit "HN CAI Management";
+            begin
+                Gestion.ValidarCaptura(Rec);
+            end;
+        }
+        field(4; "Starting No."; Code[20])
+        {
+            Caption = 'Número inicial';
+            trigger OnValidate()
+            var Gestion: Codeunit "HN CAI Management";
+            begin
+                Gestion.ValidarCaptura(Rec);
+            end;
+        }
+        field(5; "Ending No."; Code[20])
+        {
+            Caption = 'Número final';
+            trigger OnValidate()
+            var Gestion: Codeunit "HN CAI Management";
+            begin
+                Gestion.ValidarCaptura(Rec);
+            end;
+        }
+        field(6; "Next No."; Code[20])
+        {
+            Caption = 'Próximo número';
+            trigger OnValidate()
+            var Gestion: Codeunit "HN CAI Management";
+            begin
+                Gestion.ValidarCaptura(Rec);
+            end;
+        }
+        field(7; "Valid From"; Date)
+        {
+            Caption = 'Vigente desde';
+            trigger OnValidate()
+            var Gestion: Codeunit "HN CAI Management";
+            begin
+                Gestion.ValidarCaptura(Rec);
+            end;
+        }
+        field(8; "Valid Until"; Date)
+        {
+            Caption = 'Fecha límite de emisión';
+            trigger OnValidate()
+            var Gestion: Codeunit "HN CAI Management";
+            begin
+                Gestion.ValidarCaptura(Rec);
+            end;
+        }
         field(9; Enabled; Boolean)
         {
             Caption = 'Habilitado';
@@ -45,8 +101,13 @@ table 50101 "HN CAI Authorization"
         field(10; "Last Issued No."; Code[20]) { Caption = 'Último número emitido'; Editable = false; }
     }
     keys { key(PK; Code) { Clustered = true; } }
+    trigger OnInsert()
+    begin
+        ComprobarDatos();
+    end;
     trigger OnModify()
     begin
+        ComprobarDatos();
         if xRec."Last Issued No." <> '' then begin
             TestField("Document Type", xRec."Document Type");
             TestField(CAI, xRec.CAI);
@@ -66,11 +127,106 @@ table 50101 "HN CAI Authorization"
     begin
         TestField("Last Issued No.", '');
     end;
+    local procedure ComprobarDatos()
+    var Gestion: Codeunit "HN CAI Management";
+    begin
+        if Enabled then
+            Gestion.ValidateAuthorization(Rec, "Document Type", "Valid From")
+        else
+            Gestion.ValidarCaptura(Rec);
+    end;
+
 }
 codeunit 50100 "HN CAI Management"
 {
+    procedure InicializarNuevaAutorizacion(var Autorizacion: Record "HN CAI Authorization"): Boolean
+    var
+        Candidatos: Record "HN CAI Authorization" temporary;
+        Vista: Record "HN CAI Authorization";
+        Tipo: Enum "HN Fiscal Document Type";
+        Ordinal: Integer;
+        Grupo: Integer;
+        TipoInicial: Enum "HN Fiscal Document Type";
+        TipoUnico: Boolean;
+    begin
+        foreach Ordinal in Tipo.Ordinals() do begin
+            Candidatos.Init();
+            Candidatos.Code := Format(Ordinal);
+            Candidatos."Document Type" := Enum::"HN Fiscal Document Type".FromInteger(Ordinal);
+            Candidatos.Insert(false);
+        end;
+        Vista.Copy(Autorizacion);
+        // RunPageView y SetTableView no siempre usan el grupo 0 de filtros.
+        for Grupo := 0 to 4 do begin
+            Vista.FilterGroup(Grupo);
+            Candidatos.FilterGroup(Grupo);
+            Vista.CopyFilter("Document Type", Candidatos."Document Type");
+        end;
+        Candidatos.FilterGroup(0);
+        if not Candidatos.FindSet() then Error('La vista no permite ningún tipo de autorización CAI. Revise sus filtros.');
+        TipoUnico := Candidatos.Count() = 1;
+        TipoInicial := Candidatos."Document Type";
+        repeat
+            if Candidatos."Document Type" = Tipo::Factura then TipoInicial := Tipo::Factura;
+        until Candidatos.Next() = 0;
+        Autorizacion."Document Type" := TipoInicial;
+        exit(TipoUnico);
+    end;
+
+    procedure ValidarCaptura(Autorizacion: Record "HN CAI Authorization")
+    begin
+        // Durante la captura se permiten campos pendientes, pero no datos contradictorios.
+        if Autorizacion.CAI <> '' then ValidarClave(Autorizacion.CAI);
+        ValidarNumeroTipo(Autorizacion."Starting No.", Autorizacion."Document Type");
+        ValidarNumeroTipo(Autorizacion."Ending No.", Autorizacion."Document Type");
+        ValidarNumeroTipo(Autorizacion."Next No.", Autorizacion."Document Type");
+        if (Autorizacion."Valid From" <> 0D) and (Autorizacion."Valid Until" <> 0D) then
+            if Autorizacion."Valid From" > Autorizacion."Valid Until" then
+                Error('Vigente desde no puede ser posterior a la fecha límite de emisión. Revise ambas fechas.');
+        ValidarParNumeros(Autorizacion."Starting No.", Autorizacion."Ending No.");
+        ValidarParNumeros(Autorizacion."Starting No.", Autorizacion."Next No.");
+        ValidarParNumeros(Autorizacion."Next No.", Autorizacion."Ending No.");
+        if (Autorizacion."Starting No." <> '') and (Autorizacion."Ending No." <> '') then
+            if Autorizacion."Starting No." > Autorizacion."Ending No." then
+                Error('El número inicial no puede ser mayor que el número final. Revise el rango autorizado.');
+        if Autorizacion."Next No." <> '' then begin
+            if Autorizacion."Starting No." <> '' then
+                if Autorizacion."Next No." < Autorizacion."Starting No." then
+                    Error('El próximo número no puede ser menor que el número inicial.');
+            if Autorizacion."Ending No." <> '' then
+                if Autorizacion."Next No." > Autorizacion."Ending No." then
+                    Error('El próximo número no puede ser mayor que el número final.');
+        end;
+    end;
+
+    local procedure ValidarParNumeros(Primero: Code[20]; Segundo: Code[20])
+    begin
+        if (Primero = '') or (Segundo = '') then exit;
+        if CopyStr(Primero, 1, 11) <> CopyStr(Segundo, 1, 11) then
+            Error('Los números inicial, final y próximo deben tener el mismo establecimiento, punto de emisión y tipo fiscal.');
+    end;
+
+    local procedure ValidarNumeroTipo(Numero: Code[20]; Tipo: Enum "HN Fiscal Document Type")
+    var CodigoFiscal: Code[2];
+    begin
+        if Numero = '' then exit;
+        ValidateFiscalNo(Numero);
+        case Tipo of
+            Tipo::Retention: CodigoFiscal := '05';
+            Tipo::"Debit Note": CodigoFiscal := '07';
+            Tipo::Factura: CodigoFiscal := '01';
+            Tipo::NotaCredito: CodigoFiscal := '06';
+            Tipo::BoletaCompra: CodigoFiscal := '11';
+        end;
+        if CopyStr(Numero, 9, 2) <> CodigoFiscal then
+            Error('El número %1 no corresponde al tipo %2. Debe utilizar el código fiscal %3 de su autorización.', Numero, Tipo, CodigoFiscal);
+        if CopyStr(Numero, 12, 8) = '00000000' then
+            Error('El correlativo fiscal debe ser mayor que cero.');
+    end;
+
     procedure ValidateAuthorization(Authorization: Record "HN CAI Authorization"; DocType: Enum "HN Fiscal Document Type"; IssueDate: Date)
     begin
+        ValidarCaptura(Authorization);
         Authorization.TestField("Document Type", DocType);
         Authorization.TestField(Enabled, true);
         Authorization.TestField(CAI);
@@ -86,21 +242,7 @@ codeunit 50100 "HN CAI Management"
         ValidateFiscalNo(Authorization."Starting No.");
         ValidateFiscalNo(Authorization."Ending No.");
         ValidateFiscalNo(Authorization."Next No.");
-        if (CopyStr(Authorization."Starting No.", 1, 11) <> CopyStr(Authorization."Ending No.", 1, 11)) or
-           (CopyStr(Authorization."Starting No.", 1, 11) <> CopyStr(Authorization."Next No.", 1, 11)) then
-            Error('Los números inicial, final y próximo deben tener el mismo establecimiento, punto de emisión y tipo.');
-        if (Authorization."Next No." < Authorization."Starting No.") or (Authorization."Next No." > Authorization."Ending No.") then
-            Error('El CAI %1 no tiene un correlativo disponible dentro del rango autorizado.', Authorization.Code);
-        if (DocType = DocType::Retention) and (CopyStr(Authorization."Next No.", 9, 2) <> '05') then
-            Error('El comprobante de retención debe utilizar el tipo fiscal 05.');
-        if (DocType = DocType::"Debit Note") and (CopyStr(Authorization."Next No.", 9, 2) <> '07') then
-            Error('La nota de débito debe utilizar el tipo fiscal 07.');
-        if (DocType = DocType::Factura) and (CopyStr(Authorization."Next No.", 9, 2) <> '01') then
-            Error('La factura debe utilizar el tipo fiscal 01.');
-        if (DocType = DocType::NotaCredito) and (CopyStr(Authorization."Next No.", 9, 2) <> '06') then
-            Error('La nota de crédito debe utilizar el tipo fiscal 06.');
-        if (DocType = DocType::BoletaCompra) and (CopyStr(Authorization."Next No.", 9, 2) <> '11') then
-            Error('La boleta de compra debe utilizar el tipo fiscal 11.');
+
     end;
 
     procedure EmitirEnRegistro(Codigo: Code[20]; Tipo: Enum "HN Fiscal Document Type"; Fecha: Date; VistaPrevia: Boolean; var Autorizacion: Record "HN CAI Authorization"): Code[20]
@@ -205,33 +347,68 @@ page 50101 "HN CAI Setup Part"
     SourceTable = "HN CAI Authorization";
     Caption = 'Configuración CAI';
     AutoSplitKey = false;
+    DelayedInsert = true;
     layout
     {
         area(Content)
         {
             repeater(Authorizations)
             {
-                field(Tipo; Rec."Document Type") { ApplicationArea = All; }
+                field(Tipo; Rec."Document Type") { ApplicationArea = All; Editable = TipoEditable; }
                 field(Code; Rec.Code) { ApplicationArea = All; ToolTip = 'Identificador de la autorización; cree un registro por cada autorización del SAR.'; }
-                field(CAI; Rec.CAI) { ApplicationArea = All; ToolTip = 'Clave de autorización de impresión.'; }
+                field(CAI; Rec.CAI)
+                {
+                    ApplicationArea = All; ToolTip = 'Clave de autorización de impresión.';
+                    trigger OnValidate()
+                    begin
+                        GuardarYMostrarLinea();
+                    end;
+                }
                 field(StartingNo; Rec."Starting No.") { ApplicationArea = All; ToolTip = 'Primer número autorizado, incluyendo establecimiento y punto de emisión.'; }
                 field(EndingNo; Rec."Ending No.") { ApplicationArea = All; ToolTip = 'Último número autorizado.'; }
                 field(NextNo; Rec."Next No.") { ApplicationArea = All; ToolTip = 'Próximo correlativo de la autorización. Al iniciar, verifique que no haya sido utilizado.'; }
                 field(ValidFrom; Rec."Valid From") { ApplicationArea = All; ToolTip = 'Fecha inicial de vigencia.'; }
                 field(ValidUntil; Rec."Valid Until") { ApplicationArea = All; ToolTip = 'Fecha límite de emisión.'; }
-                field(Enabled; Rec.Enabled) { ApplicationArea = All; ToolTip = 'Permite emitir documentos con esta autorización.'; }
+                field(Enabled; Rec.Enabled)
+                {
+                    ApplicationArea = All; ToolTip = 'Permite emitir documentos con esta autorización.';
+                    trigger OnValidate()
+                    begin
+                        GuardarYMostrarLinea();
+                    end;
+                }
                 field(LastNo; Rec."Last Issued No.") { ApplicationArea = All; ToolTip = 'Último número emitido por esta extensión.'; }
             }
         }
     }
-    trigger OnNewRecord(BelowxRec: Boolean)
+    trigger OnOpenPage()
+    var
+        Vista: Record "HN CAI Authorization";
+        Gestion: Codeunit "HN CAI Management";
     begin
-        if Rec.GetFilter("Document Type") <> '' then
-            if StrPos(Rec.GetFilter("Document Type"), '|') = 0 then
-                Rec."Document Type" := Rec.GetRangeMin("Document Type")
-            else
-                Rec."Document Type" := Rec."Document Type"::Factura;
+        Vista.Copy(Rec);
+        TipoEditable := not Gestion.InicializarNuevaAutorizacion(Vista);
     end;
+    trigger OnNewRecord(BelowxRec: Boolean)
+    var
+        Gestion: Codeunit "HN CAI Management";
+    begin
+        TipoEditable := not Gestion.InicializarNuevaAutorizacion(Rec);
+    end;
+    local procedure GuardarYMostrarLinea()
+    var
+        Codigo: Code[20];
+    begin
+        if Rec.Code = '' then exit;
+        // Guardar tras validar; conservar la selección al refrescar la misma lista.
+        Codigo := Rec.Code;
+        CurrPage.SaveRecord();
+        CurrPage.Update(false);
+        Rec.Get(Codigo);
+        CurrPage.SetRecord(Rec);
+    end;
+    var
+        TipoEditable: Boolean;
 }
 
 page 50111 "HN CAI Authorizations"
@@ -240,32 +417,85 @@ page 50111 "HN CAI Authorizations"
     SourceTable = "HN CAI Authorization";
     Caption = 'Configuración CAI HN';
     ApplicationArea = All;
+    UsageCategory = Administration;
     AutoSplitKey = false;
+    DelayedInsert = true;
     layout
     {
         area(Content)
         {
             repeater(Authorizations)
             {
-                field(Tipo; Rec."Document Type") { ApplicationArea = All; }
+                field(Tipo; Rec."Document Type") { ApplicationArea = All; Editable = TipoEditable; }
                 field(Code; Rec.Code) { ApplicationArea = All; ToolTip = 'Identificador de la autorización; cree un registro por cada autorización del SAR.'; }
-                field(CAI; Rec.CAI) { ApplicationArea = All; ToolTip = 'Clave de autorización de impresión.'; }
+                field(CAI; Rec.CAI)
+                {
+                    ApplicationArea = All; ToolTip = 'Clave de autorización de impresión.';
+                    trigger OnValidate()
+                    begin
+                        GuardarYMostrarLinea();
+                    end;
+                }
                 field(StartingNo; Rec."Starting No.") { ApplicationArea = All; ToolTip = 'Primer número autorizado, incluyendo establecimiento y punto de emisión.'; }
                 field(EndingNo; Rec."Ending No.") { ApplicationArea = All; ToolTip = 'Último número autorizado.'; }
                 field(NextNo; Rec."Next No.") { ApplicationArea = All; ToolTip = 'Próximo correlativo de la autorización. Al iniciar, verifique que no haya sido utilizado.'; }
                 field(ValidFrom; Rec."Valid From") { ApplicationArea = All; ToolTip = 'Fecha inicial de vigencia.'; }
                 field(ValidUntil; Rec."Valid Until") { ApplicationArea = All; ToolTip = 'Fecha límite de emisión.'; }
-                field(Enabled; Rec.Enabled) { ApplicationArea = All; ToolTip = 'Permite emitir documentos con esta autorización.'; }
+                field(Enabled; Rec.Enabled)
+                {
+                    ApplicationArea = All; ToolTip = 'Permite emitir documentos con esta autorización.';
+                    trigger OnValidate()
+                    begin
+                        GuardarYMostrarLinea();
+                    end;
+                }
                 field(LastNo; Rec."Last Issued No.") { ApplicationArea = All; ToolTip = 'Último número emitido por esta extensión.'; }
             }
         }
     }
-    trigger OnNewRecord(BelowxRec: Boolean)
+    actions
+    {
+        area(Processing)
+        {
+            action(TodasLasAutorizaciones)
+            {
+                Caption = 'Ver todas las autorizaciones'; ApplicationArea = All; Image = List;
+                ToolTip = 'Busque un código existente sin el filtro del módulo. Permite corregir autorizaciones no utilizadas que quedaron con otro tipo de documento.';
+                trigger OnAction()
+                var
+                    Pagina: Page "HN CAI Authorizations";
+                begin
+                    Pagina.RunModal();
+                end;
+            }
+        }
+    }
+    trigger OnOpenPage()
+    var
+        Vista: Record "HN CAI Authorization";
+        Gestion: Codeunit "HN CAI Management";
     begin
-        if Rec.GetFilter("Document Type") <> '' then
-            if StrPos(Rec.GetFilter("Document Type"), '|') = 0 then
-                Rec."Document Type" := Rec.GetRangeMin("Document Type")
-            else
-                Rec."Document Type" := Rec."Document Type"::Factura;
+        Vista.Copy(Rec);
+        TipoEditable := not Gestion.InicializarNuevaAutorizacion(Vista);
     end;
+    trigger OnNewRecord(BelowxRec: Boolean)
+    var
+        Gestion: Codeunit "HN CAI Management";
+    begin
+        TipoEditable := not Gestion.InicializarNuevaAutorizacion(Rec);
+    end;
+    local procedure GuardarYMostrarLinea()
+    var
+        Codigo: Code[20];
+    begin
+        if Rec.Code = '' then exit;
+        // Guardar tras validar; conservar la selección al refrescar la misma lista.
+        Codigo := Rec.Code;
+        CurrPage.SaveRecord();
+        CurrPage.Update(false);
+        Rec.Get(Codigo);
+        CurrPage.SetRecord(Rec);
+    end;
+    var
+        TipoEditable: Boolean;
 }

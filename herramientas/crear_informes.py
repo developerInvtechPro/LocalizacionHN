@@ -1,12 +1,15 @@
 """Genera formatos RDLC y datasets completos para documentos y movimientos HN."""
 from pathlib import Path
 import xml.etree.ElementTree as E
+from esquema_rdlc import leer_diseno, guardar_diseno
 import copy
+if __name__ == '__main__':
+ raise SystemExit('Generador anterior retirado. Use ampliar_datasets_formatos.py y sustituir_formatos.py; se conservan las fuentes AL ampliadas.')
 R=Path(__file__).resolve().parents[1]; D=R/'src/Informes/Disenos';D.mkdir(exist_ok=True)
 NS='http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition';E.register_namespace('',NS)
 def q(n):return '{'+NS+'}'+n
 def adaptar_diseno(nombre,titulo,compra=False,borrador=False):
- t=E.parse(D/'NotaDebito.rdlc');r=t.getroot()
+ t=leer_diseno(D/'NotaDebito.rdlc');r=t.getroot()
  for v in r.findall('.//'+q('Value')):
   if v.text:
    v.text=v.text.replace('NOTA DE DÉBITO',titulo).replace('Nota de débito',titulo)
@@ -14,7 +17,7 @@ def adaptar_diseno(nombre,titulo,compra=False,borrador=False):
    if 'Factura origen:' in v.text and 'CRÉDITO' not in titulo:
     v.text='="Documento BC: " & First(Fields!Document_No.Value)'
    if borrador and 'CAI:' in v.text:v.text='="DOCUMENTO DE TRABAJO — SIN VALIDEZ FISCAL"'
- t.write(D/nombre,encoding='utf-8',xml_declaration=True)
+ guardar_diseno(t,D/nombre)
 
 def columnas(expr):return '\n'.join(f'            column({k}; {v}) {{ }}' for k,v in expr.items())
 comunes={'Document_No':'"No."','Fiscal_No':'"HN Fiscal No."','Issue_Date':'Format("Document Date")','Party_Name':'"Bill-to Name"','Party_RTN':'"HN RTN Destinatario"','Source_No':"''",'Source_CAI':"''",'Source_Date':"''",'Reason':"''",'CAI_Value':'"HN CAI"','CAI_Range':'"HN CAI Starting No." + \' / \' + "HN CAI Ending No."','CAI_Expiration':'Format("HN CAI Valid Until")','Currency_Code':'"Currency Code"','Issuer_Name':'"HN Issuer Name"','Issuer_RTN':'"HN Issuer RTN"','Issuer_Address':'"HN Issuer Address"','Subtotal_Amount':'Amount','Tax_Amount':'"Amount Including VAT" - Amount','Party_Address':'"Bill-to Address" + \' \' + "Bill-to Address 2" + \' \' + "Bill-to City"','Total_Amount':'"Amount Including VAT"'}
@@ -93,6 +96,7 @@ for no,name,caption,header,line,layout,title,compra,borrador in config:
 s=(R/'src/Informes/Comprobantes.al').read_text();start=s.index('report 50100');end=s.index('report 50101');ret=s[start:end].replace('report 50100 "HN Retention Certificate"','report 71116 "HN Borrador Retencion"').replace("Caption = 'Comprobante de retención HN'", "Caption = 'Borrador de retención HN'").replace("'src/Informes/Disenos/Retencion.rdlc'","'src/Informes/Disenos/BorradorRetencion.rdlc'")
 ret=ret.replace('                if Status = Status::Draft then\n                    Error(\'No se puede imprimir un borrador como comprobante fiscal.\');','                TestField(Status, Status::Draft);')
 ret=ret.replace("column(Fiscal_No; \"Fiscal No.\")", "column(Fiscal_No; 'SIN EMITIR')").replace('Clear(CancellationLabel);',"CancellationLabel := 'BORRADOR';")
+ret=ret.replace('column(Party_RTN; "Vendor RTN")','column(Party_RTN; ObtenerRTNProveedor())')
 ret=ret.replace('column(Issuer_Name; "Issuer Name")', 'column(Issuer_Name; Empresa.Name)').replace('column(Issuer_RTN; "Issuer RTN")', 'column(Issuer_RTN; Empresa."VAT Registration No.")').replace('column(Issuer_Address; "Issuer Address")', 'column(Issuer_Address; Empresa.Address)')
 ret=ret.replace('    var\n        CancellationLabel:', '    trigger OnPreReport()\n    begin\n        Empresa.Get();\n    end;\n    var\n        Empresa: Record "Company Information";\n        CancellationLabel:')
 code+=ret
@@ -103,7 +107,7 @@ def diseno_movimientos(nombre,titulo):
  compacto = any(x in nombre for x in ['Fiscales','Autorizaciones'])
  impuesto = nombre=='MovimientosISV.rdlc'
  importe = any(x in nombre for x in ['Contables','Aplicaciones'])
- t=E.parse(D/'Retencion.rdlc');r=t.getroot();tabla=r.find('.//'+q('Tablix'));body=tabla.find(q('TablixBody'))
+ t=leer_diseno(D/'Retencion.rdlc');r=t.getroot();tabla=r.find('.//'+q('Tablix'));body=tabla.find(q('TablixBody'))
  oldrow=body.find(q('TablixRows')).find(q('TablixRow'));cell=oldrow.find('.//'+q('TablixCell'))
  for e in list(body):body.remove(e)
  columns=E.SubElement(body,q('TablixColumns'))
@@ -137,7 +141,7 @@ def diseno_movimientos(nombre,titulo):
  fields=r.find('.//'+q('Fields'));fields.clear()
  for n in campos:
   f=E.SubElement(fields,q('Field'),Name=n);E.SubElement(f,q('DataField')).text=n
- t.write(D/nombre,encoding='utf-8',xml_declaration=True)
+ guardar_diseno(t,D/nombre)
 
 ledger=[(71117,'HN Movimientos Contables','Movimientos contables HN','G/L Entry','MovimientosContables.rdlc','"Posting Date", "Document No.", "G/L Account No."',
  {'Numero_Movimiento':'"Entry No."','Fecha':'Format("Posting Date")','Documento':'"Document No."','Tercero':'"G/L Account No."','Descripcion':'"G/L Account No." + \' | \' + Description + \' | Transacción: \' + Format("Transaction No.")','Debe':'"Debit Amount"','Haber':'"Credit Amount"','Saldo':'Amount','Moneda':"'ML'"},''),

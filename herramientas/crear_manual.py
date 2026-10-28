@@ -42,7 +42,7 @@ def margen(c,doc):
  c.drawString(42,H-29,'INVTECH · LOCALIZACIÓN HONDURAS V2')
  c.drawRightString(W-42,H-29,'Manual de usuario · '+VERSION)
  c.setStrokeColor(colors.HexColor('#D7E2E7'));c.line(42,39,W-42,39)
- c.drawString(42,25,'Configuración y operación · 24 de octubre de 2026')
+ c.drawString(42,25,'Configuración y operación · 27 de octubre de 2026')
  c.drawRightString(W-42,25,'Página '+str(doc.page));c.restoreState()
 
 def contenido(s):
@@ -54,7 +54,7 @@ def contenido(s):
 salida=R/'documentacion/MANUAL_USUARIO.pdf'
 doc=Documento(str(salida),pagesize=A4,title='Manual de usuario · Localización Honduras V2',author='INVTECH',leftMargin=43,rightMargin=43,topMargin=55,bottomMargin=52)
 doc.addPageTemplates(PageTemplate(id='Manual',frames=Frame(43,52,W-86,H-107,leftPadding=0,rightPadding=0,topPadding=0,bottomPadding=0),onPage=margen))
-flujo=[Spacer(1,100),Paragraph('Localización<br/>Honduras V2',estilos['Portada']),Paragraph('Manual de usuario<br/>Configuración y operación paso a paso',estilos['SubtituloManual']),Paragraph('Versión '+VERSION+' · 24 de octubre de 2026',estilos['SubtituloManual']),Spacer(1,30),Paragraph('Incluye facturación desde pedidos y facturas, CAI de proveedores, retenciones, notas de débito, notas de crédito e informes de movimientos.',estilos['TextoManual']),Paragraph('Las ilustraciones representan el código desarrollado. La ejecución y la impresión real en Business Central permanecen pendientes de validación.',estilos['TextoManual']),PageBreak(),Paragraph('Índice',estilos['Capitulo'])]
+flujo=[Spacer(1,100),Paragraph('Localización<br/>Honduras V2',estilos['Portada']),Paragraph('Manual de usuario<br/>Configuración y operación paso a paso',estilos['SubtituloManual']),Paragraph('Versión '+VERSION+' · 27 de octubre de 2026',estilos['SubtituloManual']),Spacer(1,30),Paragraph('Incluye facturación desde pedidos y facturas, CAI de proveedores, retenciones, notas de débito, notas de crédito e informes de movimientos.',estilos['TextoManual']),Paragraph('Las ilustraciones representan el código desarrollado. La ejecución y la impresión real en Business Central permanecen pendientes de validación.',estilos['TextoManual']),PageBreak(),Paragraph('Índice',estilos['Capitulo'])]
 indice=TableOfContents();indice.levelStyles=[estilos['IndiceManual']];flujo+=[indice,PageBreak()]
 lineas=(R/'documentacion/MANUAL_USUARIO.md').read_text().splitlines();i=0;primero=True
 while i<len(lineas):
@@ -80,7 +80,7 @@ while i<len(lineas):
 
 with TemporaryDirectory(prefix='manual-hn-') as temporal:
  guia=fitz.open(R/'documentacion/Guia_visual_LocalizacionHN_V2.pdf')
- anexos=[(18,'Configuración de facturación'),(19,'Gestión de CAI de proveedores'),(20,'Pedido y factura directa'),(21,'Centro de informes'),(22,'Boleta: configuración y captura'),(23,'Boleta: histórico y comprobante')]
+ anexos=[(18,'Configuración de facturación'),(19,'Gestión de CAI de proveedores'),(20,'Pedido y factura directa'),(21,'Centro de informes'),(22,'Boleta: configuración y captura'),(23,'Boleta: histórico y comprobante'),(24,'Migración y validación posterior')]
  for pagina,titulo in anexos:
   flujo.extend([PageBreak(),Paragraph('Ilustración: '+titulo,estilos['Capitulo'])])
   p=guia[pagina];destino=Path(temporal)/f'figura-{pagina}.png';p.get_pixmap(matrix=fitz.Matrix(1.6,1.6)).save(destino)

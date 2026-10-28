@@ -4,7 +4,7 @@ using Microsoft.Purchases.History;
 using Microsoft.Foundation.Company;
 report 71126 "HN Boleta Compra"
 {
-    Caption = 'BOLETA DE COMPRA'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'BOLETA DE COMPRA'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
@@ -12,6 +12,14 @@ report 71126 "HN Boleta Compra"
         {
             DataItemTableView = where("HN Boleta Compra" = const(true));
             RequestFilterFields = "No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Currency_Label; DatosFormato.RotuloMoneda('HNL')) { }
+            column(Amount_In_Words; DatosFormato.Letras("Amount Including VAT",'HNL')) { }
+            column(Due_Date; Format("Due Date")) { }
+            column(Prices_Include_Tax; "Prices Including VAT") { }
             column(Document_No; "No.") { }
             column(Fiscal_No; "HN Numero Boleta") { }
             column(Issue_Date; Format("Document Date")) { }
@@ -42,7 +50,11 @@ report 71126 "HN Boleta Compra"
             dataitem(Linea; "Purch. Inv. Line")
             {
                 DataItemLink = "Document No." = field("No.");
-            column(Line_Quantity; Quantity) { }
+            column(Line_Code; "No.") { }
+                column(Line_Unit; "Unit of Measure Code") { }
+                column(Line_Discount; "Line Discount Amount" + "Inv. Discount Amount") { }
+                column(Line_Tax; "Amount Including VAT" - Amount) { }
+                column(Line_Quantity; Quantity) { }
             column(Line_Unit_Price; "Direct Unit Cost") { }
             column(Line_Description; Description) { }
             column(Line_Base; Amount) { }
@@ -60,15 +72,23 @@ report 71126 "HN Boleta Compra"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/BoletaCompra.rdlc'; Caption = 'BOLETA DE COMPRA'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71126);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
         Letras: Codeunit "HN Importe En Letras";
 }
 report 71127 "HN Borrador Boleta"
 {
-    Caption = 'BORRADOR DE BOLETA — SIN VALIDEZ FISCAL'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'BORRADOR DE BOLETA — SIN VALIDEZ FISCAL'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
@@ -76,6 +96,14 @@ report 71127 "HN Borrador Boleta"
         {
             DataItemTableView = where("HN Boleta Compra" = const(true));
             RequestFilterFields = "Document Type", "No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Currency_Label; DatosFormato.RotuloMoneda('HNL')) { }
+            column(Amount_In_Words; DatosFormato.Letras("Amount Including VAT",'HNL')) { }
+            column(Due_Date; Format("Due Date")) { }
+            column(Prices_Include_Tax; "Prices Including VAT") { }
             column(Document_No; "No.") { }
             column(Fiscal_No; 'SIN EMITIR') { }
             column(Issue_Date; Format("Document Date")) { }
@@ -106,7 +134,11 @@ report 71127 "HN Borrador Boleta"
             dataitem(Linea; "Purchase Line")
             {
                 DataItemLink = "Document Type" = field("Document Type"), "Document No." = field("No.");
-            column(Line_Quantity; Quantity) { }
+            column(Line_Code; "No.") { }
+                column(Line_Unit; "Unit of Measure Code") { }
+                column(Line_Discount; "Line Discount Amount" + "Inv. Discount Amount") { }
+                column(Line_Tax; "Amount Including VAT" - Amount) { }
+                column(Line_Quantity; Quantity) { }
             column(Line_Unit_Price; "Direct Unit Cost") { }
             column(Line_Description; Description) { }
             column(Line_Base; Amount) { }
@@ -124,9 +156,17 @@ report 71127 "HN Borrador Boleta"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/BorradorBoleta.rdlc'; Caption = 'BORRADOR DE BOLETA — SIN VALIDEZ FISCAL'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71127);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
         Letras: Codeunit "HN Importe En Letras";
 }

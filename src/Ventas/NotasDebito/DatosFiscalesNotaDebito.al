@@ -33,7 +33,21 @@ page 50112 "HN Debit Fiscal Data"
             {
                 Caption = 'Factura origen';
                 field(Invoice; Rec."HN Original Invoice No.") { ApplicationArea = All; Editable = false; }
-                field(FiscalNo; Rec."HN Source Fiscal No.") { ApplicationArea = All; }
+                field(FiscalNo; Rec."HN Source Fiscal No.")
+                {
+                    ApplicationArea = All; Lookup = true;
+                    trigger OnLookup(var Text: Text): Boolean
+                    var
+                        Gestion: Codeunit "HN Debit Note Management";
+                    begin
+                        CurrPage.SaveRecord();
+                        // Finalizar solo el guardado del borrador antes de abrir una página modal.
+                        Commit();
+                        Gestion.SelectOriginal(Rec);
+                        CurrPage.Update(false);
+                        exit(true);
+                    end;
+                }
                 field(CAI; Rec."HN Source CAI") { ApplicationArea = All; }
             }
             group(Issue)

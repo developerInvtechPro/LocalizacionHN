@@ -183,6 +183,7 @@ pageextension 71124 "HN Impresion Venta 71124" extends "Posted Sales Invoice"
         {
             action(ImprimirFiscalHN)
             {
+                Visible = false;
                 Caption = 'Imprimir comprobante fiscal HN'; ApplicationArea = All; Image = Print;
                 trigger OnAction()
                 var
@@ -212,6 +213,7 @@ pageextension 71125 "HN Impresion Venta 71125" extends "Posted Sales Credit Memo
         {
             action(ImprimirFiscalHN)
             {
+                Visible = false;
                 Caption = 'Imprimir comprobante fiscal HN'; ApplicationArea = All; Image = Print;
                 trigger OnAction()
                 var

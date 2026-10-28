@@ -110,7 +110,21 @@ page 50103 "HN Retention Card"
                 field(No; Rec."No.") { ApplicationArea = All; Editable = false; }
                 field(Vendor; Rec."Vendor No.") { ApplicationArea = All; }
                 field(Name; Rec."Vendor Name") { ApplicationArea = All; }
-                field(RTN; Rec."Vendor RTN") { ApplicationArea = All; }
+                field(RTN; RTNMostrar)
+                {
+                    Caption = 'RTN proveedor'; ApplicationArea = All; Lookup = true;
+                    ToolTip = 'Seleccione el RTN propio de V2, el anterior disponible o el registro estándar. Si hay valores distintos, elija el que corresponde al comprobante.';
+                    trigger OnLookup(var Text: Text): Boolean
+                    var GestionRTN: Codeunit "HN Gestion RTN Proveedor";
+                    begin
+                        CurrPage.SaveRecord(); Commit();
+                        if not GestionRTN.Seleccionar(Rec) then exit(false);
+                        RTNMostrar := Rec.ObtenerRTNProveedor(); Text := RTNMostrar;
+                        CurrPage.Update(false); exit(true);
+                    end;
+                    trigger OnValidate()
+                    begin Rec.Validate("RTN proveedor completo",RTNMostrar); end;
+                }
                 field(InvoiceCount; Rec."Invoice Count") { ApplicationArea = All; }
                 field(Invoice; Rec."Invoice No.") { ApplicationArea = All; }
                 field(VendorInvoice; Rec."Vendor Invoice No.") { ApplicationArea = All; }
@@ -153,6 +167,17 @@ page 50103 "HN Retention Card"
                 RunPageView = where("Document Type" = const(Retention));
             }
 
+            action(SeleccionarRetencionesRegistradas)
+            {
+                Caption = 'Seleccionar retenciones'; ApplicationArea = All; Image = SelectEntries; Enabled = IsDraft;
+                trigger OnAction()
+                var Gestion: Codeunit "HN Retention Management"; Seleccion: Record "HN Seleccion Ret. Factura"; Pagina: Page "HN Conceptos Factura Ret.";
+                begin
+                    CurrPage.SaveRecord(); Gestion.PrepararSeleccion(Rec); Commit();
+                    Seleccion.SetRange(Documento,Rec."No."); Pagina.SetTableView(Seleccion); Pagina.RunModal();
+                    Rec.Get(Rec."No."); Gestion.Recalculate(Rec); CurrPage.Update(false);
+                end;
+            }
             action(AddInvoice)
             {
                 Caption = 'Agregar facturas'; ApplicationArea = All; Image = NewDocument; Enabled = IsDraft;
@@ -274,11 +299,13 @@ page 50103 "HN Retention Card"
     }
     trigger OnAfterGetCurrRecord()
     begin
+        RTNMostrar := Rec.ObtenerRTNProveedor();
         IsDraft := Rec.Status = Rec.Status::Draft;
         IsPosted := Rec.Status = Rec.Status::Posted;
         IsCancelled := Rec.Status = Rec.Status::Cancelled;
     end;
     var
+        RTNMostrar: Text[50];
         Management: Codeunit "HN Retention Management";
         IsDraft: Boolean;
         IsPosted: Boolean;

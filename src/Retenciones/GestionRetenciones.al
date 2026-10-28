@@ -118,6 +118,7 @@ codeunit 50101 "HN Retention Management"
         Header: Record "HN Retention Header";
         Vendor: Record Vendor;
         Series: Codeunit "No. Series";
+        GestionRTN: Codeunit "HN Gestion RTN Proveedor";
     begin
         SetupManagement.GetSetup(Setup);
         Setup.TestField("Retentions Enabled", true);
@@ -128,7 +129,7 @@ codeunit 50101 "HN Retention Management"
         Header."No." := Series.GetNextNo(Setup."Retention Nos.", WorkDate());
         Header."Vendor No." := Vendor."No.";
         Header."Vendor Name" := Vendor.Name;
-        Header."Vendor RTN" := Vendor."VAT Registration No.";
+        GestionRTN.Proponer(Header);
         Header."Posting Date" := WorkDate();
         Header."Currency Code" := Invoice."Currency Code";
         Header."Dimension Set ID" := Invoice."Dimension Set ID";
@@ -176,6 +177,7 @@ codeunit 50101 "HN Retention Management"
         if Source."Invoice Date" = 0D then
             Source."Invoice Date" := Invoice."Posting Date";
         Source.Insert(true);
+        PrepararSeleccion(Header);
         RefreshSummary(Header);
         Recalculate(Header);
     end;
@@ -188,9 +190,60 @@ codeunit 50101 "HN Retention Management"
         Header.Get(Header."No.");
         Header.TestField(Status, Header.Status::Draft);
         Source.Get(Header."No.", InvoiceNo);
+        QuitarSeleccion(Header."No.", InvoiceNo);
         Source.Delete(true);
         RefreshSummary(Header);
         Recalculate(Header);
+    end;
+
+    procedure PrepararSeleccion(Header: Record "HN Retention Header")
+    var Origen: Record "HN Retention Invoice"; FacturaLinea: Record "Purch. Inv. Line"; Seleccion: Record "HN Seleccion Ret. Factura";
+    begin
+        Header.TestField(Status,Header.Status::Draft);
+        Origen.SetRange("Document No.",Header."No.");
+        if Origen.FindSet() then repeat
+            FacturaLinea.SetRange("Document No.",Origen."Invoice No.");
+            if FacturaLinea.FindSet() then repeat
+                if FacturaLinea.Type <> FacturaLinea.Type::" " then
+                    if not Seleccion.Get(Header."No.",Origen."Invoice No.",FacturaLinea."Line No.") then begin
+                        Seleccion.Init(); Seleccion.Documento := Header."No."; Seleccion.Factura := Origen."Invoice No.";
+                        Seleccion.Linea := FacturaLinea."Line No."; Seleccion.Descripcion := FacturaLinea.Description;
+                        Seleccion.Base := FacturaLinea.Amount; Seleccion.Impuesto := FacturaLinea."Amount Including VAT" - FacturaLinea.Amount;
+                        Seleccion.Conceptos := FacturaLinea."HN Retention Codes";
+                        Seleccion.Insert(true);
+                    end;
+            until FacturaLinea.Next()=0;
+        until Origen.Next()=0;
+    end;
+
+    procedure QuitarSeleccion(Documento: Code[20]; Factura: Code[20])
+    var Seleccion: Record "HN Seleccion Ret. Factura";
+    begin
+        Seleccion.SetRange(Documento,Documento); Seleccion.SetRange(Factura,Factura); Seleccion.DeleteAll(true);
+    end;
+
+    procedure CopiarSeleccion(Anterior: Record "HN Retention Header"; Nuevo: Record "HN Retention Header")
+    var Origen: Record "HN Seleccion Ret. Factura"; Destino: Record "HN Seleccion Ret. Factura";
+    begin
+        Nuevo.TestField(Status,Nuevo.Status::Draft);
+        Origen.SetRange(Documento,Anterior."No.");
+        if Origen.FindSet() then repeat
+            if Destino.Get(Nuevo."No.",Origen.Factura,Origen.Linea) then begin
+                Destino.Validate(Conceptos,Origen.Conceptos); Destino.Modify(true);
+            end;
+        until Origen.Next()=0;
+    end;
+
+    procedure ComprobarImportesPorFactura(Header: Record "HN Retention Header")
+    var Origen: Record "HN Retention Invoice"; Linea: Record "HN Retention Line";
+    begin
+        Origen.SetRange("Document No.",Header."No.");
+        if Origen.IsEmpty() then Error('Seleccione al menos una factura para la retención.');
+        if Origen.FindSet() then repeat
+            Linea.SetRange("Document No.",Header."No."); Linea.SetRange("Invoice No.",Origen."Invoice No."); Linea.CalcSums(Amount);
+            if Linea.Amount <= 0 then
+                Error('La factura %1 no tiene una retención positiva. Abra Seleccionar retenciones en este borrador, indique conceptos en sus líneas y recalcule; o quite la factura del comprobante.', Origen."Invoice No.");
+        until Origen.Next()=0;
     end;
 
     local procedure RefreshSummary(var Header: Record "HN Retention Header")
@@ -222,10 +275,11 @@ codeunit 50101 "HN Retention Management"
         Codes: List of [Text];
         Code: Text;
         LineNo: Integer;
-        BeforeInvoice: Integer;
+        Seleccion: Record "HN Seleccion Ret. Factura";
         Precision: Decimal;
         Amount: Decimal;
     begin
+        Header.LockTable(); Header.Get(Header."No.");
         Header.TestField(Status, Header.Status::Draft);
         if Header."Currency Code" = '' then begin
             GLSetup.Get();
@@ -244,11 +298,13 @@ codeunit 50101 "HN Retention Management"
                 Invoice.TestField("Currency Code", Header."Currency Code");
                 if Invoice."Posting Date" > Header."Posting Date" then
                     Error('La emisión no puede ser anterior a la factura %1.', Invoice."No.");
-                BeforeInvoice := LineNo;
                 InvoiceLine.SetRange("Document No.", Source."Invoice No.");
                 if InvoiceLine.FindSet() then
                     repeat
-                        Codes := NormalizeCodes(InvoiceLine."HN Retention Codes");
+                        if Seleccion.Get(Header."No.",Source."Invoice No.",InvoiceLine."Line No.") then
+                            Codes := NormalizeCodes(Seleccion.Conceptos)
+                        else
+                            Codes := NormalizeCodes(InvoiceLine."HN Retention Codes");
                         foreach Code in Codes do begin
                             Rule.Get(Code);
                             Rule.TestField(Enabled, true);
@@ -278,8 +334,6 @@ codeunit 50101 "HN Retention Management"
                             end;
                         end;
                     until InvoiceLine.Next() = 0;
-                if BeforeInvoice = LineNo then
-                    Error('La factura %1 no tiene retenciones seleccionadas con importe positivo.', Source."Invoice No.");
             until Source.Next() = 0;
     end;
 
@@ -305,8 +359,9 @@ codeunit 50101 "HN Retention Management"
         Header.TestField(Status, Header.Status::Draft);
         Header.TestField("Posting Date");
         Header.TestField("CAI Code");
-        Header.TestField("Vendor RTN");
+        if Header.ObtenerRTNProveedor()='' then Error('Seleccione el RTN del proveedor en el borrador antes de registrar la retención.');
         Recalculate(Header);
+        ComprobarImportesPorFactura(Header);
         Header.CalcFields(Amount);
         if Header.Amount <= 0 then
             Error('El comprobante no tiene importe para registrar.');
@@ -369,6 +424,12 @@ codeunit 50101 "HN Retention Management"
         Journal."Document Date" := PostingDate;
         Journal."Document No." := Header."No.";
         Journal."External Document No." := Header."Fiscal No.";
+        // Pago reduce la obligación con el proveedor; la compensación negativa
+        // usa Reembolso para respetar las validaciones estándar de signo.
+        if Amount < 0 then
+            Journal.Validate("Document Type", Journal."Document Type"::Refund)
+        else
+            Journal.Validate("Document Type", Journal."Document Type"::Payment);
         Journal.Validate("Account Type", Journal."Account Type"::Vendor);
         Journal.Validate("Account No.", Header."Vendor No.");
         Journal.Validate("Currency Code", Header."Currency Code");

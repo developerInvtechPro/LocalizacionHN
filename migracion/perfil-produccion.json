@@ -1,0 +1,9 @@
+{
+  "name": "Primera instalación en producción",
+  "firstInstallOnly": true,
+  "version": "1.3.0.0",
+  "originalRange": { "from": 50100, "to": 50149 },
+  "destinationRange": { "from": 73000, "to": 73049 },
+  "keepRanges": [{ "from": 71100, "to": 71199 }],
+  "apiPackage": "/Users/solmerlopez/Downloads/API_BCPOS_INVTECH_1-2/INVTECH_API_BCPOS_1.0.0.41.app"
+}

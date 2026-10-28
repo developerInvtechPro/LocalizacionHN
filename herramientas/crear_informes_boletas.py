@@ -1,6 +1,9 @@
 """Genera comprobante fiscal y borrador de boleta con datos exigidos por SAR, arts. 20–22."""
 from pathlib import Path
 import xml.etree.ElementTree as E
+from esquema_rdlc import leer_diseno, guardar_diseno
+if __name__ == '__main__':
+ raise SystemExit('Generador anterior retirado. Use ampliar_datasets_formatos.py y sustituir_formatos.py; se conservan las fuentes AL ampliadas.')
 R=Path(__file__).resolve().parents[1];D=R/'src/Informes/Disenos'
 NS='http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition';E.register_namespace('',NS)
 def q(n):return '{'+NS+'}'+n
@@ -12,7 +15,7 @@ for draft in [False,True]:
  cols=dict(zip(base,['"No."',"'SIN EMITIR'" if draft else '"HN Numero Boleta"','Format("Document Date")','"Buy-from Vendor Name"','"HN Identidad Boleta"',"''","''","''","''","''" if draft else '"HN CAI Boleta"',"''" if draft else '"HN Inicio Boleta" + \' / \' + "HN Fin Boleta"',"''" if draft else 'Format("HN Vence Boleta")',"'HNL'",'Empresa.Name' if draft else '"HN Nombre Emisor Boleta"','Empresa."VAT Registration No."' if draft else '"HN RTN Emisor Boleta"','Empresa.Address' if draft else '"HN Direccion Emisor Boleta"','Amount','"Amount Including VAT" - Amount','"Buy-from Address" + \' \' + "Buy-from Address 2" + \' \' + "Buy-from City"','"Amount Including VAT"']))
  cols.update(Party_Phone='"HN Telefono Boleta"',Issuer_Phone='Empresa."Phone No."' if draft else '"HN Telefono Emisor Boleta"',Issuer_Email='Empresa."E-Mail"' if draft else '"HN Correo Emisor Boleta"',Amount_Words='Letras.Convertir("Amount Including VAT")',Exempt_Order='"HN Orden Exenta Boleta"',Exempt_Register='"HN Registro Exento Boleta"',SAG_Register='"HN Registro SAG Boleta"')
  details={'Line_Quantity':'Quantity','Line_Unit_Price':'"Direct Unit Cost"','Line_Description':'Description','Line_Base':'Amount','Line_Rate':'"VAT %"','Line_Amount':'"Amount Including VAT"'}
- t=E.parse(D/'NotaDebito.rdlc');root=t.getroot()
+ t=leer_diseno(D/'NotaDebito.rdlc');root=t.getroot()
  vals=root.findall('.//'+q('Value'))
  for v in vals:
   if not v.text:continue
@@ -37,7 +40,7 @@ for draft in [False,True]:
  fields=root.find('.//'+q('Fields'))
  for n in extra:
   f=E.SubElement(fields,q('Field'),Name=n);E.SubElement(f,q('DataField')).text=n
- t.write(D/file,encoding='utf-8',xml_declaration=True)
+ guardar_diseno(t,D/file)
  c=lambda d:'\n'.join(f'            column({k}; {v}) {{ }}' for k,v in d.items())
  link=('"Document Type" = field("Document Type"), ' if draft else '')+'"Document No." = field("No.")'
  filt='"HN Boleta Compra" = const(true)'

@@ -72,13 +72,15 @@ codeunit 71113 "HN Gestion Boletas"
     end;
 
     procedure ValidarLineas(Cabecera: Record "Purchase Header")
-    var Linea: Record "Purchase Line";
+    var
+        Linea: Record "Purchase Line";
     begin
         Linea.SetRange("Document Type", Cabecera."Document Type");
         Linea.SetRange("Document No.", Cabecera."No.");
-        if Linea.FindSet() then repeat
-            ValidarLinea(Linea);
-        until Linea.Next() = 0;
+        if Linea.FindSet() then
+            repeat
+                ValidarLinea(Linea);
+            until Linea.Next() = 0;
     end;
 
     procedure ValidarLinea(Linea: Record "Purchase Line")
@@ -163,12 +165,14 @@ codeunit 71113 "HN Gestion Boletas"
         Movimiento."Registrado el" := CurrentDateTime();
         Movimiento.Insert(true);
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Purch.-Post", 'OnFinalizePostingOnBeforeUpdateAfterPosting', '', false, false)]
     local procedure LimpiarReferenciaAbierta(var PurchHeader: Record "Purchase Header")
     begin
         if PurchHeader."HN Boleta Compra" then
             Clear(PurchHeader."Vendor Invoice No.");
     end;
+
     var
         EsVistaPrevia: Boolean;
 }

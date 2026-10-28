@@ -1,8 +1,8 @@
 # Manual de usuario de Localización Honduras V2
 
-Versión 1.2.0.0 · 24 de octubre de 2026 · INVTECH
+Versión 1.2.6.0 · 27 de octubre de 2026 · INVTECH
 
-Este manual explica la configuración y el uso de los módulos implementados. Las pantallas de la guía visual son ilustraciones del código, no capturas de un entorno operativo. La compilación y las comprobaciones locales no sustituyen la validación del registro y de la impresión en Business Central.
+Este manual explica la configuración y el uso de los módulos implementados. **Alcance de impresión vigente: V2 solo imprime comprobante/borrador de retención y nota de débito. Los demás documentos se imprimen con los formatos anteriores hasta definir su migración.** Las pantallas de la guía visual son ilustraciones del código, no capturas de un entorno operativo. La compilación y las comprobaciones locales no sustituyen la validación del registro y de la impresión en Business Central.
 
 ## 1. Preparar el entorno
 
@@ -56,11 +56,11 @@ Los documentos POS con identidad propia o referencia fiscal externa requieren re
 3. Complete líneas, cantidades, unidades, precios, descuentos y grupos de ISV.
 4. Complete el documento. Se utilizará automáticamente el CAI predeterminado vigente al registrar.
 5. Abra Acciones → Validar facturación HN y corrija cualquier incidencia.
-6. Si necesita revisar el documento antes del registro, use Centro de informes de localización HN → Borrador de venta y filtre por tipo y número interno. El borrador no tiene validez fiscal.
+6. Para revisar o imprimir ventas, mantenga las acciones y formatos anteriores; el borrador de venta de V2 queda pospuesto.
 7. Ejecute la vista previa contable estándar y compruebe importes y dimensiones.
 8. Registre Enviar y facturar, o Facturar si el envío ya está realizado.
 9. Abra la factura registrada. Compruebe el número interno BC y el número fiscal HN.
-10. Use Imprimir comprobante fiscal HN para generar el RDLC de factura de venta.
+10. Imprima la factura con su acción habitual y el formato anterior configurado; la acción de factura V2 queda oculta.
 11. Consulte Movimientos fiscales HN y los movimientos contables y de cliente del documento.
 
 Enviar sin facturar no consume un número de factura fiscal. Si factura parcialmente un pedido, cada factura registrada obtiene un correlativo nuevo; el pedido mantiene su identidad interna. Compruebe este recorrido en sandbox antes de operarlo.
@@ -72,7 +72,7 @@ Enviar sin facturar no consume un número de factura fiscal. Si factura parcialm
 3. Complete las líneas. La configuración de facturación HN se aplica automáticamente al registrar.
 4. Use Validar facturación HN y la vista previa estándar.
 5. Registre el documento.
-6. Abra la factura registrada y use Imprimir comprobante fiscal HN.
+6. Abra la factura registrada y utilice su acción habitual con el formato anterior configurado.
 7. Compruebe que el CAI, rango, fecha límite, RTN y detalle coinciden con los datos emitidos.
 
 La asignación fiscal utiliza el mismo control desde pedidos y facturas directas. No se cambia la serie interna estándar para convertirla en una serie fiscal.
@@ -86,7 +86,7 @@ La asignación fiscal utiliza el mismo control desde pedidos y facturas directas
 5. Complete el motivo de la nota de crédito.
 6. Complete líneas y cantidades siguiendo el funcionamiento estándar del abono; no invierta signos por segunda vez.
 7. Valide, previsualice y registre.
-8. Abra el abono registrado y use Imprimir comprobante fiscal HN.
+8. Abra el abono registrado y utilice su acción habitual con el formato anterior configurado.
 9. Compruebe la aplicación al cliente y sus efectos en cuentas, impuestos e inventario mediante los procesos estándar.
 
 Una corrección estándar que cree documentos debe completar también la referencia fiscal y el motivo. No se implementa una anulación directa de facturas mediante borrado de movimientos; utilice los documentos correctivos de Business Central con el tratamiento fiscal que corresponda.
@@ -137,6 +137,24 @@ La impresión de compras es un comprobante interno y no sustituye el original em
 
 La emisión de retenciones sigue siendo manual desde facturas registradas. No existe todavía automatización al contabilizar compras o pagos, ni prorrateo de retenciones por pagos parciales. La operación manual no autoriza posponer una obligación tributaria ya originada. No se vuelven a seleccionar facturas reservadas por otro comprobante activo de V2.
 
+### Seleccionar el RTN del proveedor
+
+En la ficha del proveedor está disponible RTN proveedor HN (V2), independiente del campo anterior. Al crear la retención se propone un RTN si todas las fuentes informadas contienen un único valor. Si existen valores distintos, el borrador deja el RTN sin proponer hasta que el usuario lo seleccione.
+
+En RTN proveedor del borrador use el selector. Se muestran el RTN propio, la referencia migrada, el RTN de la localización anterior si sigue disponible y el registro fiscal estándar. Los valores iguales se agrupan en una sola opción con sus fuentes. La elección se guarda en el comprobante sin cambiar el proveedor ni su campo anterior. No se puede cambiar en un documento ya registrado.
+
+El comprobante y los informes conservan hasta 50 caracteres sin truncar. Los documentos previos siguen leyendo su RTN original almacenado. Si la extensión antigua ya no está disponible, se utilizan las otras fuentes sin exigirla.
+
+### Si la factura se registró sin seleccionar retenciones
+
+1. Abra Retenciones HN → Generar desde factura registrada y seleccione la factura. Se crea un borrador, aunque no se hubieran guardado conceptos en las líneas de compra.
+2. Abra Acciones → Seleccionar retenciones. La lista muestra factura, línea, descripción, importe sin impuestos e impuesto realmente registrados.
+3. En Conceptos de retención use el selector para elegir una o varias reglas habilitadas por línea, o capture sus códigos separados por comas. Las líneas que no correspondan pueden quedar sin conceptos.
+4. Cierre la selección. Se recalcula el comprobante utilizando las bases reales de la factura y las reglas configuradas. Puede repetir Seleccionar retenciones y Recalcular mientras el comprobante esté en borrador.
+5. Revise base, porcentaje, importe, CAI y vista previa. Después registre e imprima.
+
+La selección se guarda en el comprobante, sin modificar la factura ni sus líneas contabilizadas. Cada factura incluida debe producir un importe positivo antes de registrar; si una no corresponde, quítela del comprobante. No se consume un número fiscal al crear o seleccionar; se consume al registrar. Para facturas ya pagadas totalmente el registro actual se bloquea por ausencia de saldo pendiente: no se cambia el pago automáticamente.
+
 ## 11. Anular y sustituir una retención
 
 1. Abra Retenciones registradas HN y entre al comprobante.
@@ -164,49 +182,30 @@ No se elimina el comprobante ni se reutiliza el número anulado. Los comprobante
 
 El CAI no ocupa un panel permanente en la página principal de notas de débito. Su configuración y los datos fiscales se abren desde acciones. La autorización de facturas de tipo 01 no sustituye la de notas de débito de tipo 07.
 
-## 13. Consultar e imprimir los 20 formatos RDLC
+## 13. Formatos activos en esta etapa
 
-Abra Centro de informes de localización HN. Elija el informe, aplique los filtros y revise antes de exportar a PDF o imprimir. Los comprobantes de documentos también están disponibles desde sus páginas registradas.
+El Centro de informes de localización HN ofrece únicamente Comprobante de retención, Borrador de retención y Comprobante de nota de débito. Las páginas de retención y nota de débito conservan sus acciones de impresión.
 
-| Formato | Utilidad |
-|---|---|
-| Comprobante de retención | Emisión, reimpresión y documento anulado conservado. |
-| Comprobante de nota de débito | Cargo adicional con referencia y CAI de origen. |
-| Factura de venta | Facturación propia desde pedido o factura directa. |
-| Nota de crédito de venta | Documento correctivo y referencia fiscal de origen. |
-| Comprobante interno de compra | Respaldo de la factura de compra registrada. |
-| Comprobante interno de abono de compra | Respaldo del abono registrado del proveedor. |
-| Boleta de compra | Comprobante fiscal propio de tipo 11; se imprime después de registrar. |
-| Borrador de boleta | Revisión sin número reservado ni validez fiscal. |
-| Borrador de venta | Revisión de pedidos, facturas, abonos y notas de débito abiertos. |
-| Borrador de compra | Revisión del documento de compra abierto. |
-| Borrador de retención | Revisión previa sin emisión fiscal. |
-| Movimientos contables | Cargos y abonos por cuenta, fecha y documento. |
-| Movimientos de proveedores | Importes y saldo pendiente actual por movimiento. |
-| Movimientos de clientes | Importes y saldo pendiente actual por movimiento. |
-| Movimientos fiscales y CAI | Registro de autorizaciones utilizadas y documentos recibidos/emitidos por el nuevo recorrido. |
-| Autorizaciones CAI de ventas | Rango, próximo número, estado y vigencia. |
-| Autorizaciones CAI de proveedores | Proveedor, nombre, CAI, rango y vigencia. |
-| Aplicaciones y desliquidaciones de proveedores | Detalle de aplicaciones, anulaciones de aplicación y movimientos relacionados. |
-| Aplicaciones y desliquidaciones de clientes | Detalle equivalente para cuentas por cobrar. |
-| Movimientos de impuestos ISV | Base e impuesto por documento, fecha y grupo fiscal. |
+La nota de débito sigue la presentación aprobada para retención: dos recuadros bajo el título, emisor/CAI a la izquierda, cliente e identificación del documento a la derecha, detalle centrado y espacio para firmas. Incluye factura fiscal de origen, fecha, CAI de origen y motivo, además de subtotal, ISV y total.
 
-Filtre los informes contables por el número interno BC; el registro fiscal relaciona ese número con el número fiscal. En las aplicaciones, utilice el número de movimiento del cliente/proveedor cuando necesite identificar una aplicación concreta. Los saldos mostrados son actuales, no un estado de cuenta histórico a una fecha de corte. Moneda vacía o ML representa moneda local; no sume importes de divisas distintas. El registro fiscal nuevo no importa automáticamente todos los consumos de autorizaciones anteriores.
+Los otros 17 informes de V2 se mantienen en el proyecto, ocultos y bloqueados para su ejecución directa. No se cambian las selecciones de impresión anteriores ni se instalan los paquetes del archivo de muestras. Si una selección de informe de la empresa ya apuntaba a uno de estos informes V2, deberá elegir el formato anterior correcto antes de imprimir; esta actualización no lo deduce ni lo reemplaza automáticamente.
 
-## 14. Preparar la migración POS sin perder información
 
-1. Lea MIGRACION_POS.md y el mapa de campos en migracion/mapa-campos.json.
-2. Resuelva la convivencia de IDs antes de instalar extensiones juntas. No renumere directamente campos publicados ni use ForceSync para eliminar información.
-3. Trabaje en una copia representativa, manteniendo el origen instalado y accesible.
-4. Asigne HN MIGRATION y abra Verificación de migración HN.
-5. Elija tabla 18, 36, 37, 112, 113, 114 o 115 y ejecute con Aplicar copia desactivado.
-6. Revise propietario, ID, nombre, tipo, longitud, registros y conflictos. No continúe con diferencias sin conciliar.
-7. Ejecute la copia revisada: solo rellena destinos vacíos y no modifica importes contables ni borra el origen.
-8. Repita la verificación y concilie valores y conteos.
-9. Adapte el receptor API, revisión/cierre y catálogos antes del corte. Los nombres del contrato JSON se conservan.
-10. Pruebe dos sucursales con identificador repetido, reenvíos, pagos múltiples, devoluciones y turnos nocturnos T3. No cambie fechas contables para corregir pertenencia al turno.
+## 14. Copiar las referencias anteriores y validar
 
-Crear campos no redirige las escrituras de la API actual. Los campos publicados conservan sus nombres técnicos e IDs para mantener datos y contratos; sus títulos visibles están en español.
+La herramienta copia **236 valores de referencia** a campos y tablas propios de V2. No exige convertir los datos anteriores en configuraciones activas ni aplicarles reglas fiscales nuevas. Consulte COPIA_REFERENCIAS_HN.md para el detalle de alcance, propiedades y exclusiones.
+
+1. Use una copia de sandbox compatible, con el origen instalado y accesible, permisos HN MIGRATION y lectura de catálogos anteriores. Coordine una ventana sin escrituras.
+2. Abra Verificación de migración HN → Preparar, copiar o validar migración. Ejecute Verificar antes de copiar, Tabla = 0.
+3. Revise conflictos, esquema y datos pendientes. Exporte la evidencia inicial a CSV.
+4. Ejecute Copiar y validar automáticamente. Se revisa todo el conjunto antes de escribir, se copian destinos vacíos y se compara nuevamente. Un fallo revierte toda la ejecución.
+5. Ejecute Validar después de la migración. El resultado esperado es Correcto, cero pendientes y cero diferencias; exporte la ejecución vinculada a su copia.
+6. Abra Acciones → Referencias anteriores desde documentos, líneas o proveedores. Consulte las listas CAI de proveedores (referencia), CAI de ventas (referencia), exoneraciones, grupos, pagos y boletas anteriores.
+7. Compruebe muestras con RTN largo, códigos CAI de 37 caracteres, correlativo de 50, claves por sucursal, textos, decimales e imágenes. No se truncan ni recalculan esos datos.
+8. Pruebe el selector de factura de origen de nota de débito y compare el fiscal conservado. El número interno BC permanece como vínculo.
+9. Verifique que la copia no consumió CAI ni registró movimientos. Repetirla no debe duplicar referencias.
+
+La consulta usa campos propios, de modo que las referencias copiadas siguen disponibles en V2 cuando se retire la extensión anterior. Esta rutina no desinstala ni borra el origen. El retiro y los otros módulos fuera del mapa se atienden por separado.
 
 ## 15. Resolver incidencias frecuentes
 
@@ -232,7 +231,7 @@ Crear campos no redirige las escrituras de la API actual. Los campos publicados 
 5. Registrar varias retenciones, agrupar facturas, anular, sustituir y conciliar cuentas/aplicaciones.
 6. Registrar nota de débito con origen y datos fiscales completos.
 7. Verificar que las vistas previas no consuman números y que un fallo contable no deje estados o emisiones parciales.
-8. Imprimir los 20 formatos, incluidos documentos largos de varias páginas, signos, moneda, direcciones, RTN, CAI, rangos y totales.
+8. Imprimir los formatos activos de retención y nota de débito, incluidos documentos largos, moneda, RTN, CAI y totales. Confirmar que los demás documentos siguen usando sus formatos anteriores.
 9. Ejecutar las pruebas AL con un ejecutor de pruebas estándar en una empresa desechable de sandbox y conservar evidencia.
 10. Completar recepción POS, devoluciones, reenvíos, T3 y cierre antes de retirar dependencias.
 
@@ -250,7 +249,7 @@ Estado de esta entrega: código y pruebas preparados para compilación/verificac
 7. Si corresponde, complete orden de compra exenta, constancia de exonerados y registro SAG en el grupo Datos del adquirente exonerado.
 8. Use Validar boleta e Imprimir borrador sin validez fiscal. El borrador indica SIN EMITIR. La vista previa permite revisar la contabilidad sin emitir ni mostrar un número fiscal especulativo.
 9. Pulse Registrar. Solo al crear la factura registrada se obtiene el próximo correlativo disponible del CAI vigente. La autorización, el histórico y los movimientos forman parte de la misma transacción de registro; un error revierte el consumo.
-10. Abra Boletas de compra registradas HN, seleccione el documento y pulse Imprimir boleta de compra. El comprobante incluye CAI, rango, vencimiento, datos del emisor y proveedor, detalle, total en lempiras y letras, firma y huella. Reimprimir no consume otro número. Recoja firma y huella del proveedor en el comprobante físico.
+10. El formato de boleta V2 está pospuesto. Sus acciones de impresión quedan ocultas mientras se define el plan; no cambiar a ese formato las selecciones operativas.
 11. Consulte los movimientos estándar de proveedor, contabilidad e ISV y el movimiento fiscal propio. El campo Recibido de proveedor aparece desactivado porque la boleta se emite con CAI de la empresa, aunque contabilice una compra.
 
 Para emitir desde un pedido de compra, capture el proveedor y use Acciones → Emitir como boleta de compra. Esta acción identifica la clase de documento y no asigna ni reserva CAI ni correlativo. Complete los datos de identidad y teléfono visibles en el pedido. Recibir sin facturar no emite boleta. Cada facturación parcial genera su propia boleta; el pedido conserva únicamente su número interno. Si eligió la clase equivocada antes de registrar, use Volver a factura de proveedor y capture los datos fiscales del proveedor que correspondan.
@@ -266,3 +265,12 @@ Las boletas no reemplazan indiscriminadamente las facturas de proveedores. Los a
 5. Repita con una boleta directa y un pedido de compra identificado como boleta, incluyendo recepción sin factura y facturación parcial.
 6. Provoque un error de contabilización posterior a la asignación en una empresa de pruebas. Compruebe que no existe documento/movimiento fiscal emitido ni avance del correlativo; corrija y registre de nuevo.
 7. Pruebe dos sesiones que registren a la vez. El bloqueo de autorización debe serializar la emisión sin números duplicados. Esta comprobación operativa está pendiente en sandbox.
+
+
+## Antecedente: formatos sustituidos en 1.2.5.0 (alcance suspendido)
+
+En 1.2.5.0 se prepararon 20 diseños. En 1.2.6.0 solo permanecen activos retención y nota de débito; el resto continúa con los formatos anteriores. Configure imagen, teléfono y correo en Información empresa y revise Código divisa local en Configuración contabilidad. Los documentos emitidos conservan sus números fiscales y CAI guardados; imprimir no vuelve a registrarlos. Si se usa un diseño personalizado, compruebe la selección del informe antes de evaluar el diseño de la extensión.
+
+Las letras y las etiquetas de moneda corresponden a la divisa del documento. El resumen separa las bases e ISV por tasa; una tasa cero no se convierte automáticamente en exención o exoneración. Las retenciones incluyen factura/CAI/fecha por línea. Los movimientos se imprimen en horizontal y no suman monedas diferentes.
+
+Consulte FORMATOS_V2.md para configuración, alcance y pruebas. MUESTRA_FORMATOS_V2.pdf ilustra tres documentos con datos ficticios; no es una impresión real de BC. Ticket, entrega, recibos de pago, estado de cuenta y ajustes son referencias para informes adicionales, no nuevos informes incluidos en esta sustitución.

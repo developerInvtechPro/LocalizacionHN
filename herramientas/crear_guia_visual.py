@@ -20,7 +20,7 @@ W, H = landscape(A4)
 NAVY = HexColor('#102B3B'); TEAL = HexColor('#008478'); BLUE = HexColor('#2174A5')
 INK = HexColor('#203743'); MUTED = HexColor('#617580'); LINE = HexColor('#D7E2E7')
 BG = HexColor('#F2F6F7'); PALE = HexColor('#E6F3EF'); ORANGE = HexColor('#AC6417')
-TOTAL = 24
+TOTAL = 25
 c = canvas.Canvas(str(OUT), pagesize=(W, H), pageCompression=1)
 c.setTitle('Guía visual | Localización Honduras V2')
 c.setAuthor('INVTECH')
@@ -69,7 +69,7 @@ def arrow(x1, y1, x2, y2, color=TEAL):
 def page(n, section, title, subtitle):
     c.setFillColor(BG); c.rect(0, 0, W, H, fill=1, stroke=0)
     text(40, H-32, 'INVTECH  /  LOCALIZACIÓN HONDURAS', 9, TEAL, True)
-    c.setFont('UI', 8); c.setFillColor(MUTED); c.drawRightString(W-40, H-32, f'Versión {VERSION}  |  24 octubre 2026')
+    c.setFont('UI', 8); c.setFillColor(MUTED); c.drawRightString(W-40, H-32, f'Versión {VERSION}  |  27 octubre 2026')
     text(40, H-69, title, 24, NAVY, True)
     para(40, H-91, subtitle, W-80, 10, MUTED)
     rule(40, 42, W-40, 42)
@@ -381,7 +381,7 @@ for i,(title,body) in enumerate(controls):
     pill(x+15,y+73,f'CONTROL {i+1:02d}')
     text(x+15,y+51,title,13,NAVY,True)
     para(x+15,y+32,body,342,9.5,MUTED,13)
-notes([('Independencia comprobada','Compila usando solo símbolos de Microsoft y campos propios.'),('Pruebas preparadas','42 pruebas AL compiladas; pendientes de ejecución en sandbox.'),('Comprobantes','Datasets y XML verificados; renderizado e impresión real pendientes.')],y=62,h=74)
+notes([('Independencia comprobada','Compila usando solo símbolos de Microsoft y campos propios.'),('Pruebas preparadas','71 pruebas AL compiladas; pendientes de ejecución en sandbox.'),('Comprobantes','Datasets y XML verificados; renderizado e impresión real pendientes.')],y=62,h=74)
 end()
 
 # 16 — Recorrido completo y pendientes.
@@ -409,7 +409,7 @@ para(542,216,'V2 no desactiva sus suscriptores. Se debe dejar fuera de operació
 notes([('Lo que acredita este PDF','Explica el código y el flujo previsto con ilustraciones; no acredita pruebas operativas.'),('Después del sandbox','Las ilustraciones pueden sustituirse por capturas reales y resultados de las pruebas.'),('Referencia del proyecto','Código en src/ y procedimiento detallado en documentacion/VALIDACION_SANDBOX.md.')],y=62,h=74)
 end()
 # 17 — Facturas agrupadas y anulación.
-page(17,'17 · Facturas múltiples y anulación','Conservar el comprobante y sus movimientos','Pantallas ilustrativas de la versión 1.2.0.0; los movimientos y la impresión requieren prueba real en sandbox.')
+page(17,'17 · Facturas múltiples y anulación','Conservar el comprobante y sus movimientos','Pantallas ilustrativas de la versión 1.2.4.0; los movimientos y la impresión requieren prueba real en sandbox.')
 x,y,w=screen(40,166,465,307,'Comprobante de retención HN',['Agregar facturas','Anular','Crear sustituto'])
 field(x,y,'Proveedor / moneda','PROV-001 · HNL',w)
 table(x,y-55,w,['Factura proveedor','Base','Retención'],[
@@ -510,6 +510,20 @@ x,y,w=screen(525,166,276,307,'Trazabilidad y reimpresión')
 para(x,y,'Movimientos estándar de proveedor y contabilidad. Movimiento fiscal emitido con CAI propio. El pedido abierto no conserva una reserva fiscal.',w,11,INK,16)
 para(x,y-113,'Reimprimir conserva el mismo número. Recoger firma y huella en el comprobante físico. No borrar ni reutilizar números emitidos.',w,11,INK,16)
 notes([('Tratamiento fiscal','No genera crédito ISV. Límites del art. 22: conciliación contable externa.'),('Correcciones','Anulación fiscal de boletas pendiente de un desarrollo específico.'),('Validación operativa','Comprobar facturación parcial, concurrencia, reversión por error y RDLC en sandbox.')],y=62,h=74)
+end()
+# 25 — Migración verificable con evidencia por ejecución.
+page(25,'25 · Migrar y validar metadatos HN','Conservar el origen y acreditar cada paso','Ilustración del recorrido preparado. Sin ejecutar en BC. Los datos se copian como referencias, sin activar su lógica.')
+x,y,w=screen(40,166,370,307,'Preparar, copiar o validar migración')
+field(x,y,'Operación / tabla','Verificar antes de copiar / 0 = todas',w)
+field(x,y-54,'Copia revisada','Copiar y validar automáticamente',w)
+field(x,y-108,'Comprobación independiente','Validar después de la migración',w)
+para(x,y-164,'Usar sandbox compatible, permiso HN MIGRATION y ventana coordinada sin escrituras de API/usuarios/tareas.',w,10,INK,14)
+x,y,w=screen(431,166,370,307,'Verificación de migración HN',['Exportar ejecución a CSV'])
+field(x,y,'Identificador / copia de referencia','Ejecuciones trazables por empresa',w)
+field(x,y-54,'Resultado final esperado','Correcto: 0 pendientes / 0 conflictos',w)
+field(x,y-108,'Validación de copia','Igualdad de valores, claves y adjuntos',w)
+para(x,y-164,'236 referencias en campos propios. Tabla 115: Sin correspondencias. Completar prueba funcional y conciliación contable.',w,10,INK,14)
+notes([('Antes de copiar','Un conflicto bloquea la copia de todo el conjunto seleccionado.'),('Después de copiar','Comparación automática; un fallo revierte la ejecución completa.'),('Aceptación','Conservar CSV y completar EJECUCION_MIGRACION.pdf con datos reales de BC.')],y=62,h=74)
 end()
 c.save()
 print(OUT)

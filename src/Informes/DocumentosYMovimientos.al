@@ -11,7 +11,7 @@ using Microsoft.Finance.VAT.Ledger;
 
 report 71110 "HN Factura Venta"
 {
-    Caption = 'Factura de venta HN'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'Factura de venta HN'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
@@ -19,6 +19,17 @@ report 71110 "HN Factura Venta"
         {
             DataItemTableView = where("HN Emitir Documento Fiscal" = const(true), "HN Debit Note" = const(false));
             RequestFilterFields = "No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Currency_Label; DatosFormato.RotuloMoneda("Currency Code")) { }
+            column(Amount_In_Words; DatosFormato.Letras("Amount Including VAT","Currency Code")) { }
+            column(Due_Date; Format("Due Date")) { }
+            column(Exempt_Order; "INV POS Exempt Order") { }
+            column(Exempt_Register; "INV POS Exemption Register") { }
+            column(SAG_Register; "INV POS SAG Reference") { }
+            column(Prices_Include_Tax; "Prices Including VAT") { }
             column(Document_No; "No.") { }
             column(Fiscal_No; "HN Fiscal No.") { }
             column(Issue_Date; Format("Document Date")) { }
@@ -42,7 +53,11 @@ report 71110 "HN Factura Venta"
             dataitem(Linea; "Sales Invoice Line")
             {
                 DataItemLink = "Document No." = field("No.");
-            column(Line_Quantity; Quantity) { }
+            column(Line_Code; "No.") { }
+                column(Line_Unit; "Unit of Measure Code") { }
+                column(Line_Discount; "Line Discount Amount" + "Inv. Discount Amount") { }
+                column(Line_Tax; "Amount Including VAT" - Amount) { }
+                column(Line_Quantity; Quantity) { }
             column(Line_Unit_Price; "Unit Price") { }
             column(Line_Description; Description) { }
             column(Line_Base; Amount) { }
@@ -60,14 +75,22 @@ report 71110 "HN Factura Venta"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/FacturaVenta.rdlc'; Caption = 'Factura de venta HN'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71110);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
 }
 
 report 71111 "HN Nota Credito Venta"
 {
-    Caption = 'Nota de crédito de venta HN'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'Nota de crédito de venta HN'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
@@ -75,6 +98,17 @@ report 71111 "HN Nota Credito Venta"
         {
             DataItemTableView = where("HN Emitir Documento Fiscal" = const(true));
             RequestFilterFields = "No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Currency_Label; DatosFormato.RotuloMoneda("Currency Code")) { }
+            column(Amount_In_Words; DatosFormato.Letras("Amount Including VAT","Currency Code")) { }
+            column(Due_Date; Format("Due Date")) { }
+            column(Exempt_Order; "INV POS Exempt Order") { }
+            column(Exempt_Register; "INV POS Exemption Register") { }
+            column(SAG_Register; "INV POS SAG Reference") { }
+            column(Prices_Include_Tax; "Prices Including VAT") { }
             column(Document_No; "No.") { }
             column(Fiscal_No; "HN Fiscal No.") { }
             column(Issue_Date; Format("Document Date")) { }
@@ -98,7 +132,11 @@ report 71111 "HN Nota Credito Venta"
             dataitem(Linea; "Sales Cr.Memo Line")
             {
                 DataItemLink = "Document No." = field("No.");
-            column(Line_Quantity; Quantity) { }
+            column(Line_Code; "No.") { }
+                column(Line_Unit; "Unit of Measure Code") { }
+                column(Line_Discount; "Line Discount Amount" + "Inv. Discount Amount") { }
+                column(Line_Tax; "Amount Including VAT" - Amount) { }
+                column(Line_Quantity; Quantity) { }
             column(Line_Unit_Price; "Unit Price") { }
             column(Line_Description; Description) { }
             column(Line_Base; Amount) { }
@@ -115,20 +153,39 @@ report 71111 "HN Nota Credito Venta"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/NotaCreditoVenta.rdlc'; Caption = 'Nota de crédito de venta HN'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71111);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
 }
 
 report 71112 "HN Comprobante Compra"
 {
-    Caption = 'Comprobante interno de factura de compra HN'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'Comprobante interno de factura de compra HN'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
         dataitem(Cabecera; "Purch. Inv. Header")
         {
             RequestFilterFields = "No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Currency_Label; DatosFormato.RotuloMoneda("Currency Code")) { }
+            column(Amount_In_Words; DatosFormato.Letras("Amount Including VAT","Currency Code")) { }
+            column(Due_Date; Format("Due Date")) { }
+            column(Exempt_Order; '') { }
+            column(Exempt_Register; '') { }
+            column(SAG_Register; '') { }
+            column(Prices_Include_Tax; "Prices Including VAT") { }
             column(Document_No; "No.") { }
             column(Fiscal_No; "Vendor Invoice No.") { }
             column(Issue_Date; Format("Document Date")) { }
@@ -152,7 +209,11 @@ report 71112 "HN Comprobante Compra"
             dataitem(Linea; "Purch. Inv. Line")
             {
                 DataItemLink = "Document No." = field("No.");
-            column(Line_Quantity; Quantity) { }
+            column(Line_Code; "No.") { }
+                column(Line_Unit; "Unit of Measure Code") { }
+                column(Line_Discount; "Line Discount Amount" + "Inv. Discount Amount") { }
+                column(Line_Tax; "Amount Including VAT" - Amount) { }
+                column(Line_Quantity; Quantity) { }
             column(Line_Unit_Price; "Direct Unit Cost") { }
             column(Line_Description; Description) { }
             column(Line_Base; Amount) { }
@@ -168,21 +229,40 @@ report 71112 "HN Comprobante Compra"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/FacturaCompra.rdlc'; Caption = 'Comprobante interno de factura de compra HN'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71112);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
 }
 
 report 71113 "HN Comprobante Abono Compra"
 {
-    Caption = 'Comprobante interno de abono de compra HN'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'Comprobante interno de abono de compra HN'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
         dataitem(Cabecera; "Purch. Cr. Memo Hdr.")
         {
             RequestFilterFields = "No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Currency_Label; DatosFormato.RotuloMoneda("Currency Code")) { }
+            column(Amount_In_Words; DatosFormato.Letras("Amount Including VAT","Currency Code")) { }
+            column(Due_Date; Format("Due Date")) { }
+            column(Exempt_Order; '') { }
+            column(Exempt_Register; '') { }
+            column(SAG_Register; '') { }
+            column(Prices_Include_Tax; "Prices Including VAT") { }
             column(Document_No; "No.") { }
             column(Fiscal_No; "Vendor Cr. Memo No.") { }
             column(Issue_Date; Format("Document Date")) { }
@@ -206,7 +286,11 @@ report 71113 "HN Comprobante Abono Compra"
             dataitem(Linea; "Purch. Cr. Memo Line")
             {
                 DataItemLink = "Document No." = field("No.");
-            column(Line_Quantity; Quantity) { }
+            column(Line_Code; "No.") { }
+                column(Line_Unit; "Unit of Measure Code") { }
+                column(Line_Discount; "Line Discount Amount" + "Inv. Discount Amount") { }
+                column(Line_Tax; "Amount Including VAT" - Amount) { }
+                column(Line_Quantity; Quantity) { }
             column(Line_Unit_Price; "Direct Unit Cost") { }
             column(Line_Description; Description) { }
             column(Line_Base; Amount) { }
@@ -222,21 +306,40 @@ report 71113 "HN Comprobante Abono Compra"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/AbonoCompra.rdlc'; Caption = 'Comprobante interno de abono de compra HN'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71113);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
 }
 
 report 71114 "HN Borrador Venta"
 {
-    Caption = 'Borrador de venta HN'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'Borrador de venta HN'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
         dataitem(Cabecera; "Sales Header")
         {
             RequestFilterFields = "No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Currency_Label; DatosFormato.RotuloMoneda("Currency Code")) { }
+            column(Amount_In_Words; DatosFormato.Letras("Amount Including VAT","Currency Code")) { }
+            column(Due_Date; Format("Due Date")) { }
+            column(Exempt_Order; "INV POS Exempt Order") { }
+            column(Exempt_Register; "INV POS Exemption Register") { }
+            column(SAG_Register; "INV POS SAG Reference") { }
+            column(Prices_Include_Tax; "Prices Including VAT") { }
             column(Document_No; "No.") { }
             column(Fiscal_No; 'SIN EMITIR') { }
             column(Issue_Date; Format("Document Date")) { }
@@ -260,7 +363,11 @@ report 71114 "HN Borrador Venta"
             dataitem(Linea; "Sales Line")
             {
                 DataItemLink = "Document Type" = field("Document Type"), "Document No." = field("No.");
-            column(Line_Quantity; Quantity) { }
+            column(Line_Code; "No.") { }
+                column(Line_Unit; "Unit of Measure Code") { }
+                column(Line_Discount; "Line Discount Amount" + "Inv. Discount Amount") { }
+                column(Line_Tax; "Amount Including VAT" - Amount) { }
+                column(Line_Quantity; Quantity) { }
             column(Line_Unit_Price; "Unit Price") { }
             column(Line_Description; Description) { }
             column(Line_Base; Amount) { }
@@ -276,21 +383,40 @@ report 71114 "HN Borrador Venta"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/BorradorVenta.rdlc'; Caption = 'Borrador de venta HN'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71114);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
 }
 
 report 71115 "HN Borrador Compra"
 {
-    Caption = 'Borrador de compra HN'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'Borrador de compra HN'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
         dataitem(Cabecera; "Purchase Header")
         {
             RequestFilterFields = "No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Currency_Label; DatosFormato.RotuloMoneda("Currency Code")) { }
+            column(Amount_In_Words; DatosFormato.Letras("Amount Including VAT","Currency Code")) { }
+            column(Due_Date; Format("Due Date")) { }
+            column(Exempt_Order; '') { }
+            column(Exempt_Register; '') { }
+            column(SAG_Register; '') { }
+            column(Prices_Include_Tax; "Prices Including VAT") { }
             column(Document_No; "No.") { }
             column(Fiscal_No; 'SIN EMITIR') { }
             column(Issue_Date; Format("Document Date")) { }
@@ -314,7 +440,11 @@ report 71115 "HN Borrador Compra"
             dataitem(Linea; "Purchase Line")
             {
                 DataItemLink = "Document Type" = field("Document Type"), "Document No." = field("No.");
-            column(Line_Quantity; Quantity) { }
+            column(Line_Code; "No.") { }
+                column(Line_Unit; "Unit of Measure Code") { }
+                column(Line_Discount; "Line Discount Amount" + "Inv. Discount Amount") { }
+                column(Line_Tax; "Amount Including VAT" - Amount) { }
+                column(Line_Quantity; Quantity) { }
             column(Line_Unit_Price; "Direct Unit Cost") { }
             column(Line_Description; Description) { }
             column(Line_Base; Amount) { }
@@ -330,9 +460,17 @@ report 71115 "HN Borrador Compra"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/BorradorCompra.rdlc'; Caption = 'Borrador de compra HN'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71115);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
 }
 
@@ -347,11 +485,17 @@ report 71116 "HN Borrador Retencion"
         dataitem(Header; "HN Retention Header")
         {
             RequestFilterFields = "No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Currency_Label; DatosFormato.RotuloMoneda("Currency Code")) { }
+            column(Amount_In_Words; DatosFormato.Letras(Amount,"Currency Code")) { }
             column(Document_No; "No.") { }
             column(Fiscal_No; 'SIN EMITIR') { }
             column(Issue_Date; Format("Posting Date")) { }
             column(Party_Name; "Vendor Name") { }
-            column(Party_RTN; "Vendor RTN") { }
+            column(Party_RTN; ObtenerRTNProveedor()) { }
             column(Source_No; "Vendor Invoice No.") { }
             column(Source_CAI; "Invoice CAI") { }
             column(CAI_Value; CAI) { }
@@ -368,6 +512,7 @@ report 71116 "HN Borrador Retencion"
             dataitem(Line; "HN Retention Line")
             {
                 DataItemLink = "Document No." = field("No.");
+                column(Line_Code; "Retention Code") { }
                 column(Line_Invoice; "Vendor Invoice No.") { }
                 column(Line_Invoice_CAI; "Invoice CAI") { }
                 column(Line_Invoice_Date; Format("Invoice Date")) { }
@@ -392,21 +537,33 @@ report 71116 "HN Borrador Retencion"
     }
     trigger OnPreReport()
     begin
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
         CancellationLabel: Text[20];
 }
 report 71117 "HN Movimientos Contables"
 {
-    Caption = 'Movimientos contables HN'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'Movimientos contables HN'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
         dataitem(Movimiento; "G/L Entry")
         {
             RequestFilterFields = "Posting Date", "Document No.", "G/L Account No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Report_RTN; Empresa."VAT Registration No.") { }
             column(Titulo_Informe; 'Movimientos contables HN') { }
             column(Empresa; Empresa.Name) { }
             column(Numero_Movimiento; "Entry No.") { }
@@ -417,7 +574,7 @@ report 71117 "HN Movimientos Contables"
             column(Debe; "Debit Amount") { }
             column(Haber; "Credit Amount") { }
             column(Saldo; Amount) { }
-            column(Moneda; 'ML') { }
+            column(Moneda; DatosFormato.Moneda('')) { }
             trigger OnAfterGetRecord()
             begin
             end;
@@ -426,21 +583,34 @@ report 71117 "HN Movimientos Contables"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/MovimientosContables.rdlc'; Caption = 'Movimientos contables HN'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71117);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
 }
 
 report 71118 "HN Movimientos Proveedor"
 {
-    Caption = 'Movimientos de proveedores HN'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'Movimientos de proveedores HN'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
         dataitem(Movimiento; "Vendor Ledger Entry")
         {
             RequestFilterFields = "Vendor No.", "Posting Date", "Document No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Report_RTN; Empresa."VAT Registration No.") { }
             column(Titulo_Informe; 'Movimientos de proveedores HN') { }
             column(Empresa; Empresa.Name) { }
             column(Numero_Movimiento; "Entry No.") { }
@@ -451,7 +621,7 @@ report 71118 "HN Movimientos Proveedor"
             column(Debe; "Debit Amount") { }
             column(Haber; "Credit Amount") { }
             column(Saldo; "Remaining Amount") { }
-            column(Moneda; "Currency Code") { }
+            column(Moneda; DatosFormato.Moneda("Currency Code")) { }
             trigger OnAfterGetRecord()
             begin
                 CalcFields("Debit Amount", "Credit Amount", "Remaining Amount");
@@ -461,21 +631,34 @@ report 71118 "HN Movimientos Proveedor"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/MovimientosProveedores.rdlc'; Caption = 'Movimientos de proveedores HN'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71118);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
 }
 
 report 71119 "HN Movimientos Cliente"
 {
-    Caption = 'Movimientos de clientes HN'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'Movimientos de clientes HN'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
         dataitem(Movimiento; "Cust. Ledger Entry")
         {
             RequestFilterFields = "Customer No.", "Posting Date", "Document No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Report_RTN; Empresa."VAT Registration No.") { }
             column(Titulo_Informe; 'Movimientos de clientes HN') { }
             column(Empresa; Empresa.Name) { }
             column(Numero_Movimiento; "Entry No.") { }
@@ -486,7 +669,7 @@ report 71119 "HN Movimientos Cliente"
             column(Debe; "Debit Amount") { }
             column(Haber; "Credit Amount") { }
             column(Saldo; "Remaining Amount") { }
-            column(Moneda; "Currency Code") { }
+            column(Moneda; DatosFormato.Moneda("Currency Code")) { }
             trigger OnAfterGetRecord()
             begin
                 CalcFields("Debit Amount", "Credit Amount", "Remaining Amount");
@@ -496,21 +679,34 @@ report 71119 "HN Movimientos Cliente"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/MovimientosClientes.rdlc'; Caption = 'Movimientos de clientes HN'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71119);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
 }
 
 report 71120 "HN Inf. Movimientos Fiscales"
 {
-    Caption = 'Movimientos fiscales y CAI HN'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'Movimientos fiscales y CAI HN'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
         dataitem(Movimiento; "HN Movimiento Fiscal")
         {
             RequestFilterFields = "Es compra", "Fecha emision", "Numero fiscal", "No. tercero";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Report_RTN; Empresa."VAT Registration No.") { }
             column(Titulo_Informe; 'Movimientos fiscales y CAI HN') { }
             column(Empresa; Empresa.Name) { }
             column(Numero_Movimiento; "No. movimiento") { }
@@ -521,7 +717,7 @@ report 71120 "HN Inf. Movimientos Fiscales"
             column(Debe; 0) { }
             column(Haber; 0) { }
             column(Saldo; 0) { }
-            column(Moneda; '') { }
+            column(Moneda; DatosFormato.Moneda('')) { }
             trigger OnAfterGetRecord()
             begin
             end;
@@ -530,21 +726,34 @@ report 71120 "HN Inf. Movimientos Fiscales"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/MovimientosFiscales.rdlc'; Caption = 'Movimientos fiscales y CAI HN'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71120);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
 }
 
 report 71121 "HN Listado CAI Ventas"
 {
-    Caption = 'Autorizaciones CAI de ventas HN'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'Autorizaciones CAI de ventas HN'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
         dataitem(Movimiento; "HN CAI Authorization")
         {
             RequestFilterFields = "Document Type", Code, Enabled;
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Report_RTN; Empresa."VAT Registration No.") { }
             column(Titulo_Informe; 'Autorizaciones CAI de ventas HN') { }
             column(Empresa; Empresa.Name) { }
             column(Numero_Movimiento; 0) { }
@@ -555,7 +764,7 @@ report 71121 "HN Listado CAI Ventas"
             column(Debe; 0) { }
             column(Haber; 0) { }
             column(Saldo; 0) { }
-            column(Moneda; '') { }
+            column(Moneda; DatosFormato.Moneda('')) { }
             trigger OnAfterGetRecord()
             begin
             end;
@@ -564,21 +773,34 @@ report 71121 "HN Listado CAI Ventas"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/AutorizacionesVentas.rdlc'; Caption = 'Autorizaciones CAI de ventas HN'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71121);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
 }
 
 report 71122 "HN Listado CAI Proveedores"
 {
-    Caption = 'Autorizaciones CAI de proveedores HN'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'Autorizaciones CAI de proveedores HN'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
         dataitem(Movimiento; "HN CAI Proveedor")
         {
             RequestFilterFields = "No. proveedor", Codigo, Habilitado;
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Report_RTN; Empresa."VAT Registration No.") { }
             column(Titulo_Informe; 'Autorizaciones CAI de proveedores HN') { }
             column(Empresa; Empresa.Name) { }
             column(Numero_Movimiento; 0) { }
@@ -589,7 +811,7 @@ report 71122 "HN Listado CAI Proveedores"
             column(Debe; 0) { }
             column(Haber; 0) { }
             column(Saldo; 0) { }
-            column(Moneda; '') { }
+            column(Moneda; DatosFormato.Moneda('')) { }
             trigger OnAfterGetRecord()
             begin
                 CalcFields("Nombre proveedor");
@@ -599,21 +821,34 @@ report 71122 "HN Listado CAI Proveedores"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/AutorizacionesProveedores.rdlc'; Caption = 'Autorizaciones CAI de proveedores HN'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71122);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
 }
 
 report 71123 "HN Det. Aplicacion Proveedor"
 {
-    Caption = 'Aplicaciones y desliquidaciones de proveedores HN'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'Aplicaciones y desliquidaciones de proveedores HN'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
         dataitem(Movimiento; "Detailed Vendor Ledg. Entry")
         {
             RequestFilterFields = "Vendor No.", "Posting Date", "Document No.", "Vendor Ledger Entry No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Report_RTN; Empresa."VAT Registration No.") { }
             column(Titulo_Informe; 'Aplicaciones y desliquidaciones de proveedores HN') { }
             column(Empresa; Empresa.Name) { }
             column(Numero_Movimiento; "Entry No.") { }
@@ -624,7 +859,7 @@ report 71123 "HN Det. Aplicacion Proveedor"
             column(Debe; "Debit Amount") { }
             column(Haber; "Credit Amount") { }
             column(Saldo; Amount) { }
-            column(Moneda; "Currency Code") { }
+            column(Moneda; DatosFormato.Moneda("Currency Code")) { }
             trigger OnAfterGetRecord()
             begin
             end;
@@ -633,21 +868,34 @@ report 71123 "HN Det. Aplicacion Proveedor"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/AplicacionesProveedores.rdlc'; Caption = 'Aplicaciones y desliquidaciones de proveedores HN'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71123);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
 }
 
 report 71124 "HN Det. Aplicacion Cliente"
 {
-    Caption = 'Aplicaciones y desliquidaciones de clientes HN'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'Aplicaciones y desliquidaciones de clientes HN'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
         dataitem(Movimiento; "Detailed Cust. Ledg. Entry")
         {
             RequestFilterFields = "Customer No.", "Posting Date", "Document No.", "Cust. Ledger Entry No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Report_RTN; Empresa."VAT Registration No.") { }
             column(Titulo_Informe; 'Aplicaciones y desliquidaciones de clientes HN') { }
             column(Empresa; Empresa.Name) { }
             column(Numero_Movimiento; "Entry No.") { }
@@ -658,7 +906,7 @@ report 71124 "HN Det. Aplicacion Cliente"
             column(Debe; "Debit Amount") { }
             column(Haber; "Credit Amount") { }
             column(Saldo; Amount) { }
-            column(Moneda; "Currency Code") { }
+            column(Moneda; DatosFormato.Moneda("Currency Code")) { }
             trigger OnAfterGetRecord()
             begin
             end;
@@ -667,21 +915,34 @@ report 71124 "HN Det. Aplicacion Cliente"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/AplicacionesClientes.rdlc'; Caption = 'Aplicaciones y desliquidaciones de clientes HN'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71124);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
 }
 
 report 71125 "HN Movimientos ISV"
 {
-    Caption = 'Movimientos de impuestos ISV HN'; ApplicationArea = All; UsageCategory = ReportsAndAnalysis;
+    Caption = 'Movimientos de impuestos ISV HN'; ApplicationArea = All; UsageCategory = None;
     DefaultRenderingLayout = Formato;
     dataset
     {
         dataitem(Movimiento; "VAT Entry")
         {
             RequestFilterFields = "Posting Date", "Document No.", Type, "VAT Prod. Posting Group";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Report_RTN; Empresa."VAT Registration No.") { }
             column(Titulo_Informe; 'Movimientos de impuestos ISV HN') { }
             column(Empresa; Empresa.Name) { }
             column(Numero_Movimiento; "Entry No.") { }
@@ -692,7 +953,7 @@ report 71125 "HN Movimientos ISV"
             column(Debe; Base) { }
             column(Haber; Amount) { }
             column(Saldo; 0) { }
-            column(Moneda; 'ML') { }
+            column(Moneda; DatosFormato.Moneda('')) { }
             trigger OnAfterGetRecord()
             begin
             end;
@@ -701,8 +962,16 @@ report 71125 "HN Movimientos ISV"
     rendering { layout(Formato) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/MovimientosISV.rdlc'; Caption = 'Movimientos de impuestos ISV HN'; } }
     trigger OnPreReport()
     begin
+        DatosFormato.ComprobarFormatoActivo(71125);
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
         Empresa.Get();
     end;
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         Empresa: Record "Company Information";
 }

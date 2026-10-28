@@ -1,6 +1,6 @@
 {
   "sourceAppId": "ba215fdf-ea75-4dcd-875e-70dd8c5c9ff8",
-  "sourceSymbolVersion": "1.0.1.73",
+  "sourceSymbolVersion": "1.0.1.69",
   "fields": [
     {
       "tableId": 36,
@@ -9,7 +9,8 @@
       "sourceName": "TransactionNumber",
       "targetId": 71100,
       "targetName": "INV POS Transaction No.",
-      "type": "Code[30]"
+      "type": "Code[30]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -18,7 +19,8 @@
       "sourceName": "Gas Station Code",
       "targetId": 71101,
       "targetName": "INV POS Station",
-      "type": "Code[5]"
+      "type": "Code[5]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -27,7 +29,8 @@
       "sourceName": "POS Code",
       "targetId": 71102,
       "targetName": "INV POS Terminal",
-      "type": "Code[5]"
+      "type": "Code[5]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -36,7 +39,8 @@
       "sourceName": "Batch",
       "targetId": 71103,
       "targetName": "INV POS Shift",
-      "type": "Integer"
+      "type": "Integer",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -45,7 +49,8 @@
       "sourceName": "POS Sales Doc_ Type",
       "targetId": 71104,
       "targetName": "INV POS Document Type",
-      "type": "Integer"
+      "type": "Integer",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -54,7 +59,8 @@
       "sourceName": "Billing Type",
       "targetId": 71105,
       "targetName": "INV POS Billing Type",
-      "type": "Integer"
+      "type": "Integer",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -63,7 +69,8 @@
       "sourceName": "AmountTotal",
       "targetId": 71106,
       "targetName": "INV POS Received Total",
-      "type": "Decimal"
+      "type": "Decimal",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -72,7 +79,8 @@
       "sourceName": "VATAmount",
       "targetId": 71107,
       "targetName": "INV POS Received VAT",
-      "type": "Decimal"
+      "type": "Decimal",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -81,7 +89,8 @@
       "sourceName": "Usuario",
       "targetId": 71108,
       "targetName": "INV POS Operator",
-      "type": "Text[60]"
+      "type": "Text[60]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -90,7 +99,8 @@
       "sourceName": "OC",
       "targetId": 71109,
       "targetName": "INV POS Purchase Order",
-      "type": "Text[60]"
+      "type": "Text[60]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -99,7 +109,8 @@
       "sourceName": "NumeroDePlaca",
       "targetId": 71110,
       "targetName": "INV POS Plate",
-      "type": "Text[60]"
+      "type": "Text[60]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -108,7 +119,8 @@
       "sourceName": "Kilometraje",
       "targetId": 71111,
       "targetName": "INV POS Mileage",
-      "type": "Text[60]"
+      "type": "Text[60]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -117,7 +129,8 @@
       "sourceName": "Chofer",
       "targetId": 71112,
       "targetName": "INV POS Driver",
-      "type": "Text[60]"
+      "type": "Text[60]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -126,7 +139,8 @@
       "sourceName": "Comentario",
       "targetId": 71113,
       "targetName": "INV POS Comment",
-      "type": "Text[60]"
+      "type": "Text[60]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -135,7 +149,8 @@
       "sourceName": "Código CAI",
       "targetId": 71114,
       "targetName": "INV POS CAI Code",
-      "type": "Code[20]"
+      "type": "Code[20]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -144,7 +159,8 @@
       "sourceName": "No. CAI",
       "targetId": 71115,
       "targetName": "INV POS CAI",
-      "type": "Code[37]"
+      "type": "Code[37]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -153,7 +169,8 @@
       "sourceName": "Fecha Límite Emisión",
       "targetId": 71116,
       "targetName": "INV POS CAI Expiration",
-      "type": "Date"
+      "type": "Date",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -162,7 +179,8 @@
       "sourceName": "Factura Inicial",
       "targetId": 71117,
       "targetName": "INV POS CAI Start",
-      "type": "Code[20]"
+      "type": "Code[20]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -171,7 +189,8 @@
       "sourceName": "Factura Final",
       "targetId": 71118,
       "targetName": "INV POS CAI End",
-      "type": "Code[20]"
+      "type": "Code[20]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -180,7 +199,8 @@
       "sourceName": "Código Exoneración",
       "targetId": 71119,
       "targetName": "INV POS Exemption Code",
-      "type": "Code[20]"
+      "type": "Code[20]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -189,7 +209,8 @@
       "sourceName": "Monto Exonerado",
       "targetId": 71120,
       "targetName": "INV POS Exempted Amount",
-      "type": "Decimal"
+      "type": "Decimal",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -198,7 +219,8 @@
       "sourceName": "OrdenDeCompraEXENTA",
       "targetId": 71121,
       "targetName": "INV POS Exempt Order",
-      "type": "Code[50]"
+      "type": "Code[50]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -207,7 +229,8 @@
       "sourceName": "OrdenDeRegistroExonerados",
       "targetId": 71122,
       "targetName": "INV POS Exemption Register",
-      "type": "Code[50]"
+      "type": "Code[50]",
+      "targetTableId": 36
     },
     {
       "tableId": 36,
@@ -216,7 +239,8 @@
       "sourceName": "OrdenDeCompraSAG",
       "targetId": 71123,
       "targetName": "INV POS SAG Reference",
-      "type": "Code[50]"
+      "type": "Code[50]",
+      "targetTableId": 36
     },
     {
       "tableId": 112,
@@ -225,7 +249,8 @@
       "sourceName": "TransactionNumber",
       "targetId": 71100,
       "targetName": "INV POS Transaction No.",
-      "type": "Code[30]"
+      "type": "Code[30]",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -234,7 +259,8 @@
       "sourceName": "Gas Station Code",
       "targetId": 71101,
       "targetName": "INV POS Station",
-      "type": "Code[5]"
+      "type": "Code[5]",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -243,7 +269,8 @@
       "sourceName": "POS Code",
       "targetId": 71102,
       "targetName": "INV POS Terminal",
-      "type": "Code[5]"
+      "type": "Code[5]",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -252,7 +279,8 @@
       "sourceName": "Batch",
       "targetId": 71103,
       "targetName": "INV POS Shift",
-      "type": "Integer"
+      "type": "Integer",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -261,7 +289,8 @@
       "sourceName": "POS Sales Doc_ Type",
       "targetId": 71104,
       "targetName": "INV POS Document Type",
-      "type": "Integer"
+      "type": "Integer",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -270,7 +299,8 @@
       "sourceName": "Billing Type",
       "targetId": 71105,
       "targetName": "INV POS Billing Type",
-      "type": "Integer"
+      "type": "Integer",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -279,7 +309,8 @@
       "sourceName": "AmountTotal",
       "targetId": 71106,
       "targetName": "INV POS Received Total",
-      "type": "Decimal"
+      "type": "Decimal",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -288,7 +319,8 @@
       "sourceName": "VATAmount",
       "targetId": 71107,
       "targetName": "INV POS Received VAT",
-      "type": "Decimal"
+      "type": "Decimal",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -297,7 +329,8 @@
       "sourceName": "Usuario",
       "targetId": 71108,
       "targetName": "INV POS Operator",
-      "type": "Text[60]"
+      "type": "Text[60]",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -306,7 +339,8 @@
       "sourceName": "OC",
       "targetId": 71109,
       "targetName": "INV POS Purchase Order",
-      "type": "Text[60]"
+      "type": "Text[60]",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -315,7 +349,8 @@
       "sourceName": "NumeroDePlaca",
       "targetId": 71110,
       "targetName": "INV POS Plate",
-      "type": "Text[60]"
+      "type": "Text[60]",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -324,7 +359,8 @@
       "sourceName": "Kilometraje",
       "targetId": 71111,
       "targetName": "INV POS Mileage",
-      "type": "Text[60]"
+      "type": "Text[60]",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -333,7 +369,8 @@
       "sourceName": "Chofer",
       "targetId": 71112,
       "targetName": "INV POS Driver",
-      "type": "Text[60]"
+      "type": "Text[60]",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -342,7 +379,8 @@
       "sourceName": "Comentario",
       "targetId": 71113,
       "targetName": "INV POS Comment",
-      "type": "Text[60]"
+      "type": "Text[60]",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -351,7 +389,8 @@
       "sourceName": "Código CAI",
       "targetId": 71114,
       "targetName": "INV POS CAI Code",
-      "type": "Code[20]"
+      "type": "Code[20]",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -360,7 +399,8 @@
       "sourceName": "No. CAI",
       "targetId": 71115,
       "targetName": "INV POS CAI",
-      "type": "Code[37]"
+      "type": "Code[37]",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -369,7 +409,8 @@
       "sourceName": "Fecha Límite Emisión",
       "targetId": 71116,
       "targetName": "INV POS CAI Expiration",
-      "type": "Date"
+      "type": "Date",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -378,7 +419,8 @@
       "sourceName": "Factura Inicial",
       "targetId": 71117,
       "targetName": "INV POS CAI Start",
-      "type": "Code[20]"
+      "type": "Code[20]",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -387,7 +429,8 @@
       "sourceName": "Factura Final",
       "targetId": 71118,
       "targetName": "INV POS CAI End",
-      "type": "Code[20]"
+      "type": "Code[20]",
+      "targetTableId": 112
     },
     {
       "tableId": 112,
@@ -396,7 +439,8 @@
       "sourceName": "CAI",
       "targetId": 71124,
       "targetName": "INV POS Additional CAI",
-      "type": "Code[37]"
+      "type": "Code[37]",
+      "targetTableId": 112
     },
     {
       "tableId": 114,
@@ -405,7 +449,8 @@
       "sourceName": "TransactionNumber",
       "targetId": 71100,
       "targetName": "INV POS Transaction No.",
-      "type": "Code[30]"
+      "type": "Code[30]",
+      "targetTableId": 114
     },
     {
       "tableId": 114,
@@ -414,7 +459,8 @@
       "sourceName": "Batch",
       "targetId": 71103,
       "targetName": "INV POS Shift",
-      "type": "Integer"
+      "type": "Integer",
+      "targetTableId": 114
     },
     {
       "tableId": 114,
@@ -423,7 +469,8 @@
       "sourceName": "Código CAI",
       "targetId": 71114,
       "targetName": "INV POS CAI Code",
-      "type": "Code[20]"
+      "type": "Code[20]",
+      "targetTableId": 114
     },
     {
       "tableId": 114,
@@ -432,7 +479,8 @@
       "sourceName": "No. CAI",
       "targetId": 71115,
       "targetName": "INV POS CAI",
-      "type": "Code[37]"
+      "type": "Code[37]",
+      "targetTableId": 114
     },
     {
       "tableId": 114,
@@ -441,7 +489,8 @@
       "sourceName": "Fecha Límite Emisión",
       "targetId": 71116,
       "targetName": "INV POS CAI Expiration",
-      "type": "Date"
+      "type": "Date",
+      "targetTableId": 114
     },
     {
       "tableId": 114,
@@ -450,7 +499,8 @@
       "sourceName": "Factura Inicial",
       "targetId": 71117,
       "targetName": "INV POS CAI Start",
-      "type": "Code[20]"
+      "type": "Code[20]",
+      "targetTableId": 114
     },
     {
       "tableId": 114,
@@ -459,7 +509,8 @@
       "sourceName": "Factura Final",
       "targetId": 71118,
       "targetName": "INV POS CAI End",
-      "type": "Code[20]"
+      "type": "Code[20]",
+      "targetTableId": 114
     },
     {
       "tableId": 114,
@@ -468,7 +519,8 @@
       "sourceName": "CAI",
       "targetId": 71124,
       "targetName": "INV POS Additional CAI",
-      "type": "Code[37]"
+      "type": "Code[37]",
+      "targetTableId": 114
     },
     {
       "tableId": 37,
@@ -477,7 +529,8 @@
       "sourceName": "Pump_No",
       "targetId": 71100,
       "targetName": "INV POS Pump",
-      "type": "Code[10]"
+      "type": "Code[10]",
+      "targetTableId": 37
     },
     {
       "tableId": 37,
@@ -486,7 +539,8 @@
       "sourceName": "Pump_Position_No",
       "targetId": 71101,
       "targetName": "INV POS Pump Position",
-      "type": "Code[10]"
+      "type": "Code[10]",
+      "targetTableId": 37
     },
     {
       "tableId": 37,
@@ -495,7 +549,8 @@
       "sourceName": "Tank_No",
       "targetId": 71102,
       "targetName": "INV POS Tank",
-      "type": "Code[10]"
+      "type": "Code[10]",
+      "targetTableId": 37
     },
     {
       "tableId": 37,
@@ -504,7 +559,8 @@
       "sourceName": "Usuario",
       "targetId": 71103,
       "targetName": "INV POS Line Operator",
-      "type": "Code[50]"
+      "type": "Code[50]",
+      "targetTableId": 37
     },
     {
       "tableId": 37,
@@ -513,7 +569,8 @@
       "sourceName": "VAT_PROD_POSTING_GROUP",
       "targetId": 71104,
       "targetName": "INV POS Received VAT Rate",
-      "type": "Decimal"
+      "type": "Decimal",
+      "targetTableId": 37
     },
     {
       "tableId": 37,
@@ -522,7 +579,8 @@
       "sourceName": "VAT_AMOUNT",
       "targetId": 71105,
       "targetName": "INV POS Line Received VAT",
-      "type": "Decimal"
+      "type": "Decimal",
+      "targetTableId": 37
     },
     {
       "tableId": 37,
@@ -531,7 +589,8 @@
       "sourceName": "AMOUNT_INCLUDING_VAT",
       "targetId": 71106,
       "targetName": "INV POS Line Received Total",
-      "type": "Decimal"
+      "type": "Decimal",
+      "targetTableId": 37
     },
     {
       "tableId": 113,
@@ -540,7 +599,8 @@
       "sourceName": "Pump_No",
       "targetId": 71100,
       "targetName": "INV POS Pump",
-      "type": "Code[10]"
+      "type": "Code[10]",
+      "targetTableId": 113
     },
     {
       "tableId": 113,
@@ -549,7 +609,8 @@
       "sourceName": "Pump_Position_No",
       "targetId": 71101,
       "targetName": "INV POS Pump Position",
-      "type": "Code[10]"
+      "type": "Code[10]",
+      "targetTableId": 113
     },
     {
       "tableId": 113,
@@ -558,7 +619,8 @@
       "sourceName": "Tank_No",
       "targetId": 71102,
       "targetName": "INV POS Tank",
-      "type": "Code[10]"
+      "type": "Code[10]",
+      "targetTableId": 113
     },
     {
       "tableId": 113,
@@ -567,7 +629,8 @@
       "sourceName": "Usuario",
       "targetId": 71103,
       "targetName": "INV POS Line Operator",
-      "type": "Code[50]"
+      "type": "Code[50]",
+      "targetTableId": 113
     },
     {
       "tableId": 113,
@@ -576,7 +639,8 @@
       "sourceName": "VAT_PROD_POSTING_GROUP",
       "targetId": 71104,
       "targetName": "INV POS Received VAT Rate",
-      "type": "Decimal"
+      "type": "Decimal",
+      "targetTableId": 113
     },
     {
       "tableId": 113,
@@ -585,7 +649,8 @@
       "sourceName": "VAT_AMOUNT",
       "targetId": 71105,
       "targetName": "INV POS Line Received VAT",
-      "type": "Decimal"
+      "type": "Decimal",
+      "targetTableId": 113
     },
     {
       "tableId": 113,
@@ -594,7 +659,8 @@
       "sourceName": "AMOUNT_INCLUDING_VAT",
       "targetId": 71106,
       "targetName": "INV POS Line Received Total",
-      "type": "Decimal"
+      "type": "Decimal",
+      "targetTableId": 113
     },
     {
       "tableId": 18,
@@ -603,7 +669,8 @@
       "sourceName": "RTN",
       "targetId": 71100,
       "targetName": "INV HN RTN",
-      "type": "Code[50]"
+      "type": "Code[50]",
+      "targetTableId": 18
     },
     {
       "tableId": 18,
@@ -612,7 +679,2075 @@
       "sourceName": "CLienteExonerado",
       "targetId": 71101,
       "targetName": "INV HN Exempt Customer",
-      "type": "Boolean"
+      "type": "Boolean",
+      "targetTableId": 18
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60109,
+      "sourceName": "Campo Booleano",
+      "targetId": 71125,
+      "targetName": "HN Ref 60109",
+      "type": "Boolean",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60132,
+      "sourceName": "OrdenDeCompras",
+      "targetId": 71126,
+      "targetName": "HN Ref 60132",
+      "type": "Code[50]",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60124,
+      "sourceName": "Fecha Inicio",
+      "targetId": 71127,
+      "targetName": "HN Ref 60124",
+      "type": "Date",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60125,
+      "sourceName": "Fecha Fin",
+      "targetId": 71128,
+      "targetName": "HN Ref 60125",
+      "type": "Date",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60102,
+      "sourceName": "Importe Retención",
+      "targetId": 71129,
+      "targetName": "HN Ref 60102",
+      "type": "Decimal",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60104,
+      "sourceName": "Nuevo Código Exoneración",
+      "targetId": 71130,
+      "targetName": "HN Ref 60104",
+      "type": "Code[20]",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60105,
+      "sourceName": "Grupo Impuestos Honduras",
+      "targetId": 71131,
+      "targetName": "HN Ref 60105",
+      "type": "Code[20]",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60455,
+      "sourceName": "LabelSalesInvoice",
+      "targetId": 71132,
+      "targetName": "HN Ref 60455",
+      "type": "Code[20]",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60486,
+      "sourceName": "Image1",
+      "targetId": 71133,
+      "targetName": "HN Ref 60486",
+      "type": "Code[30]",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60507,
+      "sourceName": "Fuente",
+      "targetId": 71134,
+      "targetName": "HN Ref 60507",
+      "type": "Text[60]",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60508,
+      "sourceName": "Proyecto",
+      "targetId": 71135,
+      "targetName": "HN Ref 60508",
+      "type": "Text[60]",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60509,
+      "sourceName": "ProyectoUbicacion",
+      "targetId": 71136,
+      "targetName": "HN Ref 60509",
+      "type": "Text[90]",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60510,
+      "sourceName": "Total IVA 18%",
+      "targetId": 71137,
+      "targetName": "HN Ref 60510",
+      "type": "Decimal",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60511,
+      "sourceName": "Total IVA 0%",
+      "targetId": 71138,
+      "targetName": "HN Ref 60511",
+      "type": "Decimal",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60512,
+      "sourceName": "Total IVA Otros",
+      "targetId": 71139,
+      "targetName": "HN Ref 60512",
+      "type": "Decimal",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60513,
+      "sourceName": "Resumen Impuestos",
+      "targetId": 71141,
+      "targetName": "HN Ref 60513",
+      "type": "Text[250]",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60514,
+      "sourceName": "Total Exento",
+      "targetId": 71142,
+      "targetName": "HN Ref 60514",
+      "type": "Decimal",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60515,
+      "sourceName": "Total IVA 15%",
+      "targetId": 71143,
+      "targetName": "HN Ref 60515",
+      "type": "Decimal",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60516,
+      "sourceName": "Total Exonerado",
+      "targetId": 71144,
+      "targetName": "HN Ref 60516",
+      "type": "Decimal",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60517,
+      "sourceName": "Is Debit Note",
+      "targetId": 71145,
+      "targetName": "HN Ref 60517",
+      "type": "Boolean",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60518,
+      "sourceName": "Debit Note Reason",
+      "targetId": 71146,
+      "targetName": "HN Ref 60518",
+      "type": "Text[100]",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60519,
+      "sourceName": "Debit Original Invoice No.",
+      "targetId": 71147,
+      "targetName": "HN Ref 60519",
+      "type": "Code[20]",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "sourceId": 60520,
+      "sourceName": "Debit Original Invoice Date",
+      "targetId": 71148,
+      "targetName": "HN Ref 60520",
+      "type": "Date",
+      "targetTableId": 36,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "sourceId": 60101,
+      "sourceName": "Importe Impuesto",
+      "targetId": 71107,
+      "targetName": "HN Ref 60101",
+      "type": "Decimal",
+      "targetTableId": 37,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "sourceId": 60450,
+      "sourceName": "VATExcentoLine",
+      "targetId": 71108,
+      "targetName": "HN Ref 60450",
+      "type": "Decimal",
+      "targetTableId": 37,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "sourceId": 60458,
+      "sourceName": "PictureGuid",
+      "targetId": 71109,
+      "targetName": "HN Ref 60458",
+      "type": "Guid",
+      "targetTableId": 37,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "sourceId": 60459,
+      "sourceName": "ZY Thumbail",
+      "targetId": 71110,
+      "targetName": "HN Ref 60459",
+      "type": "Blob",
+      "targetTableId": 37,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "sourceId": 60531,
+      "sourceName": "ZY Extended Description",
+      "targetId": 71111,
+      "targetName": "HN Ref 60531",
+      "type": "Text[2048]",
+      "targetTableId": 37,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "sourceId": 60530,
+      "sourceName": "Tiempo Entrega",
+      "targetId": 71112,
+      "targetName": "HN Ref 60530",
+      "type": "Text[250]",
+      "targetTableId": 37,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60507,
+      "sourceName": "Fuente",
+      "targetId": 71125,
+      "targetName": "HN Ref 60507",
+      "type": "Text[60]",
+      "targetTableId": 112,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60508,
+      "sourceName": "Proyecto",
+      "targetId": 71126,
+      "targetName": "HN Ref 60508",
+      "type": "Text[60]",
+      "targetTableId": 112,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60509,
+      "sourceName": "ProyectoUbicacion",
+      "targetId": 71127,
+      "targetName": "HN Ref 60509",
+      "type": "Text[90]",
+      "targetTableId": 112,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60510,
+      "sourceName": "Total IVA 18%",
+      "targetId": 71128,
+      "targetName": "HN Ref 60510",
+      "type": "Decimal",
+      "targetTableId": 112,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60511,
+      "sourceName": "Total IVA 0%",
+      "targetId": 71129,
+      "targetName": "HN Ref 60511",
+      "type": "Decimal",
+      "targetTableId": 112,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60512,
+      "sourceName": "Total IVA Otros",
+      "targetId": 71130,
+      "targetName": "HN Ref 60512",
+      "type": "Decimal",
+      "targetTableId": 112,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60513,
+      "sourceName": "Resumen Impuestos",
+      "targetId": 71131,
+      "targetName": "HN Ref 60513",
+      "type": "Text[250]",
+      "targetTableId": 112,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60514,
+      "sourceName": "Total Exento",
+      "targetId": 71132,
+      "targetName": "HN Ref 60514",
+      "type": "Decimal",
+      "targetTableId": 112,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60515,
+      "sourceName": "Total IVA 15%",
+      "targetId": 71133,
+      "targetName": "HN Ref 60515",
+      "type": "Decimal",
+      "targetTableId": 112,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60516,
+      "sourceName": "Total Exonerado",
+      "targetId": 71134,
+      "targetName": "HN Ref 60516",
+      "type": "Decimal",
+      "targetTableId": 112,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60517,
+      "sourceName": "Is Debit Note",
+      "targetId": 71135,
+      "targetName": "HN Ref 60517",
+      "type": "Boolean",
+      "targetTableId": 112,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60518,
+      "sourceName": "Debit Note Reason",
+      "targetId": 71136,
+      "targetName": "HN Ref 60518",
+      "type": "Text[100]",
+      "targetTableId": 112,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60519,
+      "sourceName": "Debit Original Invoice No.",
+      "targetId": 71137,
+      "targetName": "HN Ref 60519",
+      "type": "Code[20]",
+      "targetTableId": 112,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "sourceId": 60520,
+      "sourceName": "Debit Original Invoice Date",
+      "targetId": 71138,
+      "targetName": "HN Ref 60520",
+      "type": "Date",
+      "targetTableId": 112,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 113,
+      "table": "Sales Invoice Line",
+      "sourceId": 60450,
+      "sourceName": "VATExcentoLine",
+      "targetId": 71107,
+      "targetName": "HN Ref 60450",
+      "type": "Decimal",
+      "targetTableId": 113,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60450,
+      "sourceName": "No. CAI",
+      "targetId": 50102,
+      "targetName": "HN Vendor CAI",
+      "type": "Code[37]",
+      "targetTableId": 38,
+      "referenceOnly": false,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60460,
+      "sourceName": "Código CAI",
+      "targetId": 71100,
+      "targetName": "HN Ref 60460",
+      "type": "Code[37]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60461,
+      "sourceName": "Fecha Límite Emisión",
+      "targetId": 71143,
+      "targetName": "HN Vence CAI Proveedor",
+      "type": "Date",
+      "targetTableId": 38,
+      "referenceOnly": false,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60462,
+      "sourceName": "Factura Inicial",
+      "targetId": 71141,
+      "targetName": "HN Inicio CAI Proveedor",
+      "type": "Code[20]",
+      "targetTableId": 38,
+      "referenceOnly": false,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60463,
+      "sourceName": "Factura Final",
+      "targetId": 71142,
+      "targetName": "HN Fin CAI Proveedor",
+      "type": "Code[20]",
+      "targetTableId": 38,
+      "referenceOnly": false,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60451,
+      "sourceName": "Importe Retención",
+      "targetId": 71101,
+      "targetName": "HN Ref 60451",
+      "type": "Decimal",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60452,
+      "sourceName": "CAI Fecha Inicio",
+      "targetId": 71102,
+      "targetName": "HN Ref 60452",
+      "type": "Date",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60453,
+      "sourceName": "CAI Fecha Fin",
+      "targetId": 71103,
+      "targetName": "HN Ref 60453",
+      "type": "Date",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60454,
+      "sourceName": "Check Total",
+      "targetId": 71104,
+      "targetName": "HN Ref 60454",
+      "type": "Decimal",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60459,
+      "sourceName": "Monto Exonerado",
+      "targetId": 71105,
+      "targetName": "HN Ref 60459",
+      "type": "Decimal",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60464,
+      "sourceName": "OrdenDeCompras",
+      "targetId": 71106,
+      "targetName": "HN Ref 60464",
+      "type": "Code[50]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60477,
+      "sourceName": "OrdenDeCompraEXENTA",
+      "targetId": 71107,
+      "targetName": "HN Ref 60477",
+      "type": "Code[50]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60466,
+      "sourceName": "OrdenDeRegistroExonerados",
+      "targetId": 71108,
+      "targetName": "HN Ref 60466",
+      "type": "Code[50]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60467,
+      "sourceName": "OrdenDeCompraSAG",
+      "targetId": 71109,
+      "targetName": "HN Ref 60467",
+      "type": "Code[50]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60473,
+      "sourceName": "Fecha Inicio",
+      "targetId": 71110,
+      "targetName": "HN Ref 60473",
+      "type": "Date",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60474,
+      "sourceName": "Fecha Fin",
+      "targetId": 71111,
+      "targetName": "HN Ref 60474",
+      "type": "Date",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60476,
+      "sourceName": "Código Exoneración",
+      "targetId": 71112,
+      "targetName": "HN Ref 60476",
+      "type": "Code[20]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60478,
+      "sourceName": "Grupo Impuestos Honduras",
+      "targetId": 71113,
+      "targetName": "HN Ref 60478",
+      "type": "Code[20]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60491,
+      "sourceName": "Batch",
+      "targetId": 71114,
+      "targetName": "HN Ref 60491",
+      "type": "Integer",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60492,
+      "sourceName": "TransactionNumber",
+      "targetId": 71115,
+      "targetName": "HN Ref 60492",
+      "type": "Code[30]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60495,
+      "sourceName": "LabelSalesInvoice",
+      "targetId": 71116,
+      "targetName": "HN Ref 60495",
+      "type": "Code[20]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60563,
+      "sourceName": "Expected Receipt Date (Hdr)",
+      "targetId": 71117,
+      "targetName": "HN Ref 60563",
+      "type": "Date",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60498,
+      "sourceName": "POS Sales Doc_ Type",
+      "targetId": 71118,
+      "targetName": "HN Ref 60498",
+      "type": "Integer",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60499,
+      "sourceName": "Billing Type",
+      "targetId": 71119,
+      "targetName": "HN Ref 60499",
+      "type": "Integer",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60500,
+      "sourceName": "AmountTotal",
+      "targetId": 71120,
+      "targetName": "HN Ref 60500",
+      "type": "Decimal",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60501,
+      "sourceName": "VATAmount",
+      "targetId": 71121,
+      "targetName": "HN Ref 60501",
+      "type": "Decimal",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60502,
+      "sourceName": "Gas Station Code",
+      "targetId": 71122,
+      "targetName": "HN Ref 60502",
+      "type": "Code[5]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60482,
+      "sourceName": "POS Code",
+      "targetId": 71123,
+      "targetName": "HN Ref 60482",
+      "type": "Code[5]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60483,
+      "sourceName": "Comentario",
+      "targetId": 71124,
+      "targetName": "HN Ref 60483",
+      "type": "Text[60]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60564,
+      "sourceName": "Proveedor Extranjero",
+      "targetId": 71125,
+      "targetName": "HN Ref 60564",
+      "type": "Boolean",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60486,
+      "sourceName": "Image1",
+      "targetId": 71126,
+      "targetName": "HN Ref 60486",
+      "type": "Code[30]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60487,
+      "sourceName": "OC",
+      "targetId": 71127,
+      "targetName": "HN Ref 60487",
+      "type": "Text[60]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60488,
+      "sourceName": "NumeroDePlaca",
+      "targetId": 71128,
+      "targetName": "HN Ref 60488",
+      "type": "Text[60]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60489,
+      "sourceName": "Kilometraje",
+      "targetId": 71129,
+      "targetName": "HN Ref 60489",
+      "type": "Text[60]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60490,
+      "sourceName": "Chofer",
+      "targetId": 71130,
+      "targetName": "HN Ref 60490",
+      "type": "Text[60]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60506,
+      "sourceName": "Usuario",
+      "targetId": 71131,
+      "targetName": "HN Ref 60506",
+      "type": "Text[60]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60503,
+      "sourceName": "Campo Booleano",
+      "targetId": 71132,
+      "targetName": "HN Ref 60503",
+      "type": "Boolean",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60504,
+      "sourceName": "Nuevo Código Exoneración",
+      "targetId": 71133,
+      "targetName": "HN Ref 60504",
+      "type": "Code[20]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60505,
+      "sourceName": "External Document No.",
+      "targetId": 71134,
+      "targetName": "HN Ref 60505",
+      "type": "Code[35]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60507,
+      "sourceName": "Total Exento",
+      "targetId": 71135,
+      "targetName": "HN Ref 60507",
+      "type": "Decimal",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60508,
+      "sourceName": "Total IVA 15%",
+      "targetId": 71136,
+      "targetName": "HN Ref 60508",
+      "type": "Decimal",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60509,
+      "sourceName": "Total IVA 18%",
+      "targetId": 71137,
+      "targetName": "HN Ref 60509",
+      "type": "Decimal",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60510,
+      "sourceName": "Total IVA 0%",
+      "targetId": 71138,
+      "targetName": "HN Ref 60510",
+      "type": "Decimal",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60511,
+      "sourceName": "Total IVA Otros",
+      "targetId": 71139,
+      "targetName": "HN Ref 60511",
+      "type": "Decimal",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60512,
+      "sourceName": "Resumen Impuestos",
+      "targetId": 71144,
+      "targetName": "HN Ref 60512",
+      "type": "Text[250]",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "sourceId": 60513,
+      "sourceName": "Total Exonerado",
+      "targetId": 71145,
+      "targetName": "HN Ref 60513",
+      "type": "Decimal",
+      "targetTableId": 38,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 39,
+      "table": "Purchase Line",
+      "sourceId": 60100,
+      "sourceName": "Aplicar Retención 1",
+      "targetId": 71100,
+      "targetName": "HN Ref 60100",
+      "type": "Boolean",
+      "targetTableId": 39,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 39,
+      "table": "Purchase Line",
+      "sourceId": 60101,
+      "sourceName": "Aplicar Retención 2",
+      "targetId": 71101,
+      "targetName": "HN Ref 60101",
+      "type": "Boolean",
+      "targetTableId": 39,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 39,
+      "table": "Purchase Line",
+      "sourceId": 60102,
+      "sourceName": "Aplicar Retención 3",
+      "targetId": 71102,
+      "targetName": "HN Ref 60102",
+      "type": "Boolean",
+      "targetTableId": 39,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 39,
+      "table": "Purchase Line",
+      "sourceId": 60104,
+      "sourceName": "Retenciones Aplicadas",
+      "targetId": 71103,
+      "targetName": "HN Ref 60104",
+      "type": "Text[250]",
+      "targetTableId": 39,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 39,
+      "table": "Purchase Line",
+      "sourceId": 60103,
+      "sourceName": "Importe Retención",
+      "targetId": 71104,
+      "targetName": "HN Ref 60103",
+      "type": "Decimal",
+      "targetTableId": 39,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 122,
+      "table": "Purch. Inv. Header",
+      "sourceId": 60450,
+      "sourceName": "No. CAI",
+      "targetId": 50102,
+      "targetName": "HN Vendor CAI",
+      "type": "Code[37]",
+      "targetTableId": 122,
+      "referenceOnly": false,
+      "extendedReference": true
+    },
+    {
+      "tableId": 122,
+      "table": "Purch. Inv. Header",
+      "sourceId": 60460,
+      "sourceName": "Código CAI",
+      "targetId": 71100,
+      "targetName": "HN Ref 60460",
+      "type": "Code[37]",
+      "targetTableId": 122,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 122,
+      "table": "Purch. Inv. Header",
+      "sourceId": 60461,
+      "sourceName": "Fecha Límite Emisión",
+      "targetId": 71143,
+      "targetName": "HN Vence CAI Proveedor",
+      "type": "Date",
+      "targetTableId": 122,
+      "referenceOnly": false,
+      "extendedReference": true
+    },
+    {
+      "tableId": 122,
+      "table": "Purch. Inv. Header",
+      "sourceId": 60462,
+      "sourceName": "Factura Inicial",
+      "targetId": 71141,
+      "targetName": "HN Inicio CAI Proveedor",
+      "type": "Code[20]",
+      "targetTableId": 122,
+      "referenceOnly": false,
+      "extendedReference": true
+    },
+    {
+      "tableId": 122,
+      "table": "Purch. Inv. Header",
+      "sourceId": 60463,
+      "sourceName": "Factura Final",
+      "targetId": 71142,
+      "targetName": "HN Fin CAI Proveedor",
+      "type": "Code[20]",
+      "targetTableId": 122,
+      "referenceOnly": false,
+      "extendedReference": true
+    },
+    {
+      "tableId": 122,
+      "table": "Purch. Inv. Header",
+      "sourceId": 60491,
+      "sourceName": "Batch",
+      "targetId": 71101,
+      "targetName": "HN Ref 60491",
+      "type": "Integer",
+      "targetTableId": 122,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 122,
+      "table": "Purch. Inv. Header",
+      "sourceId": 60492,
+      "sourceName": "TransactionNumber",
+      "targetId": 71102,
+      "targetName": "HN Ref 60492",
+      "type": "Code[30]",
+      "targetTableId": 122,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 122,
+      "table": "Purch. Inv. Header",
+      "sourceId": 60454,
+      "sourceName": "Check Total",
+      "targetId": 71103,
+      "targetName": "HN Ref 60454",
+      "type": "Decimal",
+      "targetTableId": 122,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 123,
+      "table": "Purch. Inv. Line",
+      "sourceId": 60104,
+      "sourceName": "Retenciones Aplicadas",
+      "targetId": 71100,
+      "targetName": "HN Ref 60104",
+      "type": "Text[250]",
+      "targetTableId": 123,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 123,
+      "table": "Purch. Inv. Line",
+      "sourceId": 60103,
+      "sourceName": "Importe Retención",
+      "targetId": 71101,
+      "targetName": "HN Ref 60103",
+      "type": "Decimal",
+      "targetTableId": 123,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 23,
+      "table": "Vendor",
+      "sourceId": 60450,
+      "sourceName": "RTN",
+      "targetId": 71100,
+      "targetName": "HN Ref 60450",
+      "type": "Code[50]",
+      "targetTableId": 23,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 23,
+      "table": "Vendor",
+      "sourceId": 60451,
+      "sourceName": "Código de Proveedor",
+      "targetId": 71101,
+      "targetName": "HN Ref 60451",
+      "type": "Code[50]",
+      "targetTableId": 23,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 23,
+      "table": "Vendor",
+      "sourceId": 60452,
+      "sourceName": "Proveedor Extranjero",
+      "targetId": 71102,
+      "targetName": "HN Ref 60452",
+      "type": "Boolean",
+      "targetTableId": 23,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 23,
+      "table": "Vendor",
+      "sourceId": 60453,
+      "sourceName": "Requiere Retención",
+      "targetId": 71103,
+      "targetName": "HN Ref 60453",
+      "type": "Boolean",
+      "targetTableId": 23,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 23,
+      "table": "Vendor",
+      "sourceId": 60454,
+      "sourceName": "Fecha Vencimiento Retención",
+      "targetId": 71104,
+      "targetName": "HN Ref 60454",
+      "type": "Date",
+      "targetTableId": 23,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 79,
+      "table": "Company Information",
+      "sourceId": 60482,
+      "sourceName": "CompanyPhone",
+      "targetId": 71100,
+      "targetName": "HN Ref 60482",
+      "type": "Code[30]",
+      "targetTableId": 79,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 79,
+      "table": "Company Information",
+      "sourceId": 60483,
+      "sourceName": "CompanyRTN",
+      "targetId": 71101,
+      "targetName": "HN Ref 60483",
+      "type": "Code[30]",
+      "targetTableId": 79,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60450,
+      "table": "Gestión CAI",
+      "sourceId": 1,
+      "sourceName": "No. Proveedor",
+      "targetId": 1,
+      "targetName": "Ref 1",
+      "type": "Code[20]",
+      "targetTableId": 71113,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60450,
+      "table": "Gestión CAI",
+      "sourceId": 2,
+      "sourceName": "No. CAI",
+      "targetId": 2,
+      "targetName": "Ref 2",
+      "type": "Code[37]",
+      "targetTableId": 71113,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60450,
+      "table": "Gestión CAI",
+      "sourceId": 3,
+      "sourceName": "Fecha Límite Emisión",
+      "targetId": 3,
+      "targetName": "Ref 3",
+      "type": "Date",
+      "targetTableId": 71113,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60450,
+      "table": "Gestión CAI",
+      "sourceId": 4,
+      "sourceName": "Factura Inicial",
+      "targetId": 4,
+      "targetName": "Ref 4",
+      "type": "Code[20]",
+      "targetTableId": 71113,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60450,
+      "table": "Gestión CAI",
+      "sourceId": 5,
+      "sourceName": "Factura Final",
+      "targetId": 5,
+      "targetName": "Ref 5",
+      "type": "Code[20]",
+      "targetTableId": 71113,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60450,
+      "table": "Gestión CAI",
+      "sourceId": 6,
+      "sourceName": "Código Sucursal",
+      "targetId": 6,
+      "targetName": "Ref 6",
+      "type": "Code[20]",
+      "targetTableId": 71113,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60450,
+      "table": "Gestión CAI",
+      "sourceId": 7,
+      "sourceName": "Fecha Inicio",
+      "targetId": 7,
+      "targetName": "Ref 7",
+      "type": "Date",
+      "targetTableId": 71113,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60450,
+      "table": "Gestión CAI",
+      "sourceId": 8,
+      "sourceName": "Fecha Fin",
+      "targetId": 8,
+      "targetName": "Ref 8",
+      "type": "Date",
+      "targetTableId": 71113,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60489,
+      "table": "CAI Facturación",
+      "sourceId": 1,
+      "sourceName": "Código",
+      "targetId": 1,
+      "targetName": "Ref 1",
+      "type": "Code[20]",
+      "targetTableId": 71114,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60489,
+      "table": "CAI Facturación",
+      "sourceId": 2,
+      "sourceName": "No. CAI",
+      "targetId": 2,
+      "targetName": "Ref 2",
+      "type": "Code[37]",
+      "targetTableId": 71114,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60489,
+      "table": "CAI Facturación",
+      "sourceId": 3,
+      "sourceName": "Fecha Límite Emisión",
+      "targetId": 3,
+      "targetName": "Ref 3",
+      "type": "Date",
+      "targetTableId": 71114,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60489,
+      "table": "CAI Facturación",
+      "sourceId": 4,
+      "sourceName": "Factura Inicial",
+      "targetId": 4,
+      "targetName": "Ref 4",
+      "type": "Code[20]",
+      "targetTableId": 71114,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60489,
+      "table": "CAI Facturación",
+      "sourceId": 5,
+      "sourceName": "Factura Final",
+      "targetId": 5,
+      "targetName": "Ref 5",
+      "type": "Code[20]",
+      "targetTableId": 71114,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60489,
+      "table": "CAI Facturación",
+      "sourceId": 9,
+      "sourceName": "Num Predeterminado",
+      "targetId": 9,
+      "targetName": "Ref 9",
+      "type": "Code[50]",
+      "targetTableId": 71114,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60489,
+      "table": "CAI Facturación",
+      "sourceId": 6,
+      "sourceName": "Habilitado",
+      "targetId": 6,
+      "targetName": "Ref 6",
+      "type": "Boolean",
+      "targetTableId": 71114,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60489,
+      "table": "CAI Facturación",
+      "sourceId": 7,
+      "sourceName": "Fecha Inicio",
+      "targetId": 7,
+      "targetName": "Ref 7",
+      "type": "Date",
+      "targetTableId": 71114,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60489,
+      "table": "CAI Facturación",
+      "sourceId": 8,
+      "sourceName": "Fecha Fin",
+      "targetId": 8,
+      "targetName": "Ref 8",
+      "type": "Date",
+      "targetTableId": 71114,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60489,
+      "table": "CAI Facturación",
+      "sourceId": 10,
+      "sourceName": "Tipo CAI",
+      "targetId": 10,
+      "targetName": "Ref 10",
+      "type": "Option",
+      "targetTableId": 71114,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60489,
+      "table": "CAI Facturación",
+      "sourceId": 20,
+      "sourceName": "Predeterminado",
+      "targetId": 20,
+      "targetName": "Ref 20",
+      "type": "Boolean",
+      "targetTableId": 71114,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60451,
+      "table": "Grupo Impuestos Honduras",
+      "sourceId": 1,
+      "sourceName": "Código",
+      "targetId": 1,
+      "targetName": "Ref 1",
+      "type": "Code[20]",
+      "targetTableId": 71115,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60451,
+      "table": "Grupo Impuestos Honduras",
+      "sourceId": 2,
+      "sourceName": "Descripción",
+      "targetId": 2,
+      "targetName": "Ref 2",
+      "type": "Text[100]",
+      "targetTableId": 71115,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60451,
+      "table": "Grupo Impuestos Honduras",
+      "sourceId": 3,
+      "sourceName": "Tasa Impuesto",
+      "targetId": 3,
+      "targetName": "Ref 3",
+      "type": "Decimal",
+      "targetTableId": 71115,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60451,
+      "table": "Grupo Impuestos Honduras",
+      "sourceId": 4,
+      "sourceName": "Tipo Impuesto",
+      "targetId": 4,
+      "targetName": "Ref 4",
+      "type": "Option",
+      "targetTableId": 71115,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60452,
+      "table": "Exoneración",
+      "sourceId": 1,
+      "sourceName": "Código",
+      "targetId": 1,
+      "targetName": "Ref 1",
+      "type": "Code[20]",
+      "targetTableId": 71116,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60452,
+      "table": "Exoneración",
+      "sourceId": 2,
+      "sourceName": "Descripción",
+      "targetId": 2,
+      "targetName": "Ref 2",
+      "type": "Text[100]",
+      "targetTableId": 71116,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60452,
+      "table": "Exoneración",
+      "sourceId": 3,
+      "sourceName": "Tipo Exoneración",
+      "targetId": 3,
+      "targetName": "Ref 3",
+      "type": "Option",
+      "targetTableId": 71116,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60452,
+      "table": "Exoneración",
+      "sourceId": 4,
+      "sourceName": "Porcentaje Exoneración",
+      "targetId": 4,
+      "targetName": "Ref 4",
+      "type": "Decimal",
+      "targetTableId": 71116,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60452,
+      "table": "Exoneración",
+      "sourceId": 5,
+      "sourceName": "Monto Máximo",
+      "targetId": 5,
+      "targetName": "Ref 5",
+      "type": "Decimal",
+      "targetTableId": 71116,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60452,
+      "table": "Exoneración",
+      "sourceId": 6,
+      "sourceName": "Fecha Inicio",
+      "targetId": 6,
+      "targetName": "Ref 6",
+      "type": "Date",
+      "targetTableId": 71116,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60452,
+      "table": "Exoneración",
+      "sourceId": 7,
+      "sourceName": "Fecha Fin",
+      "targetId": 7,
+      "targetName": "Ref 7",
+      "type": "Date",
+      "targetTableId": 71116,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60459,
+      "table": "salesPaymentMethods",
+      "sourceId": 60450,
+      "sourceName": "salesPaymentMethodId",
+      "targetId": 60450,
+      "targetName": "Ref 60450",
+      "type": "Integer",
+      "targetTableId": 71117,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60459,
+      "table": "salesPaymentMethods",
+      "sourceId": 60451,
+      "sourceName": "PaymentMethodsCode",
+      "targetId": 60451,
+      "targetName": "Ref 60451",
+      "type": "Code[10]",
+      "targetTableId": 71117,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60459,
+      "table": "salesPaymentMethods",
+      "sourceId": 60452,
+      "sourceName": "SalesHeaderNo",
+      "targetId": 60452,
+      "targetName": "Ref 60452",
+      "type": "Code[20]",
+      "targetTableId": 71117,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60459,
+      "table": "salesPaymentMethods",
+      "sourceId": 60453,
+      "sourceName": "TransactionNumber",
+      "targetId": 60453,
+      "targetName": "Ref 60453",
+      "type": "Code[30]",
+      "targetTableId": 71117,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60459,
+      "table": "salesPaymentMethods",
+      "sourceId": 28,
+      "sourceName": "Amount",
+      "targetId": 28,
+      "targetName": "Ref 28",
+      "type": "Decimal",
+      "targetTableId": 71117,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60510,
+      "table": "Sales Payment Detail",
+      "sourceId": 1,
+      "sourceName": "Document Type",
+      "targetId": 1,
+      "targetName": "Ref 1",
+      "type": "Enum",
+      "targetTableId": 71118,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60510,
+      "table": "Sales Payment Detail",
+      "sourceId": 2,
+      "sourceName": "Document No.",
+      "targetId": 2,
+      "targetName": "Ref 2",
+      "type": "Code[20]",
+      "targetTableId": 71118,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60510,
+      "table": "Sales Payment Detail",
+      "sourceId": 3,
+      "sourceName": "Line No.",
+      "targetId": 3,
+      "targetName": "Ref 3",
+      "type": "Integer",
+      "targetTableId": 71118,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60510,
+      "table": "Sales Payment Detail",
+      "sourceId": 4,
+      "sourceName": "Payment Method Code",
+      "targetId": 4,
+      "targetName": "Ref 4",
+      "type": "Code[10]",
+      "targetTableId": 71118,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60510,
+      "table": "Sales Payment Detail",
+      "sourceId": 5,
+      "sourceName": "Amount Including VAT",
+      "targetId": 5,
+      "targetName": "Ref 5",
+      "type": "Decimal",
+      "targetTableId": 71118,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60510,
+      "table": "Sales Payment Detail",
+      "sourceId": 6,
+      "sourceName": "Percentage",
+      "targetId": 6,
+      "targetName": "Ref 6",
+      "type": "Decimal",
+      "targetTableId": 71118,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60510,
+      "table": "Sales Payment Detail",
+      "sourceId": 7,
+      "sourceName": "Currency Code",
+      "targetId": 7,
+      "targetName": "Ref 7",
+      "type": "Code[10]",
+      "targetTableId": 71118,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60510,
+      "table": "Sales Payment Detail",
+      "sourceId": 8,
+      "sourceName": "Description",
+      "targetId": 8,
+      "targetName": "Ref 8",
+      "type": "Text[100]",
+      "targetTableId": 71118,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60477,
+      "table": "Boleta de Compra",
+      "sourceId": 1,
+      "sourceName": "No.",
+      "targetId": 1,
+      "targetName": "Ref 1",
+      "type": "Code[20]",
+      "targetTableId": 71119,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60477,
+      "table": "Boleta de Compra",
+      "sourceId": 2,
+      "sourceName": "Fecha",
+      "targetId": 2,
+      "targetName": "Ref 2",
+      "type": "Date",
+      "targetTableId": 71119,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60477,
+      "table": "Boleta de Compra",
+      "sourceId": 3,
+      "sourceName": "Nombre Vendedor",
+      "targetId": 3,
+      "targetName": "Ref 3",
+      "type": "Text[100]",
+      "targetTableId": 71119,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60477,
+      "table": "Boleta de Compra",
+      "sourceId": 4,
+      "sourceName": "Identidad Vendedor",
+      "targetId": 4,
+      "targetName": "Ref 4",
+      "type": "Text[20]",
+      "targetTableId": 71119,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60477,
+      "table": "Boleta de Compra",
+      "sourceId": 5,
+      "sourceName": "Descripción Compra",
+      "targetId": 5,
+      "targetName": "Ref 5",
+      "type": "Text[250]",
+      "targetTableId": 71119,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60477,
+      "table": "Boleta de Compra",
+      "sourceId": 6,
+      "sourceName": "Monto Total",
+      "targetId": 6,
+      "targetName": "Ref 6",
+      "type": "Decimal",
+      "targetTableId": 71119,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60457,
+      "table": "Configuración Impuestos HN",
+      "sourceId": 1,
+      "sourceName": "Clave Primaria",
+      "targetId": 1,
+      "targetName": "Ref 1",
+      "type": "Code[10]",
+      "targetTableId": 71120,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60457,
+      "table": "Configuración Impuestos HN",
+      "sourceId": 2,
+      "sourceName": "Versión Actual DAI",
+      "targetId": 2,
+      "targetName": "Ref 2",
+      "type": "Integer",
+      "targetTableId": 71120,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60457,
+      "table": "Configuración Impuestos HN",
+      "sourceId": 3,
+      "sourceName": "Ruta Exportación Informes",
+      "targetId": 3,
+      "targetName": "Ref 3",
+      "type": "Text[250]",
+      "targetTableId": 71120,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60457,
+      "table": "Configuración Impuestos HN",
+      "sourceId": 4,
+      "sourceName": "Serie Comprobantes Retención",
+      "targetId": 4,
+      "targetName": "Ref 4",
+      "type": "Code[20]",
+      "targetTableId": 71120,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60457,
+      "table": "Configuración Impuestos HN",
+      "sourceId": 5,
+      "sourceName": "Validar Número de Factura",
+      "targetId": 5,
+      "targetName": "Ref 5",
+      "type": "Boolean",
+      "targetTableId": 71120,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60457,
+      "table": "Configuración Impuestos HN",
+      "sourceId": 6,
+      "sourceName": "Template Diario Recepción",
+      "targetId": 6,
+      "targetName": "Ref 6",
+      "type": "Code[10]",
+      "targetTableId": 71120,
+      "referenceOnly": true,
+      "extendedReference": true
+    },
+    {
+      "tableId": 60457,
+      "table": "Configuración Impuestos HN",
+      "sourceId": 7,
+      "sourceName": "Batch Diario Recepción",
+      "targetId": 7,
+      "targetName": "Ref 7",
+      "type": "Code[10]",
+      "targetTableId": 71120,
+      "referenceOnly": true,
+      "extendedReference": true
     }
-  ]
+  ],
+  "referenceTables": [
+    {
+      "sourceTableId": 60450,
+      "targetTableId": 71113,
+      "targetName": "HN Ref Catalogo 60450",
+      "page": "HN Ref Lista 60450"
+    },
+    {
+      "sourceTableId": 60489,
+      "targetTableId": 71114,
+      "targetName": "HN Ref Catalogo 60489",
+      "page": "HN Ref Lista 60489"
+    },
+    {
+      "sourceTableId": 60451,
+      "targetTableId": 71115,
+      "targetName": "HN Ref Catalogo 60451",
+      "page": "HN Ref Lista 60451"
+    },
+    {
+      "sourceTableId": 60452,
+      "targetTableId": 71116,
+      "targetName": "HN Ref Catalogo 60452",
+      "page": "HN Ref Lista 60452"
+    },
+    {
+      "sourceTableId": 60459,
+      "targetTableId": 71117,
+      "targetName": "HN Ref Catalogo 60459",
+      "page": "HN Ref Lista 60459"
+    },
+    {
+      "sourceTableId": 60510,
+      "targetTableId": 71118,
+      "targetName": "HN Ref Catalogo 60510",
+      "page": "HN Ref Lista 60510"
+    },
+    {
+      "sourceTableId": 60477,
+      "targetTableId": 71119,
+      "targetName": "HN Ref Catalogo 60477",
+      "page": "HN Ref Lista 60477"
+    },
+    {
+      "sourceTableId": 60457,
+      "targetTableId": 71120,
+      "targetName": "HN Ref Catalogo 60457",
+      "page": "HN Ref Lista 60457"
+    }
+  ],
+  "mapVersion": "A563FF9529ACE4D59876"
 }

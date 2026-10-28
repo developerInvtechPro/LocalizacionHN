@@ -31,7 +31,19 @@ page 71114 "HN Boletas Compra"
             action(Nueva) { Caption = 'Nueva boleta de compra'; ApplicationArea = All; Image = NewDocument; RunObject = page "HN Boleta Compra"; RunPageMode = Create; }
             action(Historico) { Caption = 'Boletas de compra registradas'; ApplicationArea = All; Image = History; RunObject = page "HN Boletas Registradas"; }
             action(Configuracion) { Caption = 'Configuración de facturación HN'; ApplicationArea = All; Image = Setup; RunObject = page "HN Config. Facturacion"; }
-            action(CAI) { Caption = 'Configurar CAI'; ApplicationArea = All; Image = Setup; RunObject = page "HN CAI Authorizations"; RunPageView = where("Document Type" = const(BoletaCompra)); }
+            action(CAI)
+            {
+                Caption = 'Configurar CAI'; ApplicationArea = All; Image = Setup;
+                trigger OnAction()
+                var
+                    Autorizaciones: Record "HN CAI Authorization";
+                    PaginaCAI: Page "HN CAI Authorizations";
+                begin
+                    Autorizaciones.SetRange("Document Type", "HN Fiscal Document Type"::BoletaCompra);
+                    PaginaCAI.SetTableView(Autorizaciones);
+                    PaginaCAI.RunModal();
+                end;
+            }
         }
     }
 }
@@ -107,13 +119,26 @@ page 71115 "HN Boleta Compra"
             }
             action(Borrador)
             {
+                Visible = false;
                 Caption = 'Imprimir borrador sin validez fiscal'; ApplicationArea = All; Image = Print;
                 trigger OnAction()
                 var Documento: Record "Purchase Header";
                 begin CurrPage.SaveRecord(); Documento := Rec; Documento.SetRecFilter(); Report.RunModal(Report::"HN Borrador Boleta", true, false, Documento); end;
             }
             action(Configuracion) { Caption = 'Configuración de facturación HN'; ApplicationArea = All; Image = Setup; RunObject = page "HN Config. Facturacion"; }
-            action(CAI) { Caption = 'Configurar CAI'; ApplicationArea = All; Image = Setup; RunObject = page "HN CAI Authorizations"; RunPageView = where("Document Type" = const(BoletaCompra)); }
+            action(CAI)
+            {
+                Caption = 'Configurar CAI'; ApplicationArea = All; Image = Setup;
+                trigger OnAction()
+                var
+                    Autorizaciones: Record "HN CAI Authorization";
+                    PaginaCAI: Page "HN CAI Authorizations";
+                begin
+                    Autorizaciones.SetRange("Document Type", "HN Fiscal Document Type"::BoletaCompra);
+                    PaginaCAI.SetTableView(Autorizaciones);
+                    PaginaCAI.RunModal();
+                end;
+            }
         }
     }
     trigger OnNewRecord(BelowxRec: Boolean)
@@ -148,6 +173,7 @@ page 71116 "HN Boletas Registradas"
         {
             action(Imprimir)
             {
+                Visible = false;
                 Caption = 'Imprimir boleta de compra'; ApplicationArea = All; Image = Print;
                 trigger OnAction()
                 var Documento: Record "Purch. Inv. Header";

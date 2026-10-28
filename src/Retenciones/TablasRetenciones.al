@@ -53,6 +53,19 @@ table 50102 "HN Retention Header"
         field(34; "Replaces No."; Code[20]) { Caption = 'Sustituye al comprobante'; TableRelation = "HN Retention Header" where(Status = const(Cancelled)); Editable = false; }
         field(35; "Tax Reported"; Boolean) { Caption = 'Declarada o enterada al SAR'; Editable = false; }
         field(36; "Tax Correction Ref."; Text[100]) { Caption = 'Referencia de revisión fiscal'; Editable = false; }
+        field(38; "RTN proveedor completo"; Text[50])
+        {
+            Caption = 'RTN proveedor';
+            trigger OnValidate()
+            var Gestion: Codeunit "HN Gestion RTN Proveedor";
+            begin
+                Gestion.ValidarEleccion(Rec,"RTN proveedor completo");
+                // Campo anterior conservado sin cambiar su tipo ni truncar un RTN largo.
+                if StrLen("RTN proveedor completo") <= MaxStrLen("Vendor RTN") then
+                    "Vendor RTN" := "RTN proveedor completo"
+                else Clear("Vendor RTN");
+            end;
+        }
         field(37; "Invoice Count"; Integer) { Caption = 'Cantidad de facturas'; FieldClass = FlowField; CalcFormula = count("HN Retention Invoice" where("Document No." = field("No."))); Editable = false; }
     }
     keys
@@ -60,18 +73,31 @@ table 50102 "HN Retention Header"
         key(PK; "No.") { Clustered = true; }
         key(Invoice; "Invoice No.") { }
     }
-    trigger OnModify()
+    procedure ObtenerRTNProveedor(): Text[50]
     begin
-        if xRec.Status <> xRec.Status::Draft then
+        if "RTN proveedor completo" <> '' then exit("RTN proveedor completo");
+        exit("Vendor RTN");
+    end;
+    trigger OnModify()
+    var Guardado: Record "HN Retention Header";
+    begin
+        // En llamadas AL, xRec puede reflejar el estado recién asignado en Rec.
+        // La protección debe comprobar el estado persistido antes de modificar.
+        if IsTemporary() then Guardado.Copy(Rec,true);
+        Guardado.LockTable();
+        Guardado.Get("No.");
+        if Guardado.Status <> Guardado.Status::Draft then
             Error('No se puede modificar un comprobante registrado.');
     end;
     trigger OnDelete()
     var
         Lines: Record "HN Retention Line";
+        Seleccion: Record "HN Seleccion Ret. Factura";
     begin
         TestField(Status, Status::Draft);
         Lines.SetRange("Document No.", "No.");
         Lines.DeleteAll(true);
+        Seleccion.SetRange(Documento,"No."); Seleccion.DeleteAll(true);
         DeleteSources();
     end;
     trigger OnRename()

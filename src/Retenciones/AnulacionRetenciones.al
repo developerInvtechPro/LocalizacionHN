@@ -132,6 +132,8 @@ codeunit 71101 "HN Retention Cancellation"
             else
                 Management.AddInvoice(Replacement, Invoice);
         until Source.Next() = 0;
+        Management.CopiarSeleccion(Header,Replacement);
+        Management.Recalculate(Replacement);
         Replacement."Replaces No." := Header."No.";
         Replacement.Modify(true);
         exit(Replacement."No.");

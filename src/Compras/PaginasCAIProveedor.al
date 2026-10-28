@@ -192,6 +192,7 @@ pageextension 71114 "HN CAI Compra Pagina 71114" extends "Posted Purchase Invoic
             }
             action(ImprimirComprobanteHN)
             {
+                Visible = false;
                 Caption = 'Imprimir comprobante HN'; ApplicationArea = All; Image = Print;
                 trigger OnAction()
                 var
@@ -227,6 +228,7 @@ pageextension 71115 "HN CAI Compra Pagina 71115" extends "Posted Purchase Credit
             }
             action(ImprimirComprobanteHN)
             {
+                Visible = false;
                 Caption = 'Imprimir comprobante HN'; ApplicationArea = All; Image = Print;
                 trigger OnAction()
                 var

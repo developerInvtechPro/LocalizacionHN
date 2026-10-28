@@ -13,6 +13,21 @@ codeunit 71114 "HN Importe En Letras"
         exit(Grupo(Entero) + Enlace + ' LEMPIRAS CON ' + PadStr('', 2 - StrLen(Format(Centavos, 0, 9)), '0') + Format(Centavos, 0, 9) + '/100');
     end;
 
+    procedure ConvertirMoneda(Importe: Decimal; Moneda: Text): Text
+    var NombreMoneda: Text; Texto: Text;
+    begin
+        case UpperCase(Moneda) of
+            'HNL': NombreMoneda := 'LEMPIRAS';
+            'USD': NombreMoneda := 'DÓLARES ESTADOUNIDENSES';
+            'EUR': NombreMoneda := 'EUROS';
+            else NombreMoneda := UpperCase(Moneda);
+        end;
+        Texto := Convertir(Abs(Importe));
+        Texto := Texto.Replace('LEMPIRAS',NombreMoneda);
+        if Round(Importe,0.01) < 0 then Texto := 'MENOS ' + Texto;
+        exit(Texto);
+    end;
+
     local procedure Grupo(Numero: Decimal): Text
     var Parte: Integer; Resto: Decimal; Texto: Text;
     begin

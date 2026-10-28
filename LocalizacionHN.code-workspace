@@ -4,5 +4,11 @@
       "name": "LocalizacionHN_V2",
       "path": "."
     }
-  ]
+  ],
+  "settings": {
+    "al.incrementalBuild": false,
+    "al.compilationOptions": {
+      "generateReportLayout": false
+    }
+  }
 }

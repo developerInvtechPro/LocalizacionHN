@@ -99,7 +99,21 @@ page 50107 "HN Debit Note Card"
                 field(PricesVAT; Rec."Prices Including VAT") { ApplicationArea = All; }
                 field(Original; Rec."HN Original Invoice No.") { ApplicationArea = All; Editable = false; }
                 field(OriginalDate; Rec."HN Original Invoice Date") { ApplicationArea = All; Editable = false; }
-                field(SourceFiscal; Rec."HN Source Fiscal No.") { ApplicationArea = All; ToolTip = 'Número fiscal de la factura origen; complételo para facturas históricas que no tengan datos fiscales de este módulo.'; }
+                field(SourceFiscal; Rec."HN Source Fiscal No.")
+                {
+                    ApplicationArea = All;
+                    Lookup = true;
+                    ToolTip = 'Busque una factura registrada del mismo cliente y moneda. Al seleccionarla se completan la factura de origen, fecha, número fiscal y CAI.';
+                    trigger OnLookup(var Text: Text): Boolean
+                    begin
+                        CurrPage.SaveRecord();
+                        // Finalizar solo el guardado del borrador antes de abrir una página modal.
+                        Commit();
+                        Management.SelectOriginal(Rec);
+                        CurrPage.Update(false);
+                        exit(true);
+                    end;
+                }
                 field(Reason; Rec."HN Debit Reason") { ApplicationArea = All; }
             }
             part(Lines; "Sales Invoice Subform")
@@ -138,6 +152,8 @@ page 50107 "HN Debit Note Card"
                 trigger OnAction()
                 begin
                     CurrPage.SaveRecord();
+                    // Finalizar solo el guardado del borrador antes de abrir una página modal.
+                    Commit();
                     Management.SelectOriginal(Rec);
                     CurrPage.Update(false);
                 end;
@@ -298,6 +314,18 @@ page 50109 "HN Posted Debit Note"
                     Rec.Navigate();
                 end;
             }
+        }
+    }
+}
+
+pageextension 71130 "HN Buscar Factura Fiscal" extends "Posted Sales Invoices"
+{
+    layout
+    {
+        addafter("No.")
+        {
+            field(HNNumeroFiscal; Rec."HN Fiscal No.") { ApplicationArea = All; ToolTip = 'Número fiscal emitido por esta localización. Puede buscarlo o filtrarlo en la lista.'; }
+            field(HNNumeroFiscalPOS; Rec."INV POS Transaction No.") { ApplicationArea = All; ToolTip = 'Número fiscal de origen conservado en la migración POS.'; }
         }
     }
 }

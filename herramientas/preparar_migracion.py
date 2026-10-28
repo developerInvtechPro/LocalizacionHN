@@ -2,7 +2,15 @@
 import json, re, zipfile
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
-LEGACY = ROOT / '.alpackages/IT Invtech_Localizacion_HN_1.0.1.73.app'
+# La base ya se amplió: no reemplazar el mapa completo con el generador inicial de 68 campos.
+mapa_actual = ROOT / 'migracion/mapa-campos.json'
+if mapa_actual.exists() and len(json.loads(mapa_actual.read_text())['fields']) > 68:
+    raise SystemExit('El mapa está ampliado. Use preparar_referencias_hn.py para conservar todos los destinos; no regenere solo la base.')
+LEGACY = ROOT / '.alpackages/IT Invtech_Localizacion_HN_1.0.1.69.app'
+if not LEGACY.exists():
+    LEGACY = Path.home() / 'Downloads/IT Invtech_Localizacion_HN_1.0.1.69.app'
+if not LEGACY.exists():
+    raise SystemExit('Falta el paquete base 1.0.1.69. No se sustituye por versiones con lógica posterior.')
 
 def objects(data, category):
     yield from data.get(category, [])
@@ -56,7 +64,7 @@ for index,(tableid,tablename,fields) in enumerate(tables):
     source+='    }\n}\n\n'
 (ROOT/'src/IntegracionPOS/CamposPOS.al').write_text(source)
 (ROOT/'migracion/mapa-campos.json').write_text(json.dumps(dict(sourceAppId='ba215fdf-ea75-4dcd-875e-70dd8c5c9ff8',
-    sourceSymbolVersion='1.0.1.73',fields=mapping),indent=2,ensure_ascii=False)+'\n')
+    sourceSymbolVersion='1.0.1.69',fields=mapping),indent=2,ensure_ascii=False)+'\n')
 # El mapeo es explícito por tabla y no copia campos antiguos por coincidencia numérica.
 code='''namespace INVTECH.Honduras;
 codeunit 71103 "HN Migration Field Map"
@@ -71,17 +79,18 @@ for tableid,tablename,_ in tables:
     code+=f'            {tableid}:\n                begin\n'
     for m in mapping:
         if m['tableId']==tableid:
-            code+=f'                    Add(Map, {m["sourceId"]}, \'{m["sourceName"]}\', {m["targetId"]});\n'
+            code+=f'                    Add(Map, {m["sourceId"]}, \'{m["sourceName"]}\', {m["targetId"]}, \'{m["targetName"]}\');\n'
     code+='                end;\n'
 code+='''            else Error('Tabla no autorizada para migración de metadatos.');
         end;
     end;
-    local procedure Add(var Map: Record "HN Migration Field" temporary; SourceID: Integer; SourceName: Text[30]; TargetID: Integer)
+    local procedure Add(var Map: Record "HN Migration Field" temporary; SourceID: Integer; SourceName: Text[30]; TargetID: Integer; TargetName: Text[30])
     begin
         Map.Init();
         Map."Source ID" := SourceID;
         Map."Source Name" := SourceName;
         Map."Target ID" := TargetID;
+        Map."Target Name" := TargetName;
         Map.Insert();
     end;
 }

@@ -2,6 +2,7 @@
 import json, re, zipfile
 from pathlib import Path
 import xml.etree.ElementTree as ET
+from validar_celdas_rdlc import validar_fila
 
 root = Path(__file__).resolve().parents[1]
 manifest = json.loads((root / 'app.json').read_text())
@@ -11,6 +12,7 @@ with zipfile.ZipFile(package) as archive:
     compiled_manifest = ET.fromstring(archive.read('NavxManifest.xml'))
     assert not compiled_manifest.findall('.//{*}Dependency'), 'El paquete compilado conserva dependencias.'
     symbols = json.loads(archive.read('SymbolReference.json'))
+    disenos_empaquetados = {n: archive.read(n) for n in archive.namelist() if n.startswith('layout/')}
 
 def objects(data, category):
     yield from data.get(category, [])
@@ -38,7 +40,7 @@ assert not required, f'Extensiones de tabla faltantes: {required}'
 for source in (root / 'src').rglob('*.al'):
     if source.name == 'MapaCamposOrigen.al':
         continue  # Solo el mapa auditado de migración puede referirse a nombres de campos anteriores.
-    text = source.read_text()
+    text = re.sub(r"(?:Caption|ToolTip)\s*=\s*'(?:''|[^'])*';", '', source.read_text())
     for forbidden in ['HN Legacy', 'Config. Retenciones', 'CAI Facturación', 'Historico Comp.',
                       'Retenciones Aplicadas', 'Importe Retención', 'Is Debit Note',
                       'TransactionNumber', 'Requiere Retención', 'No. CAI']:
@@ -56,8 +58,24 @@ for archivo in (root / 'src').rglob('*.al'):
         columnas = set(re.findall(r'column\((\w+);', parte))
         columnas |= {columna + 'Format' for columna in columnas}
         rutas = re.findall(r"LayoutFile\s*=\s*'([^']+)'", parte)
+        if rutas:
+            nombre_informe = re.match(r'"([^"\n]+)"', parte)[1]
+            activos = {'HN Retention Certificate', 'HN Debit Note Certificate', 'HN Borrador Retencion'}
+            if nombre_informe in activos:
+                assert 'UsageCategory = ReportsAndAnalysis;' in parte, f'Formato activo oculto: {nombre_informe}'
+            else:
+                assert 'UsageCategory = None;' in parte, f'Formato pospuesto visible: {nombre_informe}'
+                assert 'DatosFormato.ComprobarFormatoActivo(' in parte, f'Formato pospuesto ejecutable: {nombre_informe}'
         for ruta in rutas:
+            assert disenos_empaquetados.get('layout/' + ruta) == (root / ruta).read_bytes(), f'Diseño sin recompilar en el paquete: {ruta}'
             diseno = ET.parse(root / ruta)
+            ns_rdlc = '{http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition}'
+            assert diseno.getroot().tag == ns_rdlc + 'Report', f'Esquema RDLC anterior o incompatible: {ruta}'
+            secciones = diseno.find('./' + ns_rdlc + 'ReportSections')
+            assert secciones is not None and len(secciones) == 1, f'Se necesita una sección RDLC: {ruta}'
+            for elemento in ['Body', 'Width', 'Page']:
+                assert secciones[0].find(ns_rdlc + elemento) is not None, f'Falta {elemento} en ReportSection: {ruta}'
+                assert diseno.getroot().find(ns_rdlc + elemento) is None, f'Estructura RDLC anterior: {ruta}'
             campos = {campo.attrib['Name'] for campo in diseno.findall('.//{*}Field')}
             assert campos <= columnas, f'Columnas faltantes en {ruta}: {campos-columnas}'
             for valor in diseno.findall('.//{*}Value'):
@@ -68,11 +86,12 @@ for archivo in (root / 'src').rglob('*.al'):
             for tabla in diseno.findall('.//{*}Tablix'):
                 cuerpo = tabla.find('./{*}TablixBody')
                 if cuerpo is None: continue
+                jerarquia = tabla.find('./{*}TablixRowHierarchy')
+                hojas = [m for m in jerarquia.findall('.//{*}TablixMember') if m.find('./{*}TablixMembers') is None]
+                assert len(hojas) == len(cuerpo.findall('./{*}TablixRows/{*}TablixRow')), f'Filas y jerarquía incompatibles: {ruta}'
                 ancho = len(cuerpo.findall('./{*}TablixColumns/{*}TablixColumn'))
                 for fila in cuerpo.findall('./{*}TablixRows/{*}TablixRow'):
-                    celdas = fila.findall('./{*}TablixCells/{*}TablixCell')
-                    suma = sum(int(c.findtext('./{*}CellContents/{*}ColSpan', '1')) for c in celdas)
-                    assert suma == ancho, f'Cantidad de celdas incompatible en {ruta}: {suma}/{ancho}'
+                    validar_fila(fila, ancho, ruta)
             informes.append(ruta)
 assert len(informes) == 20, f'Se esperaban 20 formatos, se encontraron {len(informes)}'
 print(f'{len(informes)} formatos RDLC: datasets, expresiones y estructura XML coherentes.')
@@ -97,10 +116,27 @@ for category in ['Tables', 'TableExtensions']:
 print('IDs, nombres y tipos de la versión V2 anterior conservados.')
 
 mapping = json.loads((root / 'migracion/mapa-campos.json').read_text())['fields']
-extensions = {obj['TargetObject'].split('#')[-1]: obj for obj in objects(symbols, 'TableExtensions') if obj['Name'].startswith('HN POS Metadata')}
+destinos = {}
+for obj in objects(symbols, 'TableExtensions'):
+    tabla = obj['TargetObject'].split('#')[-1]
+    destinos.setdefault(tabla, {}).update({f['Id']:f for f in obj.get('Fields',[])})
+for obj in objects(symbols, 'Tables'):
+    destinos[obj['Id']] = {f['Id']:f for f in obj.get('Fields',[])}
 for field in mapping:
-    obj = extensions[field['table']]
-    target = next(f for f in obj['Fields'] if f['Id'] == field['targetId'])
-    assert (target['Name'], target['TypeDefinition']['Name']) == (field['targetName'], field['type'])
+    tabla = field['table'] if field.get('targetTableId',field['tableId'])==field['tableId'] else field['targetTableId']
+    target = destinos[tabla][field['targetId']]
+    assert (target['Name'],target['TypeDefinition']['Name'])==(field['targetName'],field['type']), field
 print(f'{len(mapping)} destinos verificados con tipos y longitudes de origen.')
 print('ATENCIÓN: migracion/inventario.json documenta conflictos de IDs con API_BCPOS; no desplegar juntos hasta resolverlos.')
+
+mapa_al = (root / 'src/Migracion/MapaCamposOrigen.al').read_text()
+pares_al = set(); tabla_actual = None
+for linea in mapa_al.splitlines():
+    numero = re.match(r'            (\d+):', linea)
+    if numero: tabla_actual = int(numero.group(1))
+    campo = re.search(r"Add\(Map, (\d+), '([^']+)', (\d+), '([^']+)', (\d+), (true|false)\)", linea)
+    if campo: pares_al.add((tabla_actual, int(campo[1]), campo[2], int(campo[3]), campo[4], int(campo[5]), campo[6]=='true'))
+esperados = {(f['tableId'],f['sourceId'],f['sourceName'],f['targetId'],f['targetName'],f.get('targetTableId',f['tableId']),f.get('referenceOnly',False)) for f in mapping}
+assert pares_al == esperados, 'El mapa AL y el JSON no coinciden.'
+assert len({(f.get('targetTableId',f['tableId']),f['targetId']) for f in mapping}) == len(mapping), 'Destinos repetidos en el mapa.'
+print('Mapa AL y contrato JSON coinciden; destinos sin repeticiones por tabla.')

@@ -22,6 +22,18 @@ permissionset 50100 "HN LOCALIZATION"
     Assignable = true;
     Caption = 'Localización Honduras V2';
     Permissions =
+        tabledata "HN Ref Catalogo 60450" = R, table "HN Ref Catalogo 60450" = X, page "HN Ref Lista 60450" = X,
+        tabledata "HN Ref Catalogo 60489" = R, table "HN Ref Catalogo 60489" = X, page "HN Ref Lista 60489" = X,
+        tabledata "HN Ref Catalogo 60451" = R, table "HN Ref Catalogo 60451" = X, page "HN Ref Lista 60451" = X,
+        tabledata "HN Ref Catalogo 60452" = R, table "HN Ref Catalogo 60452" = X, page "HN Ref Lista 60452" = X,
+        tabledata "HN Ref Catalogo 60459" = R, table "HN Ref Catalogo 60459" = X, page "HN Ref Lista 60459" = X,
+        tabledata "HN Ref Catalogo 60510" = R, table "HN Ref Catalogo 60510" = X, page "HN Ref Lista 60510" = X,
+        tabledata "HN Ref Catalogo 60477" = R, table "HN Ref Catalogo 60477" = X, page "HN Ref Lista 60477" = X,
+        tabledata "HN Ref Catalogo 60457" = R, table "HN Ref Catalogo 60457" = X, page "HN Ref Lista 60457" = X,
+        table "HN Valor Referencia" = X, page "HN Valores Referencia" = X, codeunit "HN Consultar Referencias" = X,
+        codeunit "HN Migration Field Map" = X, table "HN Migration Field" = X,
+        table "HN Opcion RTN Proveedor" = X, page "HN Elegir RTN Proveedor" = X, codeunit "HN Gestion RTN Proveedor" = X,
+        tabledata "HN Seleccion Ret. Factura" = RIMD, table "HN Seleccion Ret. Factura" = X, page "HN Conceptos Factura Ret." = X,
         tabledata "HN Config. Facturacion" = RIMD,
         tabledata "HN CAI Proveedor" = RIMD,
         tabledata "HN Movimiento Fiscal" = RI,
@@ -90,6 +102,7 @@ permissionset 50100 "HN LOCALIZATION"
         report "HN Movimientos ISV" = X,
         codeunit "HN Gestion Boletas" = X,
         codeunit "HN Importe En Letras" = X,
+        codeunit "HN Datos Formatos" = X,
         page "HN Boletas Compra" = X,
         page "HN Boleta Compra" = X,
         page "HN Boletas Registradas" = X,

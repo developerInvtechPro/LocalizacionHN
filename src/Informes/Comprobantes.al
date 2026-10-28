@@ -28,11 +28,17 @@ report 50100 "HN Retention Certificate"
         dataitem(Header; "HN Retention Header")
         {
             RequestFilterFields = "No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Currency_Label; DatosFormato.RotuloMoneda("Currency Code")) { }
+            column(Amount_In_Words; DatosFormato.Letras(Amount,"Currency Code")) { }
             column(Document_No; "No.") { }
             column(Fiscal_No; "Fiscal No.") { }
             column(Issue_Date; Format("Posting Date")) { }
             column(Party_Name; "Vendor Name") { }
-            column(Party_RTN; "Vendor RTN") { }
+            column(Party_RTN; ObtenerRTNProveedor()) { }
             column(Source_No; "Vendor Invoice No.") { }
             column(Source_CAI; "Invoice CAI") { }
             column(CAI_Value; CAI) { }
@@ -49,6 +55,7 @@ report 50100 "HN Retention Certificate"
             dataitem(Line; "HN Retention Line")
             {
                 DataItemLink = "Document No." = field("No.");
+                column(Line_Code; "Retention Code") { }
                 column(Line_Invoice; "Vendor Invoice No.") { }
                 column(Line_Invoice_CAI; "Invoice CAI") { }
                 column(Line_Invoice_Date; Format("Invoice Date")) { }
@@ -72,7 +79,18 @@ report 50100 "HN Retention Certificate"
     {
         layout(Certificate) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/Retencion.rdlc'; Caption = 'Comprobante de retención HN'; }
     }
+    trigger OnPreReport()
+    begin
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
+    end;
+
     var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
         CancellationLabel: Text[20];
 }
 report 50101 "HN Debit Note Certificate"
@@ -87,6 +105,17 @@ report 50101 "HN Debit Note Certificate"
         {
             DataItemTableView = where("HN Debit Note" = const(true));
             RequestFilterFields = "No.";
+            column(Print_Date; FechaImpresionFormato) { }
+            column(Logo_Base64; LogoFormato) { }
+            column(Logo_MIME; TipoLogoFormato) { }
+            column(Issuer_Contact; ContactoFormato) { }
+            column(Currency_Label; DatosFormato.RotuloMoneda("Currency Code")) { }
+            column(Amount_In_Words; DatosFormato.Letras("Amount Including VAT","Currency Code")) { }
+            column(Due_Date; Format("Due Date")) { }
+            column(Exempt_Order; "INV POS Exempt Order") { }
+            column(Exempt_Register; "INV POS Exemption Register") { }
+            column(SAG_Register; "INV POS SAG Reference") { }
+            column(Prices_Include_Tax; "Prices Including VAT") { }
             column(Document_No; "No.") { }
             column(Fiscal_No; "HN Fiscal No.") { }
             column(Issue_Date; Format("Posting Date")) { }
@@ -110,6 +139,10 @@ report 50101 "HN Debit Note Certificate"
             dataitem(Line; "Sales Invoice Line")
             {
                 DataItemLink = "Document No." = field("No.");
+                column(Line_Code; "No.") { }
+                column(Line_Unit; "Unit of Measure Code") { }
+                column(Line_Discount; "Line Discount Amount" + "Inv. Discount Amount") { }
+                column(Line_Tax; "Amount Including VAT" - Amount) { }
                 column(Line_Quantity; Quantity) { }
                 column(Line_Unit_Price; "Unit Price") { }
                 column(Line_Description; Description) { }
@@ -129,4 +162,17 @@ report 50101 "HN Debit Note Certificate"
     {
         layout(Certificate) { Type = RDLC; LayoutFile = 'src/Informes/Disenos/NotaDebito.rdlc'; Caption = 'Nota de débito HN'; }
     }
+    trigger OnPreReport()
+    begin
+        FechaImpresionFormato := Format(CurrentDateTime());
+        DatosFormato.CargarEmpresa(LogoFormato,TipoLogoFormato,ContactoFormato);
+    end;
+
+    var
+        FechaImpresionFormato: Text;
+        DatosFormato: Codeunit "HN Datos Formatos";
+        LogoFormato: Text;
+        TipoLogoFormato: Text;
+        ContactoFormato: Text;
+
 }
