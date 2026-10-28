@@ -1,6 +1,6 @@
 # Localización Honduras V2
 
-**Primera instalación en producción:** usar el paquete **1.3.0.0**, generado con `python3 herramientas/compilar_produccion.py`. La base **1.2.6.0** conserva IDs del sandbox y colisiona con API_BCPOS; no publicarla en producción. [Procedimiento y fuentes de producción](documentacion/PRIMERA_INSTALACION_PRODUCCION.md).
+**Primera instalación en producción:** usar el paquete **1.3.0.1**, generado con `python3 herramientas/compilar_produccion.py`. La base **1.2.6.1** conserva IDs del sandbox y colisiona con API_BCPOS; no publicarla en producción. [Procedimiento y fuentes de producción](documentacion/PRIMERA_INSTALACION_PRODUCCION.md).
 
 Extensión independiente de INVTECH para Business Central 28, versión **1.2.6.0**.
 

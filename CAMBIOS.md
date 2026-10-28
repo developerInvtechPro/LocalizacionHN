@@ -1,5 +1,11 @@
 # Cambios
 
+## Variante de producción 1.3.0.1 — 28 de octubre de 2026
+
+- Regenerada desde la base 1.2.6.1 para primera instalación, con objetos y campos 501xx trasladados a 730xx.
+- Compilación y validación de formatos correctas; cero colisiones con API_BCPOS 1.0.0.41 y los 308 paquetes locales examinados.
+- La base del sandbox conserva sus IDs. El paquete 1.2.6.1 no debe instalarse junto con API_BCPOS en producción.
+
 ## Variante de producción 1.3.0.0 — 28 de octubre de 2026
 
 - Paquete separado para primera instalación de V2 en producción: identidades 50100–50149 trasladadas a 73000–73049, conservando el rango 71100–71199 y el App ID.
