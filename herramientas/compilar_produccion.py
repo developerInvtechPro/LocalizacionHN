@@ -119,7 +119,7 @@ def main():
         for paquete in (ROOT/'.alpackages').glob('Microsoft_*.app'): (stage/'.alpackages'/paquete.name).symlink_to(paquete.resolve())
         subprocess.run([sys.executable,str(stage/'herramientas/compilar.py')],check=True)
         subprocess.run([sys.executable,str(verificador)],check=True)
-        subprocess.run([sys.executable,'-m','unittest','discover','-s',str(stage/'pruebas'),'-p','test_celdas_rdlc.py'],cwd=stage,check=True)
+        subprocess.run([sys.executable,'-m','unittest','discover','-s',str(stage/'pruebas'),'-p','test_*.py'],cwd=stage,check=True)
         compiled=stage/'artefactos'/f'INVTECH_LocalizacionHN_V2_{PROFILE["version"]}.app'
         nuevo=simbolos(compiled);cambios=comparar_esquemas(base,nuevo)
         conflictos=colisiones(nuevo,api_symbols)
@@ -156,9 +156,10 @@ def main():
             for carpeta in ['src','pruebas','migracion']:
                 for p in (stage/carpeta).rglob('*'):
                     if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc':archivo.write(p,p.relative_to(stage))
-            for nombre in ['compilar.py','verificar_artefactos.py','validar_celdas_rdlc.py']:
+            for nombre in ['compilar.py','verificar_artefactos.py','validar_celdas_rdlc.py','validar_transferencia.py']:
                 p=stage/'herramientas'/nombre;archivo.write(p,p.relative_to(stage))
             for nombre in ['app.json','README_PRODUCCION.md']:archivo.write(stage/nombre,nombre)
+            archivo.write(ROOT/'documentacion/CORRECCION_REGISTRO_REFERENCIAS.md','CORRECCION_REGISTRO_REFERENCIAS.md')
         assert hashes=={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in original_files if p.is_file()},'Se modificó el proyecto base.'
         print(f'PRODUCCIÓN: {compiled.name}; {len(cambios)} identidades trasladadas; cero colisiones con API_BCPOS y {len(revisados)} paquetes locales.')
         print(f'Fuentes revisables: {fuente}')

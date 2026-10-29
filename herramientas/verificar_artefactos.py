@@ -140,3 +140,7 @@ esperados = {(f['tableId'],f['sourceId'],f['sourceName'],f['targetId'],f['target
 assert pares_al == esperados, 'El mapa AL y el JSON no coinciden.'
 assert len({(f.get('targetTableId',f['tableId']),f['targetId']) for f in mapping}) == len(mapping), 'Destinos repetidos en el mapa.'
 print('Mapa AL y contrato JSON coinciden; destinos sin repeticiones por tabla.')
+
+# Impide publicar campos con el mismo número y distinto tipo o concepto.
+from validar_transferencia import validar as validar_transferencia
+print(f"{validar_transferencia(symbols)} pares de tablas compatibles con TransferFields.")

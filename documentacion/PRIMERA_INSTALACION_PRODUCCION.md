@@ -1,10 +1,12 @@
-# Primera instalación en producción — 1.3.0.1
+# Primera instalación en producción — 1.3.0.2
 
-Este paquete está preparado para la **primera instalación de V2 en producción**, confirmada por el usuario el 28 de octubre de 2026. El proyecto base 1.2.6.1 conserva los IDs del sandbox, donde existen pruebas y documentos.
+Este paquete está preparado para la **primera instalación de V2 en producción**, confirmada por el usuario el 28 de octubre de 2026. El proyecto base 1.2.6.2 conserva los IDs del sandbox, donde existen pruebas y documentos.
+
+La versión 1.3.0.2 también actualiza instalaciones de la rama de producción 1.3.0.x conservando sus IDs 730xx. No debe sustituir una instalación 1.2.x del sandbox. Ver [corrección de referencias](CORRECCION_REGISTRO_REFERENCIAS.md).
 
 ## Motivo y alcance
 
-El despliegue de 1.2.6.1 falló porque API_BCPOS 1.0.0.41 ya define la tabla 50100. El inventario identifica 14 colisiones de objetos/campos; cambiar solo esa tabla no resuelve el conjunto.
+El despliegue de 1.2.6.2 falló porque API_BCPOS 1.0.0.41 ya define la tabla 50100. El inventario identifica 14 colisiones de objetos/campos; cambiar solo esa tabla no resuelve el conjunto.
 
 La variante de producción traslada las declaraciones propias 50100–50149 al rango 73000–73049. Conserva los objetos y campos 71100–71199. Conserva nombres, tipos, longitudes, valores de enumeraciones, claves y relaciones por nombre. El App ID se mantiene: `0afcac2a-37c1-4666-b0a6-72d4e5320046`.
 
@@ -14,15 +16,15 @@ Ejemplos: tabla de configuración 50100 → 73000, autorización CAI 50101 → 7
 
 ## Archivos de entrega
 
-- `INVTECH_LocalizacionHN_V2_1.3.0.1.app`: primera instalación en producción.
-- `LocalizacionHN_V2_Produccion_1.3.0.1_fuentes.zip`: fuentes de esa variante, con su propio app.json y mapa de destinos. Si se va a publicar desde VS Code, abrir estas fuentes como un proyecto separado y descargar sus símbolos Microsoft.
-- `auditoria-produccion-1.3.0.1.json`: identidades trasladadas, hashes de los paquetes contrastados, colisiones antes/después y aplicaciones locales examinadas.
-- El paquete de pruebas 1.3.0.1 es para un sandbox de validación, no se necesita para operar en producción.
+- `INVTECH_LocalizacionHN_V2_1.3.0.2.app`: primera instalación en producción.
+- `LocalizacionHN_V2_Produccion_1.3.0.2_fuentes.zip`: fuentes de esa variante, con su propio app.json y mapa de destinos. Si se va a publicar desde VS Code, abrir estas fuentes como un proyecto separado y descargar sus símbolos Microsoft.
+- `auditoria-produccion-1.3.0.2.json`: identidades trasladadas, hashes de los paquetes contrastados, colisiones antes/después y aplicaciones locales examinadas.
+- El paquete de pruebas 1.3.0.2 es para un sandbox de validación, no se necesita para operar en producción.
 
 ## Publicación
 
 1. En Administración de extensiones del entorno de destino, confirmar que V2 no está instalada y que no hay una instalación anterior pendiente. No desinstalar API_BCPOS ni la localización anterior.
-2. Usar el paquete **1.3.0.1**. El paquete base 1.2.6.1 conserva los IDs antiguos y volverá a chocar con API_BCPOS. No compilar el proyecto base para publicarlo en producción.
+2. Usar el paquete **1.3.0.2**. El paquete base 1.2.6.2 conserva los IDs antiguos y volverá a chocar con API_BCPOS. No compilar el proyecto base para publicarlo en producción.
 3. Primero comprobar el paquete en una copia de sandbox que tenga las mismas aplicaciones instaladas que producción. El contraste de archivos locales no sustituye esta comprobación del entorno.
 4. Completar la carga mediante el procedimiento de extensiones del entorno. El agente no ejecuta publicación, sincronización ni instalación desde esta preparación.
 5. Revisar permisos, configuración propia y pruebas de retención/nota de débito. La instalación no ejecuta la copia de referencias de la localización antigua.

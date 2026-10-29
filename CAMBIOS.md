@@ -1,5 +1,12 @@
 # Cambios
 
+## 1.2.6.2 sandbox / 1.3.0.2 producción — 29 de octubre de 2026
+
+- Corrige los conflictos de TransferFields en facturas, pedidos, notas de crédito y compras. Los campos de referencia originales se conservan con el mismo ID, nombre y tipo, retirados de las transferencias automáticas.
+- Añade 96 destinos compatibles entre documentos e históricos (75 IDs de campo en 74000–74074), con copia y validación automática por empresa durante la actualización de V2. La etiqueta solo se registra después de comparar todos los valores; los originales no se borran.
+- Actualiza el mapa de migración a los nuevos destinos. Una validación de migración de la localización anterior requiere una nueva ejecución con la firma vigente.
+- Añade comprobación de tipos y conceptos en 12 pares de tablas, cinco pruebas Python y doce pruebas AL. Las pruebas AL necesitan ejecución en Business Central.
+
 ## Variante de producción 1.3.0.1 — 28 de octubre de 2026
 
 - Regenerada desde la base 1.2.6.1 para primera instalación, con objetos y campos 501xx trasladados a 730xx.

@@ -44,29 +44,29 @@ codeunit 71103 "HN Migration Field Map"
                     Add(Map, 60133, 'OrdenDeCompraEXENTA', 71121, 'INV POS Exempt Order', 36, false);
                     Add(Map, 60134, 'OrdenDeRegistroExonerados', 71122, 'INV POS Exemption Register', 36, false);
                     Add(Map, 60135, 'OrdenDeCompraSAG', 71123, 'INV POS SAG Reference', 36, false);
-                    Add(Map, 60109, 'Campo Booleano', 71125, 'HN Ref 60109', 36, true);
-                    Add(Map, 60132, 'OrdenDeCompras', 71126, 'HN Ref 60132', 36, true);
-                    Add(Map, 60124, 'Fecha Inicio', 71127, 'HN Ref 60124', 36, true);
-                    Add(Map, 60125, 'Fecha Fin', 71128, 'HN Ref 60125', 36, true);
-                    Add(Map, 60102, 'Importe Retención', 71129, 'HN Ref 60102', 36, true);
-                    Add(Map, 60104, 'Nuevo Código Exoneración', 71130, 'HN Ref 60104', 36, true);
-                    Add(Map, 60105, 'Grupo Impuestos Honduras', 71131, 'HN Ref 60105', 36, true);
-                    Add(Map, 60455, 'LabelSalesInvoice', 71132, 'HN Ref 60455', 36, true);
-                    Add(Map, 60486, 'Image1', 71133, 'HN Ref 60486', 36, true);
-                    Add(Map, 60507, 'Fuente', 71134, 'HN Ref 60507', 36, true);
-                    Add(Map, 60508, 'Proyecto', 71135, 'HN Ref 60508', 36, true);
-                    Add(Map, 60509, 'ProyectoUbicacion', 71136, 'HN Ref 60509', 36, true);
-                    Add(Map, 60510, 'Total IVA 18%', 71137, 'HN Ref 60510', 36, true);
-                    Add(Map, 60511, 'Total IVA 0%', 71138, 'HN Ref 60511', 36, true);
-                    Add(Map, 60512, 'Total IVA Otros', 71139, 'HN Ref 60512', 36, true);
-                    Add(Map, 60513, 'Resumen Impuestos', 71141, 'HN Ref 60513', 36, true);
-                    Add(Map, 60514, 'Total Exento', 71142, 'HN Ref 60514', 36, true);
-                    Add(Map, 60515, 'Total IVA 15%', 71143, 'HN Ref 60515', 36, true);
-                    Add(Map, 60516, 'Total Exonerado', 71144, 'HN Ref 60516', 36, true);
-                    Add(Map, 60517, 'Is Debit Note', 71145, 'HN Ref 60517', 36, true);
-                    Add(Map, 60518, 'Debit Note Reason', 71146, 'HN Ref 60518', 36, true);
-                    Add(Map, 60519, 'Debit Original Invoice No.', 71147, 'HN Ref 60519', 36, true);
-                    Add(Map, 60520, 'Debit Original Invoice Date', 71148, 'HN Ref 60520', 36, true);
+                    Add(Map, 60109, 'Campo Booleano', 74050, 'HN Copia 60109', 36, true);
+                    Add(Map, 60132, 'OrdenDeCompras', 74053, 'HN Copia 60132', 36, true);
+                    Add(Map, 60124, 'Fecha Inicio', 74051, 'HN Copia 60124', 36, true);
+                    Add(Map, 60125, 'Fecha Fin', 74052, 'HN Copia 60125', 36, true);
+                    Add(Map, 60102, 'Importe Retención', 74047, 'HN Copia 60102', 36, true);
+                    Add(Map, 60104, 'Nuevo Código Exoneración', 74048, 'HN Copia 60104', 36, true);
+                    Add(Map, 60105, 'Grupo Impuestos Honduras', 74049, 'HN Copia 60105', 36, true);
+                    Add(Map, 60455, 'LabelSalesInvoice', 74054, 'HN Copia 60455', 36, true);
+                    Add(Map, 60486, 'Image1', 74055, 'HN Copia 60486', 36, true);
+                    Add(Map, 60507, 'Fuente', 74056, 'HN Copia 60507', 36, true);
+                    Add(Map, 60508, 'Proyecto', 74057, 'HN Copia 60508', 36, true);
+                    Add(Map, 60509, 'ProyectoUbicacion', 74058, 'HN Copia 60509', 36, true);
+                    Add(Map, 60510, 'Total IVA 18%', 74059, 'HN Copia 60510', 36, true);
+                    Add(Map, 60511, 'Total IVA 0%', 74060, 'HN Copia 60511', 36, true);
+                    Add(Map, 60512, 'Total IVA Otros', 74061, 'HN Copia 60512', 36, true);
+                    Add(Map, 60513, 'Resumen Impuestos', 74062, 'HN Copia 60513', 36, true);
+                    Add(Map, 60514, 'Total Exento', 74063, 'HN Copia 60514', 36, true);
+                    Add(Map, 60515, 'Total IVA 15%', 74064, 'HN Copia 60515', 36, true);
+                    Add(Map, 60516, 'Total Exonerado', 74065, 'HN Copia 60516', 36, true);
+                    Add(Map, 60517, 'Is Debit Note', 74066, 'HN Copia 60517', 36, true);
+                    Add(Map, 60518, 'Debit Note Reason', 74067, 'HN Copia 60518', 36, true);
+                    Add(Map, 60519, 'Debit Original Invoice No.', 74068, 'HN Copia 60519', 36, true);
+                    Add(Map, 60520, 'Debit Original Invoice Date', 74069, 'HN Copia 60520', 36, true);
                 end;
             37:
                 begin
@@ -77,69 +77,69 @@ codeunit 71103 "HN Migration Field Map"
                     Add(Map, 60454, 'VAT_PROD_POSTING_GROUP', 71104, 'INV POS Received VAT Rate', 37, false);
                     Add(Map, 60455, 'VAT_AMOUNT', 71105, 'INV POS Line Received VAT', 37, false);
                     Add(Map, 60456, 'AMOUNT_INCLUDING_VAT', 71106, 'INV POS Line Received Total', 37, false);
-                    Add(Map, 60101, 'Importe Impuesto', 71107, 'HN Ref 60101', 37, true);
-                    Add(Map, 60450, 'VATExcentoLine', 71108, 'HN Ref 60450', 37, true);
-                    Add(Map, 60458, 'PictureGuid', 71109, 'HN Ref 60458', 37, true);
+                    Add(Map, 60101, 'Importe Impuesto', 74070, 'HN Copia 60101', 37, true);
+                    Add(Map, 60450, 'VATExcentoLine', 74071, 'HN Copia 60450', 37, true);
+                    Add(Map, 60458, 'PictureGuid', 74072, 'HN Copia 60458', 37, true);
                     Add(Map, 60459, 'ZY Thumbail', 71110, 'HN Ref 60459', 37, true);
-                    Add(Map, 60531, 'ZY Extended Description', 71111, 'HN Ref 60531', 37, true);
-                    Add(Map, 60530, 'Tiempo Entrega', 71112, 'HN Ref 60530', 37, true);
+                    Add(Map, 60531, 'ZY Extended Description', 74074, 'HN Copia 60531', 37, true);
+                    Add(Map, 60530, 'Tiempo Entrega', 74073, 'HN Copia 60530', 37, true);
                 end;
             38:
                 begin
                     Add(Map, 60450, 'No. CAI', 50102, 'HN Vendor CAI', 38, false);
-                    Add(Map, 60460, 'Código CAI', 71100, 'HN Ref 60460', 38, true);
+                    Add(Map, 60460, 'Código CAI', 74005, 'HN Copia 60460', 38, true);
                     Add(Map, 60461, 'Fecha Límite Emisión', 71143, 'HN Vence CAI Proveedor', 38, false);
                     Add(Map, 60462, 'Factura Inicial', 71141, 'HN Inicio CAI Proveedor', 38, false);
                     Add(Map, 60463, 'Factura Final', 71142, 'HN Fin CAI Proveedor', 38, false);
-                    Add(Map, 60451, 'Importe Retención', 71101, 'HN Ref 60451', 38, true);
-                    Add(Map, 60452, 'CAI Fecha Inicio', 71102, 'HN Ref 60452', 38, true);
-                    Add(Map, 60453, 'CAI Fecha Fin', 71103, 'HN Ref 60453', 38, true);
-                    Add(Map, 60454, 'Check Total', 71104, 'HN Ref 60454', 38, true);
-                    Add(Map, 60459, 'Monto Exonerado', 71105, 'HN Ref 60459', 38, true);
-                    Add(Map, 60464, 'OrdenDeCompras', 71106, 'HN Ref 60464', 38, true);
-                    Add(Map, 60477, 'OrdenDeCompraEXENTA', 71107, 'HN Ref 60477', 38, true);
-                    Add(Map, 60466, 'OrdenDeRegistroExonerados', 71108, 'HN Ref 60466', 38, true);
-                    Add(Map, 60467, 'OrdenDeCompraSAG', 71109, 'HN Ref 60467', 38, true);
-                    Add(Map, 60473, 'Fecha Inicio', 71110, 'HN Ref 60473', 38, true);
-                    Add(Map, 60474, 'Fecha Fin', 71111, 'HN Ref 60474', 38, true);
-                    Add(Map, 60476, 'Código Exoneración', 71112, 'HN Ref 60476', 38, true);
-                    Add(Map, 60478, 'Grupo Impuestos Honduras', 71113, 'HN Ref 60478', 38, true);
-                    Add(Map, 60491, 'Batch', 71114, 'HN Ref 60491', 38, true);
-                    Add(Map, 60492, 'TransactionNumber', 71115, 'HN Ref 60492', 38, true);
-                    Add(Map, 60495, 'LabelSalesInvoice', 71116, 'HN Ref 60495', 38, true);
-                    Add(Map, 60563, 'Expected Receipt Date (Hdr)', 71117, 'HN Ref 60563', 38, true);
-                    Add(Map, 60498, 'POS Sales Doc_ Type', 71118, 'HN Ref 60498', 38, true);
-                    Add(Map, 60499, 'Billing Type', 71119, 'HN Ref 60499', 38, true);
-                    Add(Map, 60500, 'AmountTotal', 71120, 'HN Ref 60500', 38, true);
-                    Add(Map, 60501, 'VATAmount', 71121, 'HN Ref 60501', 38, true);
-                    Add(Map, 60502, 'Gas Station Code', 71122, 'HN Ref 60502', 38, true);
-                    Add(Map, 60482, 'POS Code', 71123, 'HN Ref 60482', 38, true);
-                    Add(Map, 60483, 'Comentario', 71124, 'HN Ref 60483', 38, true);
-                    Add(Map, 60564, 'Proveedor Extranjero', 71125, 'HN Ref 60564', 38, true);
-                    Add(Map, 60486, 'Image1', 71126, 'HN Ref 60486', 38, true);
-                    Add(Map, 60487, 'OC', 71127, 'HN Ref 60487', 38, true);
-                    Add(Map, 60488, 'NumeroDePlaca', 71128, 'HN Ref 60488', 38, true);
-                    Add(Map, 60489, 'Kilometraje', 71129, 'HN Ref 60489', 38, true);
-                    Add(Map, 60490, 'Chofer', 71130, 'HN Ref 60490', 38, true);
-                    Add(Map, 60506, 'Usuario', 71131, 'HN Ref 60506', 38, true);
-                    Add(Map, 60503, 'Campo Booleano', 71132, 'HN Ref 60503', 38, true);
-                    Add(Map, 60504, 'Nuevo Código Exoneración', 71133, 'HN Ref 60504', 38, true);
-                    Add(Map, 60505, 'External Document No.', 71134, 'HN Ref 60505', 38, true);
-                    Add(Map, 60507, 'Total Exento', 71135, 'HN Ref 60507', 38, true);
-                    Add(Map, 60508, 'Total IVA 15%', 71136, 'HN Ref 60508', 38, true);
-                    Add(Map, 60509, 'Total IVA 18%', 71137, 'HN Ref 60509', 38, true);
-                    Add(Map, 60510, 'Total IVA 0%', 71138, 'HN Ref 60510', 38, true);
-                    Add(Map, 60511, 'Total IVA Otros', 71139, 'HN Ref 60511', 38, true);
-                    Add(Map, 60512, 'Resumen Impuestos', 71144, 'HN Ref 60512', 38, true);
-                    Add(Map, 60513, 'Total Exonerado', 71145, 'HN Ref 60513', 38, true);
+                    Add(Map, 60451, 'Importe Retención', 74000, 'HN Copia 60451', 38, true);
+                    Add(Map, 60452, 'CAI Fecha Inicio', 74001, 'HN Copia 60452', 38, true);
+                    Add(Map, 60453, 'CAI Fecha Fin', 74002, 'HN Copia 60453', 38, true);
+                    Add(Map, 60454, 'Check Total', 74003, 'HN Copia 60454', 38, true);
+                    Add(Map, 60459, 'Monto Exonerado', 74004, 'HN Copia 60459', 38, true);
+                    Add(Map, 60464, 'OrdenDeCompras', 74006, 'HN Copia 60464', 38, true);
+                    Add(Map, 60477, 'OrdenDeCompraEXENTA', 74012, 'HN Copia 60477', 38, true);
+                    Add(Map, 60466, 'OrdenDeRegistroExonerados', 74007, 'HN Copia 60466', 38, true);
+                    Add(Map, 60467, 'OrdenDeCompraSAG', 74008, 'HN Copia 60467', 38, true);
+                    Add(Map, 60473, 'Fecha Inicio', 74009, 'HN Copia 60473', 38, true);
+                    Add(Map, 60474, 'Fecha Fin', 74010, 'HN Copia 60474', 38, true);
+                    Add(Map, 60476, 'Código Exoneración', 74011, 'HN Copia 60476', 38, true);
+                    Add(Map, 60478, 'Grupo Impuestos Honduras', 74013, 'HN Copia 60478', 38, true);
+                    Add(Map, 60491, 'Batch', 74021, 'HN Copia 60491', 38, true);
+                    Add(Map, 60492, 'TransactionNumber', 74022, 'HN Copia 60492', 38, true);
+                    Add(Map, 60495, 'LabelSalesInvoice', 74023, 'HN Copia 60495', 38, true);
+                    Add(Map, 60563, 'Expected Receipt Date (Hdr)', 74040, 'HN Copia 60563', 38, true);
+                    Add(Map, 60498, 'POS Sales Doc_ Type', 74024, 'HN Copia 60498', 38, true);
+                    Add(Map, 60499, 'Billing Type', 74025, 'HN Copia 60499', 38, true);
+                    Add(Map, 60500, 'AmountTotal', 74026, 'HN Copia 60500', 38, true);
+                    Add(Map, 60501, 'VATAmount', 74027, 'HN Copia 60501', 38, true);
+                    Add(Map, 60502, 'Gas Station Code', 74028, 'HN Copia 60502', 38, true);
+                    Add(Map, 60482, 'POS Code', 74014, 'HN Copia 60482', 38, true);
+                    Add(Map, 60483, 'Comentario', 74015, 'HN Copia 60483', 38, true);
+                    Add(Map, 60564, 'Proveedor Extranjero', 74041, 'HN Copia 60564', 38, true);
+                    Add(Map, 60486, 'Image1', 74016, 'HN Copia 60486', 38, true);
+                    Add(Map, 60487, 'OC', 74017, 'HN Copia 60487', 38, true);
+                    Add(Map, 60488, 'NumeroDePlaca', 74018, 'HN Copia 60488', 38, true);
+                    Add(Map, 60489, 'Kilometraje', 74019, 'HN Copia 60489', 38, true);
+                    Add(Map, 60490, 'Chofer', 74020, 'HN Copia 60490', 38, true);
+                    Add(Map, 60506, 'Usuario', 74032, 'HN Copia 60506', 38, true);
+                    Add(Map, 60503, 'Campo Booleano', 74029, 'HN Copia 60503', 38, true);
+                    Add(Map, 60504, 'Nuevo Código Exoneración', 74030, 'HN Copia 60504', 38, true);
+                    Add(Map, 60505, 'External Document No.', 74031, 'HN Copia 60505', 38, true);
+                    Add(Map, 60507, 'Total Exento', 74033, 'HN Copia 60507', 38, true);
+                    Add(Map, 60508, 'Total IVA 15%', 74034, 'HN Copia 60508', 38, true);
+                    Add(Map, 60509, 'Total IVA 18%', 74035, 'HN Copia 60509', 38, true);
+                    Add(Map, 60510, 'Total IVA 0%', 74036, 'HN Copia 60510', 38, true);
+                    Add(Map, 60511, 'Total IVA Otros', 74037, 'HN Copia 60511', 38, true);
+                    Add(Map, 60512, 'Resumen Impuestos', 74038, 'HN Copia 60512', 38, true);
+                    Add(Map, 60513, 'Total Exonerado', 74039, 'HN Copia 60513', 38, true);
                 end;
             39:
                 begin
-                    Add(Map, 60100, 'Aplicar Retención 1', 71100, 'HN Ref 60100', 39, true);
-                    Add(Map, 60101, 'Aplicar Retención 2', 71101, 'HN Ref 60101', 39, true);
-                    Add(Map, 60102, 'Aplicar Retención 3', 71102, 'HN Ref 60102', 39, true);
-                    Add(Map, 60104, 'Retenciones Aplicadas', 71103, 'HN Ref 60104', 39, true);
-                    Add(Map, 60103, 'Importe Retención', 71104, 'HN Ref 60103', 39, true);
+                    Add(Map, 60100, 'Aplicar Retención 1', 74042, 'HN Copia 60100', 39, true);
+                    Add(Map, 60101, 'Aplicar Retención 2', 74043, 'HN Copia 60101', 39, true);
+                    Add(Map, 60102, 'Aplicar Retención 3', 74044, 'HN Copia 60102', 39, true);
+                    Add(Map, 60104, 'Retenciones Aplicadas', 74046, 'HN Copia 60104', 39, true);
+                    Add(Map, 60103, 'Importe Retención', 74045, 'HN Copia 60103', 39, true);
                 end;
             79:
                 begin
@@ -168,20 +168,20 @@ codeunit 71103 "HN Migration Field Map"
                     Add(Map, 60121, 'Factura Inicial', 71117, 'INV POS CAI Start', 112, false);
                     Add(Map, 60122, 'Factura Final', 71118, 'INV POS CAI End', 112, false);
                     Add(Map, 60461, 'CAI', 71124, 'INV POS Additional CAI', 112, false);
-                    Add(Map, 60507, 'Fuente', 71125, 'HN Ref 60507', 112, true);
-                    Add(Map, 60508, 'Proyecto', 71126, 'HN Ref 60508', 112, true);
-                    Add(Map, 60509, 'ProyectoUbicacion', 71127, 'HN Ref 60509', 112, true);
-                    Add(Map, 60510, 'Total IVA 18%', 71128, 'HN Ref 60510', 112, true);
-                    Add(Map, 60511, 'Total IVA 0%', 71129, 'HN Ref 60511', 112, true);
-                    Add(Map, 60512, 'Total IVA Otros', 71130, 'HN Ref 60512', 112, true);
-                    Add(Map, 60513, 'Resumen Impuestos', 71131, 'HN Ref 60513', 112, true);
-                    Add(Map, 60514, 'Total Exento', 71132, 'HN Ref 60514', 112, true);
-                    Add(Map, 60515, 'Total IVA 15%', 71133, 'HN Ref 60515', 112, true);
-                    Add(Map, 60516, 'Total Exonerado', 71134, 'HN Ref 60516', 112, true);
-                    Add(Map, 60517, 'Is Debit Note', 71135, 'HN Ref 60517', 112, true);
-                    Add(Map, 60518, 'Debit Note Reason', 71136, 'HN Ref 60518', 112, true);
-                    Add(Map, 60519, 'Debit Original Invoice No.', 71137, 'HN Ref 60519', 112, true);
-                    Add(Map, 60520, 'Debit Original Invoice Date', 71138, 'HN Ref 60520', 112, true);
+                    Add(Map, 60507, 'Fuente', 74056, 'HN Copia 60507', 112, true);
+                    Add(Map, 60508, 'Proyecto', 74057, 'HN Copia 60508', 112, true);
+                    Add(Map, 60509, 'ProyectoUbicacion', 74058, 'HN Copia 60509', 112, true);
+                    Add(Map, 60510, 'Total IVA 18%', 74059, 'HN Copia 60510', 112, true);
+                    Add(Map, 60511, 'Total IVA 0%', 74060, 'HN Copia 60511', 112, true);
+                    Add(Map, 60512, 'Total IVA Otros', 74061, 'HN Copia 60512', 112, true);
+                    Add(Map, 60513, 'Resumen Impuestos', 74062, 'HN Copia 60513', 112, true);
+                    Add(Map, 60514, 'Total Exento', 74063, 'HN Copia 60514', 112, true);
+                    Add(Map, 60515, 'Total IVA 15%', 74064, 'HN Copia 60515', 112, true);
+                    Add(Map, 60516, 'Total Exonerado', 74065, 'HN Copia 60516', 112, true);
+                    Add(Map, 60517, 'Is Debit Note', 74066, 'HN Copia 60517', 112, true);
+                    Add(Map, 60518, 'Debit Note Reason', 74067, 'HN Copia 60518', 112, true);
+                    Add(Map, 60519, 'Debit Original Invoice No.', 74068, 'HN Copia 60519', 112, true);
+                    Add(Map, 60520, 'Debit Original Invoice Date', 74069, 'HN Copia 60520', 112, true);
                 end;
             113:
                 begin
@@ -192,7 +192,7 @@ codeunit 71103 "HN Migration Field Map"
                     Add(Map, 60454, 'VAT_PROD_POSTING_GROUP', 71104, 'INV POS Received VAT Rate', 113, false);
                     Add(Map, 60455, 'VAT_AMOUNT', 71105, 'INV POS Line Received VAT', 113, false);
                     Add(Map, 60456, 'AMOUNT_INCLUDING_VAT', 71106, 'INV POS Line Received Total', 113, false);
-                    Add(Map, 60450, 'VATExcentoLine', 71107, 'HN Ref 60450', 113, true);
+                    Add(Map, 60450, 'VATExcentoLine', 74071, 'HN Copia 60450', 113, true);
                 end;
             114:
                 begin
@@ -211,18 +211,18 @@ codeunit 71103 "HN Migration Field Map"
             122:
                 begin
                     Add(Map, 60450, 'No. CAI', 50102, 'HN Vendor CAI', 122, false);
-                    Add(Map, 60460, 'Código CAI', 71100, 'HN Ref 60460', 122, true);
+                    Add(Map, 60460, 'Código CAI', 74005, 'HN Copia 60460', 122, true);
                     Add(Map, 60461, 'Fecha Límite Emisión', 71143, 'HN Vence CAI Proveedor', 122, false);
                     Add(Map, 60462, 'Factura Inicial', 71141, 'HN Inicio CAI Proveedor', 122, false);
                     Add(Map, 60463, 'Factura Final', 71142, 'HN Fin CAI Proveedor', 122, false);
-                    Add(Map, 60491, 'Batch', 71101, 'HN Ref 60491', 122, true);
-                    Add(Map, 60492, 'TransactionNumber', 71102, 'HN Ref 60492', 122, true);
-                    Add(Map, 60454, 'Check Total', 71103, 'HN Ref 60454', 122, true);
+                    Add(Map, 60491, 'Batch', 74021, 'HN Copia 60491', 122, true);
+                    Add(Map, 60492, 'TransactionNumber', 74022, 'HN Copia 60492', 122, true);
+                    Add(Map, 60454, 'Check Total', 74003, 'HN Copia 60454', 122, true);
                 end;
             123:
                 begin
-                    Add(Map, 60104, 'Retenciones Aplicadas', 71100, 'HN Ref 60104', 123, true);
-                    Add(Map, 60103, 'Importe Retención', 71101, 'HN Ref 60103', 123, true);
+                    Add(Map, 60104, 'Retenciones Aplicadas', 74046, 'HN Copia 60104', 123, true);
+                    Add(Map, 60103, 'Importe Retención', 74045, 'HN Copia 60103', 123, true);
                 end;
             60450:
                 begin
@@ -323,7 +323,7 @@ codeunit 71103 "HN Migration Field Map"
     end;
     procedure VersionMap(): Code[20]
     begin
-        exit('A563FF9529ACE4D59876');
+        exit('F7864C765DF7F45661FB');
     end;
     local procedure Add(var Map: Record "HN Migration Field" temporary; SourceID: Integer; SourceName: Text[30]; TargetID: Integer; TargetName: Text[30]; TargetTable: Integer; ReferenceOnly: Boolean)
     begin

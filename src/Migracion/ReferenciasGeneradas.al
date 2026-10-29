@@ -10,29 +10,52 @@ tableextension 71119 "HN Ref Tabla 36" extends "Sales Header"
 {
     fields
     {
-        field(71125; "HN Ref 60109"; Boolean) { Caption = 'Referencia: Campo Booleano'; DataClassification = CustomerContent; Editable = false; }
-        field(71126; "HN Ref 60132"; Code[50]) { Caption = 'Referencia: Orden De Compras'; DataClassification = CustomerContent; Editable = false; }
-        field(71127; "HN Ref 60124"; Date) { Caption = 'Referencia: Fecha Inicio'; DataClassification = CustomerContent; Editable = false; }
-        field(71128; "HN Ref 60125"; Date) { Caption = 'Referencia: Fecha Fin'; DataClassification = CustomerContent; Editable = false; }
-        field(71129; "HN Ref 60102"; Decimal) { Caption = 'Referencia: Monto histórico retenido'; DataClassification = CustomerContent; Editable = false; }
-        field(71130; "HN Ref 60104"; Code[20]) { Caption = 'Referencia: Nuevo Código Exoneración'; DataClassification = CustomerContent; Editable = false; }
-        field(71131; "HN Ref 60105"; Code[20]) { Caption = 'Referencia: Grupo Impuestos Honduras'; DataClassification = CustomerContent; Editable = false; }
-        field(71132; "HN Ref 60455"; Code[20]) { Caption = 'Referencia: Etiqueta de factura'; DataClassification = CustomerContent; Editable = false; }
-        field(71133; "HN Ref 60486"; Code[30]) { Caption = 'Referencia: Identificador anterior de imagen'; DataClassification = CustomerContent; Editable = false; }
-        field(71134; "HN Ref 60507"; Text[60]) { Caption = 'Referencia: Fuente'; DataClassification = CustomerContent; Editable = false; }
-        field(71135; "HN Ref 60508"; Text[60]) { Caption = 'Referencia: Proyecto'; DataClassification = CustomerContent; Editable = false; }
-        field(71136; "HN Ref 60509"; Text[90]) { Caption = 'Referencia: ProyectoUbicacion'; DataClassification = CustomerContent; Editable = false; }
-        field(71137; "HN Ref 60510"; Decimal) { Caption = 'Referencia: Total IVA 18%'; DataClassification = CustomerContent; Editable = false; }
-        field(71138; "HN Ref 60511"; Decimal) { Caption = 'Referencia: Total IVA 0%'; DataClassification = CustomerContent; Editable = false; }
-        field(71139; "HN Ref 60512"; Decimal) { Caption = 'Referencia: Total IVA Otros'; DataClassification = CustomerContent; Editable = false; }
-        field(71141; "HN Ref 60513"; Text[250]) { Caption = 'Referencia: Resumen Impuestos'; DataClassification = CustomerContent; Editable = false; }
-        field(71142; "HN Ref 60514"; Decimal) { Caption = 'Referencia: Total Exento'; DataClassification = CustomerContent; Editable = false; }
-        field(71143; "HN Ref 60515"; Decimal) { Caption = 'Referencia: Total IVA 15%'; DataClassification = CustomerContent; Editable = false; }
-        field(71144; "HN Ref 60516"; Decimal) { Caption = 'Referencia: Total Exonerado'; DataClassification = CustomerContent; Editable = false; }
-        field(71145; "HN Ref 60517"; Boolean) { Caption = 'Referencia: Indicador anterior de nota de débito'; DataClassification = CustomerContent; Editable = false; }
-        field(71146; "HN Ref 60518"; Text[100]) { Caption = 'Referencia: Motivo anterior de nota de débito'; DataClassification = CustomerContent; Editable = false; }
-        field(71147; "HN Ref 60519"; Code[20]) { Caption = 'Referencia: Factura anterior de origen'; DataClassification = CustomerContent; Editable = false; }
-        field(71148; "HN Ref 60520"; Date) { Caption = 'Referencia: Fecha anterior de factura origen'; DataClassification = CustomerContent; Editable = false; }
+        field(71125; "HN Ref 60109"; Boolean) { Caption = 'Referencia: Campo Booleano'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74050; "HN Copia 60109"; Boolean) { Caption = 'Referencia: Campo Booleano'; DataClassification = CustomerContent; Editable = false; }
+        field(71126; "HN Ref 60132"; Code[50]) { Caption = 'Referencia: Orden De Compras'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74053; "HN Copia 60132"; Code[50]) { Caption = 'Referencia: Orden De Compras'; DataClassification = CustomerContent; Editable = false; }
+        field(71127; "HN Ref 60124"; Date) { Caption = 'Referencia: Fecha Inicio'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74051; "HN Copia 60124"; Date) { Caption = 'Referencia: Fecha Inicio'; DataClassification = CustomerContent; Editable = false; }
+        field(71128; "HN Ref 60125"; Date) { Caption = 'Referencia: Fecha Fin'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74052; "HN Copia 60125"; Date) { Caption = 'Referencia: Fecha Fin'; DataClassification = CustomerContent; Editable = false; }
+        field(71129; "HN Ref 60102"; Decimal) { Caption = 'Referencia: Monto histórico retenido'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74047; "HN Copia 60102"; Decimal) { Caption = 'Referencia: Monto histórico retenido'; DataClassification = CustomerContent; Editable = false; }
+        field(71130; "HN Ref 60104"; Code[20]) { Caption = 'Referencia: Nuevo Código Exoneración'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74048; "HN Copia 60104"; Code[20]) { Caption = 'Referencia: Nuevo Código Exoneración'; DataClassification = CustomerContent; Editable = false; }
+        field(71131; "HN Ref 60105"; Code[20]) { Caption = 'Referencia: Grupo Impuestos Honduras'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74049; "HN Copia 60105"; Code[20]) { Caption = 'Referencia: Grupo Impuestos Honduras'; DataClassification = CustomerContent; Editable = false; }
+        field(71132; "HN Ref 60455"; Code[20]) { Caption = 'Referencia: Etiqueta de factura'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74054; "HN Copia 60455"; Code[20]) { Caption = 'Referencia: Etiqueta de factura'; DataClassification = CustomerContent; Editable = false; }
+        field(71133; "HN Ref 60486"; Code[30]) { Caption = 'Referencia: Identificador anterior de imagen'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74055; "HN Copia 60486"; Code[30]) { Caption = 'Referencia: Identificador anterior de imagen'; DataClassification = CustomerContent; Editable = false; }
+        field(71134; "HN Ref 60507"; Text[60]) { Caption = 'Referencia: Fuente'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74056; "HN Copia 60507"; Text[60]) { Caption = 'Referencia: Fuente'; DataClassification = CustomerContent; Editable = false; }
+        field(71135; "HN Ref 60508"; Text[60]) { Caption = 'Referencia: Proyecto'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74057; "HN Copia 60508"; Text[60]) { Caption = 'Referencia: Proyecto'; DataClassification = CustomerContent; Editable = false; }
+        field(71136; "HN Ref 60509"; Text[90]) { Caption = 'Referencia: ProyectoUbicacion'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74058; "HN Copia 60509"; Text[90]) { Caption = 'Referencia: ProyectoUbicacion'; DataClassification = CustomerContent; Editable = false; }
+        field(71137; "HN Ref 60510"; Decimal) { Caption = 'Referencia: Total IVA 18%'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74059; "HN Copia 60510"; Decimal) { Caption = 'Referencia: Total IVA 18%'; DataClassification = CustomerContent; Editable = false; }
+        field(71138; "HN Ref 60511"; Decimal) { Caption = 'Referencia: Total IVA 0%'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74060; "HN Copia 60511"; Decimal) { Caption = 'Referencia: Total IVA 0%'; DataClassification = CustomerContent; Editable = false; }
+        field(71139; "HN Ref 60512"; Decimal) { Caption = 'Referencia: Total IVA Otros'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74061; "HN Copia 60512"; Decimal) { Caption = 'Referencia: Total IVA Otros'; DataClassification = CustomerContent; Editable = false; }
+        field(71141; "HN Ref 60513"; Text[250]) { Caption = 'Referencia: Resumen Impuestos'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74062; "HN Copia 60513"; Text[250]) { Caption = 'Referencia: Resumen Impuestos'; DataClassification = CustomerContent; Editable = false; }
+        field(71142; "HN Ref 60514"; Decimal) { Caption = 'Referencia: Total Exento'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74063; "HN Copia 60514"; Decimal) { Caption = 'Referencia: Total Exento'; DataClassification = CustomerContent; Editable = false; }
+        field(71143; "HN Ref 60515"; Decimal) { Caption = 'Referencia: Total IVA 15%'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74064; "HN Copia 60515"; Decimal) { Caption = 'Referencia: Total IVA 15%'; DataClassification = CustomerContent; Editable = false; }
+        field(71144; "HN Ref 60516"; Decimal) { Caption = 'Referencia: Total Exonerado'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74065; "HN Copia 60516"; Decimal) { Caption = 'Referencia: Total Exonerado'; DataClassification = CustomerContent; Editable = false; }
+        field(71145; "HN Ref 60517"; Boolean) { Caption = 'Referencia: Indicador anterior de nota de débito'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74066; "HN Copia 60517"; Boolean) { Caption = 'Referencia: Indicador anterior de nota de débito'; DataClassification = CustomerContent; Editable = false; }
+        field(71146; "HN Ref 60518"; Text[100]) { Caption = 'Referencia: Motivo anterior de nota de débito'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74067; "HN Copia 60518"; Text[100]) { Caption = 'Referencia: Motivo anterior de nota de débito'; DataClassification = CustomerContent; Editable = false; }
+        field(71147; "HN Ref 60519"; Code[20]) { Caption = 'Referencia: Factura anterior de origen'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74068; "HN Copia 60519"; Code[20]) { Caption = 'Referencia: Factura anterior de origen'; DataClassification = CustomerContent; Editable = false; }
+        field(71148; "HN Ref 60520"; Date) { Caption = 'Referencia: Fecha anterior de factura origen'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74069; "HN Copia 60520"; Date) { Caption = 'Referencia: Fecha anterior de factura origen'; DataClassification = CustomerContent; Editable = false; }
     }
 }
 
@@ -40,12 +63,17 @@ tableextension 71120 "HN Ref Tabla 37" extends "Sales Line"
 {
     fields
     {
-        field(71107; "HN Ref 60101"; Decimal) { Caption = 'Referencia: Importe Impuesto'; DataClassification = CustomerContent; Editable = false; }
-        field(71108; "HN Ref 60450"; Decimal) { Caption = 'Referencia: Importe excentoLine'; DataClassification = CustomerContent; Editable = false; }
-        field(71109; "HN Ref 60458"; Guid) { Caption = 'Referencia: TenantMedia ID'; DataClassification = CustomerContent; Editable = false; }
+        field(71107; "HN Ref 60101"; Decimal) { Caption = 'Referencia: Importe Impuesto'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74070; "HN Copia 60101"; Decimal) { Caption = 'Referencia: Importe Impuesto'; DataClassification = CustomerContent; Editable = false; }
+        field(71108; "HN Ref 60450"; Decimal) { Caption = 'Referencia: Importe excentoLine'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74071; "HN Copia 60450"; Decimal) { Caption = 'Referencia: Importe excentoLine'; DataClassification = CustomerContent; Editable = false; }
+        field(71109; "HN Ref 60458"; Guid) { Caption = 'Referencia: TenantMedia ID'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74072; "HN Copia 60458"; Guid) { Caption = 'Referencia: TenantMedia ID'; DataClassification = CustomerContent; Editable = false; }
         field(71110; "HN Ref 60459"; Blob) { Caption = 'Referencia: Thumbail'; DataClassification = CustomerContent; }
-        field(71111; "HN Ref 60531"; Text[2048]) { Caption = 'Referencia: ZY Extended Description'; DataClassification = CustomerContent; Editable = false; }
-        field(71112; "HN Ref 60530"; Text[250]) { Caption = 'Referencia: Tiempo de Entrega'; DataClassification = CustomerContent; Editable = false; }
+        field(71111; "HN Ref 60531"; Text[2048]) { Caption = 'Referencia: ZY Extended Description'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74074; "HN Copia 60531"; Text[2048]) { Caption = 'Referencia: ZY Extended Description'; DataClassification = CustomerContent; Editable = false; }
+        field(71112; "HN Ref 60530"; Text[250]) { Caption = 'Referencia: Tiempo de Entrega'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74073; "HN Copia 60530"; Text[250]) { Caption = 'Referencia: Tiempo de Entrega'; DataClassification = CustomerContent; Editable = false; }
     }
 }
 
@@ -53,20 +81,34 @@ tableextension 71121 "HN Ref Tabla 112" extends "Sales Invoice Header"
 {
     fields
     {
-        field(71125; "HN Ref 60507"; Text[60]) { Caption = 'Referencia: Fuente'; DataClassification = CustomerContent; Editable = false; }
-        field(71126; "HN Ref 60508"; Text[60]) { Caption = 'Referencia: Proyecto'; DataClassification = CustomerContent; Editable = false; }
-        field(71127; "HN Ref 60509"; Text[90]) { Caption = 'Referencia: ProyectoUbicacion'; DataClassification = CustomerContent; Editable = false; }
-        field(71128; "HN Ref 60510"; Decimal) { Caption = 'Referencia: Total IVA 18%'; DataClassification = CustomerContent; Editable = false; }
-        field(71129; "HN Ref 60511"; Decimal) { Caption = 'Referencia: Total IVA 0%'; DataClassification = CustomerContent; Editable = false; }
-        field(71130; "HN Ref 60512"; Decimal) { Caption = 'Referencia: Total IVA Otros'; DataClassification = CustomerContent; Editable = false; }
-        field(71131; "HN Ref 60513"; Text[250]) { Caption = 'Referencia: Resumen Impuestos'; DataClassification = CustomerContent; Editable = false; }
-        field(71132; "HN Ref 60514"; Decimal) { Caption = 'Referencia: Total Exento'; DataClassification = CustomerContent; Editable = false; }
-        field(71133; "HN Ref 60515"; Decimal) { Caption = 'Referencia: Total IVA 15%'; DataClassification = CustomerContent; Editable = false; }
-        field(71134; "HN Ref 60516"; Decimal) { Caption = 'Referencia: Total Exonerado'; DataClassification = CustomerContent; Editable = false; }
-        field(71135; "HN Ref 60517"; Boolean) { Caption = 'Referencia: Indicador anterior de nota de débito'; DataClassification = CustomerContent; Editable = false; }
-        field(71136; "HN Ref 60518"; Text[100]) { Caption = 'Referencia: Motivo anterior de nota de débito'; DataClassification = CustomerContent; Editable = false; }
-        field(71137; "HN Ref 60519"; Code[20]) { Caption = 'Referencia: Factura anterior de origen'; DataClassification = CustomerContent; Editable = false; }
-        field(71138; "HN Ref 60520"; Date) { Caption = 'Referencia: Fecha anterior de factura origen'; DataClassification = CustomerContent; Editable = false; }
+        field(71125; "HN Ref 60507"; Text[60]) { Caption = 'Referencia: Fuente'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74056; "HN Copia 60507"; Text[60]) { Caption = 'Referencia: Fuente'; DataClassification = CustomerContent; Editable = false; }
+        field(71126; "HN Ref 60508"; Text[60]) { Caption = 'Referencia: Proyecto'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74057; "HN Copia 60508"; Text[60]) { Caption = 'Referencia: Proyecto'; DataClassification = CustomerContent; Editable = false; }
+        field(71127; "HN Ref 60509"; Text[90]) { Caption = 'Referencia: ProyectoUbicacion'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74058; "HN Copia 60509"; Text[90]) { Caption = 'Referencia: ProyectoUbicacion'; DataClassification = CustomerContent; Editable = false; }
+        field(71128; "HN Ref 60510"; Decimal) { Caption = 'Referencia: Total IVA 18%'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74059; "HN Copia 60510"; Decimal) { Caption = 'Referencia: Total IVA 18%'; DataClassification = CustomerContent; Editable = false; }
+        field(71129; "HN Ref 60511"; Decimal) { Caption = 'Referencia: Total IVA 0%'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74060; "HN Copia 60511"; Decimal) { Caption = 'Referencia: Total IVA 0%'; DataClassification = CustomerContent; Editable = false; }
+        field(71130; "HN Ref 60512"; Decimal) { Caption = 'Referencia: Total IVA Otros'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74061; "HN Copia 60512"; Decimal) { Caption = 'Referencia: Total IVA Otros'; DataClassification = CustomerContent; Editable = false; }
+        field(71131; "HN Ref 60513"; Text[250]) { Caption = 'Referencia: Resumen Impuestos'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74062; "HN Copia 60513"; Text[250]) { Caption = 'Referencia: Resumen Impuestos'; DataClassification = CustomerContent; Editable = false; }
+        field(71132; "HN Ref 60514"; Decimal) { Caption = 'Referencia: Total Exento'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74063; "HN Copia 60514"; Decimal) { Caption = 'Referencia: Total Exento'; DataClassification = CustomerContent; Editable = false; }
+        field(71133; "HN Ref 60515"; Decimal) { Caption = 'Referencia: Total IVA 15%'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74064; "HN Copia 60515"; Decimal) { Caption = 'Referencia: Total IVA 15%'; DataClassification = CustomerContent; Editable = false; }
+        field(71134; "HN Ref 60516"; Decimal) { Caption = 'Referencia: Total Exonerado'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74065; "HN Copia 60516"; Decimal) { Caption = 'Referencia: Total Exonerado'; DataClassification = CustomerContent; Editable = false; }
+        field(71135; "HN Ref 60517"; Boolean) { Caption = 'Referencia: Indicador anterior de nota de débito'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74066; "HN Copia 60517"; Boolean) { Caption = 'Referencia: Indicador anterior de nota de débito'; DataClassification = CustomerContent; Editable = false; }
+        field(71136; "HN Ref 60518"; Text[100]) { Caption = 'Referencia: Motivo anterior de nota de débito'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74067; "HN Copia 60518"; Text[100]) { Caption = 'Referencia: Motivo anterior de nota de débito'; DataClassification = CustomerContent; Editable = false; }
+        field(71137; "HN Ref 60519"; Code[20]) { Caption = 'Referencia: Factura anterior de origen'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74068; "HN Copia 60519"; Code[20]) { Caption = 'Referencia: Factura anterior de origen'; DataClassification = CustomerContent; Editable = false; }
+        field(71138; "HN Ref 60520"; Date) { Caption = 'Referencia: Fecha anterior de factura origen'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74069; "HN Copia 60520"; Date) { Caption = 'Referencia: Fecha anterior de factura origen'; DataClassification = CustomerContent; Editable = false; }
     }
 }
 
@@ -74,7 +116,8 @@ tableextension 71122 "HN Ref Tabla 113" extends "Sales Invoice Line"
 {
     fields
     {
-        field(71107; "HN Ref 60450"; Decimal) { Caption = 'Referencia: Importe excentoLine'; DataClassification = CustomerContent; Editable = false; }
+        field(71107; "HN Ref 60450"; Decimal) { Caption = 'Referencia: Importe excentoLine'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74071; "HN Copia 60450"; Decimal) { Caption = 'Referencia: Importe excentoLine'; DataClassification = CustomerContent; Editable = false; }
     }
 }
 
@@ -82,48 +125,90 @@ tableextension 71123 "HN Ref Tabla 38" extends "Purchase Header"
 {
     fields
     {
-        field(71100; "HN Ref 60460"; Code[37]) { Caption = 'Referencia: Código CAI'; DataClassification = CustomerContent; Editable = false; }
-        field(71101; "HN Ref 60451"; Decimal) { Caption = 'Referencia: Monto histórico retenido'; DataClassification = CustomerContent; Editable = false; }
-        field(71102; "HN Ref 60452"; Date) { Caption = 'Referencia: CAI Fecha Inicio'; DataClassification = CustomerContent; Editable = false; }
-        field(71103; "HN Ref 60453"; Date) { Caption = 'Referencia: CAI Fecha Fin'; DataClassification = CustomerContent; Editable = false; }
-        field(71104; "HN Ref 60454"; Decimal) { Caption = 'Referencia: Total99 Amount99'; DataClassification = CustomerContent; Editable = false; }
-        field(71105; "HN Ref 60459"; Decimal) { Caption = 'Referencia: Monto Exonerado'; DataClassification = CustomerContent; Editable = false; }
-        field(71106; "HN Ref 60464"; Code[50]) { Caption = 'Referencia: Orden De Compras'; DataClassification = CustomerContent; Editable = false; }
-        field(71107; "HN Ref 60477"; Code[50]) { Caption = 'Referencia: ORDEN DE COMPRA EXENTA'; DataClassification = CustomerContent; Editable = false; }
-        field(71108; "HN Ref 60466"; Code[50]) { Caption = 'Referencia: CONSTANCIA REGISTRO EXONERADOS'; DataClassification = CustomerContent; Editable = false; }
-        field(71109; "HN Ref 60467"; Code[50]) { Caption = 'Referencia: IDENTIFICACION DE LA SAG'; DataClassification = CustomerContent; Editable = false; }
-        field(71110; "HN Ref 60473"; Date) { Caption = 'Referencia: Fecha Inicio'; DataClassification = CustomerContent; Editable = false; }
-        field(71111; "HN Ref 60474"; Date) { Caption = 'Referencia: Fecha Fin'; DataClassification = CustomerContent; Editable = false; }
-        field(71112; "HN Ref 60476"; Code[20]) { Caption = 'Referencia: Código Exoneración'; DataClassification = CustomerContent; Editable = false; }
-        field(71113; "HN Ref 60478"; Code[20]) { Caption = 'Referencia: Grupo Impuestos Honduras'; DataClassification = CustomerContent; Editable = false; }
-        field(71114; "HN Ref 60491"; Integer) { Caption = 'Referencia: Lote'; DataClassification = CustomerContent; Editable = false; }
-        field(71115; "HN Ref 60492"; Code[30]) { Caption = 'Referencia: No Factura'; DataClassification = CustomerContent; Editable = false; }
-        field(71116; "HN Ref 60495"; Code[20]) { Caption = 'Referencia: Etiqueta de factura'; DataClassification = CustomerContent; Editable = false; }
-        field(71117; "HN Ref 60563"; Date) { Caption = 'Referencia: Fecha esperada de recepción'; DataClassification = CustomerContent; Editable = false; }
-        field(71118; "HN Ref 60498"; Integer) { Caption = 'Referencia: POS Sales Doc_ Type'; DataClassification = CustomerContent; Editable = false; }
-        field(71119; "HN Ref 60499"; Integer) { Caption = 'Referencia: Billing Type'; DataClassification = CustomerContent; Editable = false; }
-        field(71120; "HN Ref 60500"; Decimal) { Caption = 'Referencia: AmountTotal'; DataClassification = CustomerContent; Editable = false; }
-        field(71121; "HN Ref 60501"; Decimal) { Caption = 'Referencia: VATAmount'; DataClassification = CustomerContent; Editable = false; }
-        field(71122; "HN Ref 60502"; Code[5]) { Caption = 'Referencia: Código de sucursal'; DataClassification = CustomerContent; Editable = false; }
-        field(71123; "HN Ref 60482"; Code[5]) { Caption = 'Referencia: POS Code'; DataClassification = CustomerContent; Editable = false; }
-        field(71124; "HN Ref 60483"; Text[60]) { Caption = 'Referencia: Comentario'; DataClassification = CustomerContent; Editable = false; }
-        field(71125; "HN Ref 60564"; Boolean) { Caption = 'Referencia: Proveedor extranjero sin CAI'; DataClassification = CustomerContent; Editable = false; }
-        field(71126; "HN Ref 60486"; Code[30]) { Caption = 'Referencia: Identificador anterior de imagen'; DataClassification = CustomerContent; Editable = false; }
-        field(71127; "HN Ref 60487"; Text[60]) { Caption = 'Referencia: OC'; DataClassification = CustomerContent; Editable = false; }
-        field(71128; "HN Ref 60488"; Text[60]) { Caption = 'Referencia: NumeroDePlaca'; DataClassification = CustomerContent; Editable = false; }
-        field(71129; "HN Ref 60489"; Text[60]) { Caption = 'Referencia: Kilometraje'; DataClassification = CustomerContent; Editable = false; }
-        field(71130; "HN Ref 60490"; Text[60]) { Caption = 'Referencia: Chofer'; DataClassification = CustomerContent; Editable = false; }
-        field(71131; "HN Ref 60506"; Text[60]) { Caption = 'Referencia: Usuario'; DataClassification = CustomerContent; Editable = false; }
-        field(71132; "HN Ref 60503"; Boolean) { Caption = 'Referencia: Campo Booleano'; DataClassification = CustomerContent; Editable = false; }
-        field(71133; "HN Ref 60504"; Code[20]) { Caption = 'Referencia: Nuevo Código Exoneración'; DataClassification = CustomerContent; Editable = false; }
-        field(71134; "HN Ref 60505"; Code[35]) { Caption = 'Referencia: External Document No.'; DataClassification = CustomerContent; Editable = false; }
-        field(71135; "HN Ref 60507"; Decimal) { Caption = 'Referencia: Total Exento'; DataClassification = CustomerContent; Editable = false; }
-        field(71136; "HN Ref 60508"; Decimal) { Caption = 'Referencia: Total IVA 15%'; DataClassification = CustomerContent; Editable = false; }
-        field(71137; "HN Ref 60509"; Decimal) { Caption = 'Referencia: Total IVA 18%'; DataClassification = CustomerContent; Editable = false; }
-        field(71138; "HN Ref 60510"; Decimal) { Caption = 'Referencia: Total IVA 0%'; DataClassification = CustomerContent; Editable = false; }
-        field(71139; "HN Ref 60511"; Decimal) { Caption = 'Referencia: Total IVA Otros'; DataClassification = CustomerContent; Editable = false; }
-        field(71144; "HN Ref 60512"; Text[250]) { Caption = 'Referencia: Resumen Impuestos'; DataClassification = CustomerContent; Editable = false; }
-        field(71145; "HN Ref 60513"; Decimal) { Caption = 'Referencia: Total Exonerado'; DataClassification = CustomerContent; Editable = false; }
+        field(71100; "HN Ref 60460"; Code[37]) { Caption = 'Referencia: Código CAI'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74005; "HN Copia 60460"; Code[37]) { Caption = 'Referencia: Código CAI'; DataClassification = CustomerContent; Editable = false; }
+        field(71101; "HN Ref 60451"; Decimal) { Caption = 'Referencia: Monto histórico retenido'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74000; "HN Copia 60451"; Decimal) { Caption = 'Referencia: Monto histórico retenido'; DataClassification = CustomerContent; Editable = false; }
+        field(71102; "HN Ref 60452"; Date) { Caption = 'Referencia: CAI Fecha Inicio'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74001; "HN Copia 60452"; Date) { Caption = 'Referencia: CAI Fecha Inicio'; DataClassification = CustomerContent; Editable = false; }
+        field(71103; "HN Ref 60453"; Date) { Caption = 'Referencia: CAI Fecha Fin'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74002; "HN Copia 60453"; Date) { Caption = 'Referencia: CAI Fecha Fin'; DataClassification = CustomerContent; Editable = false; }
+        field(71104; "HN Ref 60454"; Decimal) { Caption = 'Referencia: Total99 Amount99'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74003; "HN Copia 60454"; Decimal) { Caption = 'Referencia: Total99 Amount99'; DataClassification = CustomerContent; Editable = false; }
+        field(71105; "HN Ref 60459"; Decimal) { Caption = 'Referencia: Monto Exonerado'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74004; "HN Copia 60459"; Decimal) { Caption = 'Referencia: Monto Exonerado'; DataClassification = CustomerContent; Editable = false; }
+        field(71106; "HN Ref 60464"; Code[50]) { Caption = 'Referencia: Orden De Compras'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74006; "HN Copia 60464"; Code[50]) { Caption = 'Referencia: Orden De Compras'; DataClassification = CustomerContent; Editable = false; }
+        field(71107; "HN Ref 60477"; Code[50]) { Caption = 'Referencia: ORDEN DE COMPRA EXENTA'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74012; "HN Copia 60477"; Code[50]) { Caption = 'Referencia: ORDEN DE COMPRA EXENTA'; DataClassification = CustomerContent; Editable = false; }
+        field(71108; "HN Ref 60466"; Code[50]) { Caption = 'Referencia: CONSTANCIA REGISTRO EXONERADOS'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74007; "HN Copia 60466"; Code[50]) { Caption = 'Referencia: CONSTANCIA REGISTRO EXONERADOS'; DataClassification = CustomerContent; Editable = false; }
+        field(71109; "HN Ref 60467"; Code[50]) { Caption = 'Referencia: IDENTIFICACION DE LA SAG'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74008; "HN Copia 60467"; Code[50]) { Caption = 'Referencia: IDENTIFICACION DE LA SAG'; DataClassification = CustomerContent; Editable = false; }
+        field(71110; "HN Ref 60473"; Date) { Caption = 'Referencia: Fecha Inicio'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74009; "HN Copia 60473"; Date) { Caption = 'Referencia: Fecha Inicio'; DataClassification = CustomerContent; Editable = false; }
+        field(71111; "HN Ref 60474"; Date) { Caption = 'Referencia: Fecha Fin'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74010; "HN Copia 60474"; Date) { Caption = 'Referencia: Fecha Fin'; DataClassification = CustomerContent; Editable = false; }
+        field(71112; "HN Ref 60476"; Code[20]) { Caption = 'Referencia: Código Exoneración'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74011; "HN Copia 60476"; Code[20]) { Caption = 'Referencia: Código Exoneración'; DataClassification = CustomerContent; Editable = false; }
+        field(71113; "HN Ref 60478"; Code[20]) { Caption = 'Referencia: Grupo Impuestos Honduras'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74013; "HN Copia 60478"; Code[20]) { Caption = 'Referencia: Grupo Impuestos Honduras'; DataClassification = CustomerContent; Editable = false; }
+        field(71114; "HN Ref 60491"; Integer) { Caption = 'Referencia: Lote'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74021; "HN Copia 60491"; Integer) { Caption = 'Referencia: Lote'; DataClassification = CustomerContent; Editable = false; }
+        field(71115; "HN Ref 60492"; Code[30]) { Caption = 'Referencia: No Factura'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74022; "HN Copia 60492"; Code[30]) { Caption = 'Referencia: No Factura'; DataClassification = CustomerContent; Editable = false; }
+        field(71116; "HN Ref 60495"; Code[20]) { Caption = 'Referencia: Etiqueta de factura'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74023; "HN Copia 60495"; Code[20]) { Caption = 'Referencia: Etiqueta de factura'; DataClassification = CustomerContent; Editable = false; }
+        field(71117; "HN Ref 60563"; Date) { Caption = 'Referencia: Fecha esperada de recepción'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74040; "HN Copia 60563"; Date) { Caption = 'Referencia: Fecha esperada de recepción'; DataClassification = CustomerContent; Editable = false; }
+        field(71118; "HN Ref 60498"; Integer) { Caption = 'Referencia: POS Sales Doc_ Type'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74024; "HN Copia 60498"; Integer) { Caption = 'Referencia: POS Sales Doc_ Type'; DataClassification = CustomerContent; Editable = false; }
+        field(71119; "HN Ref 60499"; Integer) { Caption = 'Referencia: Billing Type'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74025; "HN Copia 60499"; Integer) { Caption = 'Referencia: Billing Type'; DataClassification = CustomerContent; Editable = false; }
+        field(71120; "HN Ref 60500"; Decimal) { Caption = 'Referencia: AmountTotal'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74026; "HN Copia 60500"; Decimal) { Caption = 'Referencia: AmountTotal'; DataClassification = CustomerContent; Editable = false; }
+        field(71121; "HN Ref 60501"; Decimal) { Caption = 'Referencia: VATAmount'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74027; "HN Copia 60501"; Decimal) { Caption = 'Referencia: VATAmount'; DataClassification = CustomerContent; Editable = false; }
+        field(71122; "HN Ref 60502"; Code[5]) { Caption = 'Referencia: Código de sucursal'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74028; "HN Copia 60502"; Code[5]) { Caption = 'Referencia: Código de sucursal'; DataClassification = CustomerContent; Editable = false; }
+        field(71123; "HN Ref 60482"; Code[5]) { Caption = 'Referencia: POS Code'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74014; "HN Copia 60482"; Code[5]) { Caption = 'Referencia: POS Code'; DataClassification = CustomerContent; Editable = false; }
+        field(71124; "HN Ref 60483"; Text[60]) { Caption = 'Referencia: Comentario'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74015; "HN Copia 60483"; Text[60]) { Caption = 'Referencia: Comentario'; DataClassification = CustomerContent; Editable = false; }
+        field(71125; "HN Ref 60564"; Boolean) { Caption = 'Referencia: Proveedor extranjero sin CAI'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74041; "HN Copia 60564"; Boolean) { Caption = 'Referencia: Proveedor extranjero sin CAI'; DataClassification = CustomerContent; Editable = false; }
+        field(71126; "HN Ref 60486"; Code[30]) { Caption = 'Referencia: Identificador anterior de imagen'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74016; "HN Copia 60486"; Code[30]) { Caption = 'Referencia: Identificador anterior de imagen'; DataClassification = CustomerContent; Editable = false; }
+        field(71127; "HN Ref 60487"; Text[60]) { Caption = 'Referencia: OC'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74017; "HN Copia 60487"; Text[60]) { Caption = 'Referencia: OC'; DataClassification = CustomerContent; Editable = false; }
+        field(71128; "HN Ref 60488"; Text[60]) { Caption = 'Referencia: NumeroDePlaca'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74018; "HN Copia 60488"; Text[60]) { Caption = 'Referencia: NumeroDePlaca'; DataClassification = CustomerContent; Editable = false; }
+        field(71129; "HN Ref 60489"; Text[60]) { Caption = 'Referencia: Kilometraje'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74019; "HN Copia 60489"; Text[60]) { Caption = 'Referencia: Kilometraje'; DataClassification = CustomerContent; Editable = false; }
+        field(71130; "HN Ref 60490"; Text[60]) { Caption = 'Referencia: Chofer'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74020; "HN Copia 60490"; Text[60]) { Caption = 'Referencia: Chofer'; DataClassification = CustomerContent; Editable = false; }
+        field(71131; "HN Ref 60506"; Text[60]) { Caption = 'Referencia: Usuario'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74032; "HN Copia 60506"; Text[60]) { Caption = 'Referencia: Usuario'; DataClassification = CustomerContent; Editable = false; }
+        field(71132; "HN Ref 60503"; Boolean) { Caption = 'Referencia: Campo Booleano'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74029; "HN Copia 60503"; Boolean) { Caption = 'Referencia: Campo Booleano'; DataClassification = CustomerContent; Editable = false; }
+        field(71133; "HN Ref 60504"; Code[20]) { Caption = 'Referencia: Nuevo Código Exoneración'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74030; "HN Copia 60504"; Code[20]) { Caption = 'Referencia: Nuevo Código Exoneración'; DataClassification = CustomerContent; Editable = false; }
+        field(71134; "HN Ref 60505"; Code[35]) { Caption = 'Referencia: External Document No.'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74031; "HN Copia 60505"; Code[35]) { Caption = 'Referencia: External Document No.'; DataClassification = CustomerContent; Editable = false; }
+        field(71135; "HN Ref 60507"; Decimal) { Caption = 'Referencia: Total Exento'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74033; "HN Copia 60507"; Decimal) { Caption = 'Referencia: Total Exento'; DataClassification = CustomerContent; Editable = false; }
+        field(71136; "HN Ref 60508"; Decimal) { Caption = 'Referencia: Total IVA 15%'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74034; "HN Copia 60508"; Decimal) { Caption = 'Referencia: Total IVA 15%'; DataClassification = CustomerContent; Editable = false; }
+        field(71137; "HN Ref 60509"; Decimal) { Caption = 'Referencia: Total IVA 18%'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74035; "HN Copia 60509"; Decimal) { Caption = 'Referencia: Total IVA 18%'; DataClassification = CustomerContent; Editable = false; }
+        field(71138; "HN Ref 60510"; Decimal) { Caption = 'Referencia: Total IVA 0%'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74036; "HN Copia 60510"; Decimal) { Caption = 'Referencia: Total IVA 0%'; DataClassification = CustomerContent; Editable = false; }
+        field(71139; "HN Ref 60511"; Decimal) { Caption = 'Referencia: Total IVA Otros'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74037; "HN Copia 60511"; Decimal) { Caption = 'Referencia: Total IVA Otros'; DataClassification = CustomerContent; Editable = false; }
+        field(71144; "HN Ref 60512"; Text[250]) { Caption = 'Referencia: Resumen Impuestos'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74038; "HN Copia 60512"; Text[250]) { Caption = 'Referencia: Resumen Impuestos'; DataClassification = CustomerContent; Editable = false; }
+        field(71145; "HN Ref 60513"; Decimal) { Caption = 'Referencia: Total Exonerado'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74039; "HN Copia 60513"; Decimal) { Caption = 'Referencia: Total Exonerado'; DataClassification = CustomerContent; Editable = false; }
     }
 }
 
@@ -131,11 +216,16 @@ tableextension 71124 "HN Ref Tabla 39" extends "Purchase Line"
 {
     fields
     {
-        field(71100; "HN Ref 60100"; Boolean) { Caption = 'Referencia: Aplicar Retención 1'; DataClassification = CustomerContent; Editable = false; }
-        field(71101; "HN Ref 60101"; Boolean) { Caption = 'Referencia: Aplicar Retención 2'; DataClassification = CustomerContent; Editable = false; }
-        field(71102; "HN Ref 60102"; Boolean) { Caption = 'Referencia: Aplicar Retención 3'; DataClassification = CustomerContent; Editable = false; }
-        field(71103; "HN Ref 60104"; Text[250]) { Caption = 'Referencia: Selección histórica de retenciones'; DataClassification = CustomerContent; Editable = false; }
-        field(71104; "HN Ref 60103"; Decimal) { Caption = 'Referencia: Monto histórico retenido'; DataClassification = CustomerContent; Editable = false; }
+        field(71100; "HN Ref 60100"; Boolean) { Caption = 'Referencia: Aplicar Retención 1'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74042; "HN Copia 60100"; Boolean) { Caption = 'Referencia: Aplicar Retención 1'; DataClassification = CustomerContent; Editable = false; }
+        field(71101; "HN Ref 60101"; Boolean) { Caption = 'Referencia: Aplicar Retención 2'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74043; "HN Copia 60101"; Boolean) { Caption = 'Referencia: Aplicar Retención 2'; DataClassification = CustomerContent; Editable = false; }
+        field(71102; "HN Ref 60102"; Boolean) { Caption = 'Referencia: Aplicar Retención 3'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74044; "HN Copia 60102"; Boolean) { Caption = 'Referencia: Aplicar Retención 3'; DataClassification = CustomerContent; Editable = false; }
+        field(71103; "HN Ref 60104"; Text[250]) { Caption = 'Referencia: Selección histórica de retenciones'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74046; "HN Copia 60104"; Text[250]) { Caption = 'Referencia: Selección histórica de retenciones'; DataClassification = CustomerContent; Editable = false; }
+        field(71104; "HN Ref 60103"; Decimal) { Caption = 'Referencia: Monto histórico retenido'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74045; "HN Copia 60103"; Decimal) { Caption = 'Referencia: Monto histórico retenido'; DataClassification = CustomerContent; Editable = false; }
     }
 }
 
@@ -143,10 +233,14 @@ tableextension 71125 "HN Ref Tabla 122" extends "Purch. Inv. Header"
 {
     fields
     {
-        field(71100; "HN Ref 60460"; Code[37]) { Caption = 'Referencia: Código CAI'; DataClassification = CustomerContent; Editable = false; }
-        field(71101; "HN Ref 60491"; Integer) { Caption = 'Referencia: Lote'; DataClassification = CustomerContent; Editable = false; }
-        field(71102; "HN Ref 60492"; Code[30]) { Caption = 'Referencia: No Factura'; DataClassification = CustomerContent; Editable = false; }
-        field(71103; "HN Ref 60454"; Decimal) { Caption = 'Referencia: Total99 Amount99'; DataClassification = CustomerContent; Editable = false; }
+        field(71100; "HN Ref 60460"; Code[37]) { Caption = 'Referencia: Código CAI'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74005; "HN Copia 60460"; Code[37]) { Caption = 'Referencia: Código CAI'; DataClassification = CustomerContent; Editable = false; }
+        field(71101; "HN Ref 60491"; Integer) { Caption = 'Referencia: Lote'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74021; "HN Copia 60491"; Integer) { Caption = 'Referencia: Lote'; DataClassification = CustomerContent; Editable = false; }
+        field(71102; "HN Ref 60492"; Code[30]) { Caption = 'Referencia: No Factura'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74022; "HN Copia 60492"; Code[30]) { Caption = 'Referencia: No Factura'; DataClassification = CustomerContent; Editable = false; }
+        field(71103; "HN Ref 60454"; Decimal) { Caption = 'Referencia: Total99 Amount99'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74003; "HN Copia 60454"; Decimal) { Caption = 'Referencia: Total99 Amount99'; DataClassification = CustomerContent; Editable = false; }
     }
 }
 
@@ -154,8 +248,10 @@ tableextension 71126 "HN Ref Tabla 123" extends "Purch. Inv. Line"
 {
     fields
     {
-        field(71100; "HN Ref 60104"; Text[250]) { Caption = 'Referencia: Selección histórica de retenciones'; DataClassification = CustomerContent; Editable = false; }
-        field(71101; "HN Ref 60103"; Decimal) { Caption = 'Referencia: Monto histórico retenido'; DataClassification = CustomerContent; Editable = false; }
+        field(71100; "HN Ref 60104"; Text[250]) { Caption = 'Referencia: Selección histórica de retenciones'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74046; "HN Copia 60104"; Text[250]) { Caption = 'Referencia: Selección histórica de retenciones'; DataClassification = CustomerContent; Editable = false; }
+        field(71101; "HN Ref 60103"; Decimal) { Caption = 'Referencia: Monto histórico retenido'; DataClassification = CustomerContent; Editable = false;  ObsoleteState = Removed; ObsoleteReason = 'Referencia conservada; reemplazada por un campo compatible entre documentos e históricos.'; ObsoleteTag = '2026-10-29'; }
+        field(74045; "HN Copia 60103"; Decimal) { Caption = 'Referencia: Monto histórico retenido'; DataClassification = CustomerContent; Editable = false; }
     }
 }
 

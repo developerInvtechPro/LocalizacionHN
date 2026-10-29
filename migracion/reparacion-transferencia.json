@@ -1,0 +1,869 @@
+{
+  "tag": "INVTECH-REFERENCIAS-TRANSFERENCIA-20261029",
+  "fields": [
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71125,
+      "oldName": "HN Ref 60109",
+      "newId": 74050,
+      "newName": "HN Copia 60109",
+      "type": "Boolean"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71126,
+      "oldName": "HN Ref 60132",
+      "newId": 74053,
+      "newName": "HN Copia 60132",
+      "type": "Code[50]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71127,
+      "oldName": "HN Ref 60124",
+      "newId": 74051,
+      "newName": "HN Copia 60124",
+      "type": "Date"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71128,
+      "oldName": "HN Ref 60125",
+      "newId": 74052,
+      "newName": "HN Copia 60125",
+      "type": "Date"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71129,
+      "oldName": "HN Ref 60102",
+      "newId": 74047,
+      "newName": "HN Copia 60102",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71130,
+      "oldName": "HN Ref 60104",
+      "newId": 74048,
+      "newName": "HN Copia 60104",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71131,
+      "oldName": "HN Ref 60105",
+      "newId": 74049,
+      "newName": "HN Copia 60105",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71132,
+      "oldName": "HN Ref 60455",
+      "newId": 74054,
+      "newName": "HN Copia 60455",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71133,
+      "oldName": "HN Ref 60486",
+      "newId": 74055,
+      "newName": "HN Copia 60486",
+      "type": "Code[30]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71134,
+      "oldName": "HN Ref 60507",
+      "newId": 74056,
+      "newName": "HN Copia 60507",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71135,
+      "oldName": "HN Ref 60508",
+      "newId": 74057,
+      "newName": "HN Copia 60508",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71136,
+      "oldName": "HN Ref 60509",
+      "newId": 74058,
+      "newName": "HN Copia 60509",
+      "type": "Text[90]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71137,
+      "oldName": "HN Ref 60510",
+      "newId": 74059,
+      "newName": "HN Copia 60510",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71138,
+      "oldName": "HN Ref 60511",
+      "newId": 74060,
+      "newName": "HN Copia 60511",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71139,
+      "oldName": "HN Ref 60512",
+      "newId": 74061,
+      "newName": "HN Copia 60512",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71141,
+      "oldName": "HN Ref 60513",
+      "newId": 74062,
+      "newName": "HN Copia 60513",
+      "type": "Text[250]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71142,
+      "oldName": "HN Ref 60514",
+      "newId": 74063,
+      "newName": "HN Copia 60514",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71143,
+      "oldName": "HN Ref 60515",
+      "newId": 74064,
+      "newName": "HN Copia 60515",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71144,
+      "oldName": "HN Ref 60516",
+      "newId": 74065,
+      "newName": "HN Copia 60516",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71145,
+      "oldName": "HN Ref 60517",
+      "newId": 74066,
+      "newName": "HN Copia 60517",
+      "type": "Boolean"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71146,
+      "oldName": "HN Ref 60518",
+      "newId": 74067,
+      "newName": "HN Copia 60518",
+      "type": "Text[100]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71147,
+      "oldName": "HN Ref 60519",
+      "newId": 74068,
+      "newName": "HN Copia 60519",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 36,
+      "table": "Sales Header",
+      "oldId": 71148,
+      "oldName": "HN Ref 60520",
+      "newId": 74069,
+      "newName": "HN Copia 60520",
+      "type": "Date"
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "oldId": 71107,
+      "oldName": "HN Ref 60101",
+      "newId": 74070,
+      "newName": "HN Copia 60101",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "oldId": 71108,
+      "oldName": "HN Ref 60450",
+      "newId": 74071,
+      "newName": "HN Copia 60450",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "oldId": 71109,
+      "oldName": "HN Ref 60458",
+      "newId": 74072,
+      "newName": "HN Copia 60458",
+      "type": "Guid"
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "oldId": 71111,
+      "oldName": "HN Ref 60531",
+      "newId": 74074,
+      "newName": "HN Copia 60531",
+      "type": "Text[2048]"
+    },
+    {
+      "tableId": 37,
+      "table": "Sales Line",
+      "oldId": 71112,
+      "oldName": "HN Ref 60530",
+      "newId": 74073,
+      "newName": "HN Copia 60530",
+      "type": "Text[250]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "oldId": 71125,
+      "oldName": "HN Ref 60507",
+      "newId": 74056,
+      "newName": "HN Copia 60507",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "oldId": 71126,
+      "oldName": "HN Ref 60508",
+      "newId": 74057,
+      "newName": "HN Copia 60508",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "oldId": 71127,
+      "oldName": "HN Ref 60509",
+      "newId": 74058,
+      "newName": "HN Copia 60509",
+      "type": "Text[90]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "oldId": 71128,
+      "oldName": "HN Ref 60510",
+      "newId": 74059,
+      "newName": "HN Copia 60510",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "oldId": 71129,
+      "oldName": "HN Ref 60511",
+      "newId": 74060,
+      "newName": "HN Copia 60511",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "oldId": 71130,
+      "oldName": "HN Ref 60512",
+      "newId": 74061,
+      "newName": "HN Copia 60512",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "oldId": 71131,
+      "oldName": "HN Ref 60513",
+      "newId": 74062,
+      "newName": "HN Copia 60513",
+      "type": "Text[250]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "oldId": 71132,
+      "oldName": "HN Ref 60514",
+      "newId": 74063,
+      "newName": "HN Copia 60514",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "oldId": 71133,
+      "oldName": "HN Ref 60515",
+      "newId": 74064,
+      "newName": "HN Copia 60515",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "oldId": 71134,
+      "oldName": "HN Ref 60516",
+      "newId": 74065,
+      "newName": "HN Copia 60516",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "oldId": 71135,
+      "oldName": "HN Ref 60517",
+      "newId": 74066,
+      "newName": "HN Copia 60517",
+      "type": "Boolean"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "oldId": 71136,
+      "oldName": "HN Ref 60518",
+      "newId": 74067,
+      "newName": "HN Copia 60518",
+      "type": "Text[100]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "oldId": 71137,
+      "oldName": "HN Ref 60519",
+      "newId": 74068,
+      "newName": "HN Copia 60519",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 112,
+      "table": "Sales Invoice Header",
+      "oldId": 71138,
+      "oldName": "HN Ref 60520",
+      "newId": 74069,
+      "newName": "HN Copia 60520",
+      "type": "Date"
+    },
+    {
+      "tableId": 113,
+      "table": "Sales Invoice Line",
+      "oldId": 71107,
+      "oldName": "HN Ref 60450",
+      "newId": 74071,
+      "newName": "HN Copia 60450",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71100,
+      "oldName": "HN Ref 60460",
+      "newId": 74005,
+      "newName": "HN Copia 60460",
+      "type": "Code[37]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71101,
+      "oldName": "HN Ref 60451",
+      "newId": 74000,
+      "newName": "HN Copia 60451",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71102,
+      "oldName": "HN Ref 60452",
+      "newId": 74001,
+      "newName": "HN Copia 60452",
+      "type": "Date"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71103,
+      "oldName": "HN Ref 60453",
+      "newId": 74002,
+      "newName": "HN Copia 60453",
+      "type": "Date"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71104,
+      "oldName": "HN Ref 60454",
+      "newId": 74003,
+      "newName": "HN Copia 60454",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71105,
+      "oldName": "HN Ref 60459",
+      "newId": 74004,
+      "newName": "HN Copia 60459",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71106,
+      "oldName": "HN Ref 60464",
+      "newId": 74006,
+      "newName": "HN Copia 60464",
+      "type": "Code[50]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71107,
+      "oldName": "HN Ref 60477",
+      "newId": 74012,
+      "newName": "HN Copia 60477",
+      "type": "Code[50]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71108,
+      "oldName": "HN Ref 60466",
+      "newId": 74007,
+      "newName": "HN Copia 60466",
+      "type": "Code[50]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71109,
+      "oldName": "HN Ref 60467",
+      "newId": 74008,
+      "newName": "HN Copia 60467",
+      "type": "Code[50]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71110,
+      "oldName": "HN Ref 60473",
+      "newId": 74009,
+      "newName": "HN Copia 60473",
+      "type": "Date"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71111,
+      "oldName": "HN Ref 60474",
+      "newId": 74010,
+      "newName": "HN Copia 60474",
+      "type": "Date"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71112,
+      "oldName": "HN Ref 60476",
+      "newId": 74011,
+      "newName": "HN Copia 60476",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71113,
+      "oldName": "HN Ref 60478",
+      "newId": 74013,
+      "newName": "HN Copia 60478",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71114,
+      "oldName": "HN Ref 60491",
+      "newId": 74021,
+      "newName": "HN Copia 60491",
+      "type": "Integer"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71115,
+      "oldName": "HN Ref 60492",
+      "newId": 74022,
+      "newName": "HN Copia 60492",
+      "type": "Code[30]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71116,
+      "oldName": "HN Ref 60495",
+      "newId": 74023,
+      "newName": "HN Copia 60495",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71117,
+      "oldName": "HN Ref 60563",
+      "newId": 74040,
+      "newName": "HN Copia 60563",
+      "type": "Date"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71118,
+      "oldName": "HN Ref 60498",
+      "newId": 74024,
+      "newName": "HN Copia 60498",
+      "type": "Integer"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71119,
+      "oldName": "HN Ref 60499",
+      "newId": 74025,
+      "newName": "HN Copia 60499",
+      "type": "Integer"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71120,
+      "oldName": "HN Ref 60500",
+      "newId": 74026,
+      "newName": "HN Copia 60500",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71121,
+      "oldName": "HN Ref 60501",
+      "newId": 74027,
+      "newName": "HN Copia 60501",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71122,
+      "oldName": "HN Ref 60502",
+      "newId": 74028,
+      "newName": "HN Copia 60502",
+      "type": "Code[5]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71123,
+      "oldName": "HN Ref 60482",
+      "newId": 74014,
+      "newName": "HN Copia 60482",
+      "type": "Code[5]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71124,
+      "oldName": "HN Ref 60483",
+      "newId": 74015,
+      "newName": "HN Copia 60483",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71125,
+      "oldName": "HN Ref 60564",
+      "newId": 74041,
+      "newName": "HN Copia 60564",
+      "type": "Boolean"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71126,
+      "oldName": "HN Ref 60486",
+      "newId": 74016,
+      "newName": "HN Copia 60486",
+      "type": "Code[30]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71127,
+      "oldName": "HN Ref 60487",
+      "newId": 74017,
+      "newName": "HN Copia 60487",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71128,
+      "oldName": "HN Ref 60488",
+      "newId": 74018,
+      "newName": "HN Copia 60488",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71129,
+      "oldName": "HN Ref 60489",
+      "newId": 74019,
+      "newName": "HN Copia 60489",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71130,
+      "oldName": "HN Ref 60490",
+      "newId": 74020,
+      "newName": "HN Copia 60490",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71131,
+      "oldName": "HN Ref 60506",
+      "newId": 74032,
+      "newName": "HN Copia 60506",
+      "type": "Text[60]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71132,
+      "oldName": "HN Ref 60503",
+      "newId": 74029,
+      "newName": "HN Copia 60503",
+      "type": "Boolean"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71133,
+      "oldName": "HN Ref 60504",
+      "newId": 74030,
+      "newName": "HN Copia 60504",
+      "type": "Code[20]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71134,
+      "oldName": "HN Ref 60505",
+      "newId": 74031,
+      "newName": "HN Copia 60505",
+      "type": "Code[35]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71135,
+      "oldName": "HN Ref 60507",
+      "newId": 74033,
+      "newName": "HN Copia 60507",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71136,
+      "oldName": "HN Ref 60508",
+      "newId": 74034,
+      "newName": "HN Copia 60508",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71137,
+      "oldName": "HN Ref 60509",
+      "newId": 74035,
+      "newName": "HN Copia 60509",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71138,
+      "oldName": "HN Ref 60510",
+      "newId": 74036,
+      "newName": "HN Copia 60510",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71139,
+      "oldName": "HN Ref 60511",
+      "newId": 74037,
+      "newName": "HN Copia 60511",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71144,
+      "oldName": "HN Ref 60512",
+      "newId": 74038,
+      "newName": "HN Copia 60512",
+      "type": "Text[250]"
+    },
+    {
+      "tableId": 38,
+      "table": "Purchase Header",
+      "oldId": 71145,
+      "oldName": "HN Ref 60513",
+      "newId": 74039,
+      "newName": "HN Copia 60513",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 39,
+      "table": "Purchase Line",
+      "oldId": 71100,
+      "oldName": "HN Ref 60100",
+      "newId": 74042,
+      "newName": "HN Copia 60100",
+      "type": "Boolean"
+    },
+    {
+      "tableId": 39,
+      "table": "Purchase Line",
+      "oldId": 71101,
+      "oldName": "HN Ref 60101",
+      "newId": 74043,
+      "newName": "HN Copia 60101",
+      "type": "Boolean"
+    },
+    {
+      "tableId": 39,
+      "table": "Purchase Line",
+      "oldId": 71102,
+      "oldName": "HN Ref 60102",
+      "newId": 74044,
+      "newName": "HN Copia 60102",
+      "type": "Boolean"
+    },
+    {
+      "tableId": 39,
+      "table": "Purchase Line",
+      "oldId": 71103,
+      "oldName": "HN Ref 60104",
+      "newId": 74046,
+      "newName": "HN Copia 60104",
+      "type": "Text[250]"
+    },
+    {
+      "tableId": 39,
+      "table": "Purchase Line",
+      "oldId": 71104,
+      "oldName": "HN Ref 60103",
+      "newId": 74045,
+      "newName": "HN Copia 60103",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 122,
+      "table": "Purch. Inv. Header",
+      "oldId": 71100,
+      "oldName": "HN Ref 60460",
+      "newId": 74005,
+      "newName": "HN Copia 60460",
+      "type": "Code[37]"
+    },
+    {
+      "tableId": 122,
+      "table": "Purch. Inv. Header",
+      "oldId": 71101,
+      "oldName": "HN Ref 60491",
+      "newId": 74021,
+      "newName": "HN Copia 60491",
+      "type": "Integer"
+    },
+    {
+      "tableId": 122,
+      "table": "Purch. Inv. Header",
+      "oldId": 71102,
+      "oldName": "HN Ref 60492",
+      "newId": 74022,
+      "newName": "HN Copia 60492",
+      "type": "Code[30]"
+    },
+    {
+      "tableId": 122,
+      "table": "Purch. Inv. Header",
+      "oldId": 71103,
+      "oldName": "HN Ref 60454",
+      "newId": 74003,
+      "newName": "HN Copia 60454",
+      "type": "Decimal"
+    },
+    {
+      "tableId": 123,
+      "table": "Purch. Inv. Line",
+      "oldId": 71100,
+      "oldName": "HN Ref 60104",
+      "newId": 74046,
+      "newName": "HN Copia 60104",
+      "type": "Text[250]"
+    },
+    {
+      "tableId": 123,
+      "table": "Purch. Inv. Line",
+      "oldId": 71101,
+      "oldName": "HN Ref 60103",
+      "newId": 74045,
+      "newName": "HN Copia 60103",
+      "type": "Decimal"
+    }
+  ]
+}

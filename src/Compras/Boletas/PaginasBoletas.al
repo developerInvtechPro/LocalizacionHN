@@ -6,11 +6,16 @@ using Microsoft.Purchases.Vendor;
 
 page 71114 "HN Boletas Compra"
 {
-    Caption = 'Boletas de compra HN'; PageType = List;
+    Caption = 'Boletas de compra HN';
+    PageType = List;
     SourceTable = "Purchase Header";
     SourceTableView = where("Document Type" = const(Invoice), "HN Boleta Compra" = const(true));
-    ApplicationArea = All; UsageCategory = Lists; CardPageId = "HN Boleta Compra";
-    InsertAllowed = false; ModifyAllowed = false; DeleteAllowed = false;
+    ApplicationArea = All;
+    UsageCategory = Lists;
+    CardPageId = "HN Boleta Compra";
+    InsertAllowed = false;
+    ModifyAllowed = false;
+    DeleteAllowed = false;
     layout
     {
         area(Content)
@@ -33,7 +38,9 @@ page 71114 "HN Boletas Compra"
             action(Configuracion) { Caption = 'Configuración de facturación HN'; ApplicationArea = All; Image = Setup; RunObject = page "HN Config. Facturacion"; }
             action(CAI)
             {
-                Caption = 'Configurar CAI'; ApplicationArea = All; Image = Setup;
+                Caption = 'Configurar CAI';
+                ApplicationArea = All;
+                Image = Setup;
                 trigger OnAction()
                 var
                     Autorizaciones: Record "HN CAI Authorization";
@@ -50,7 +57,9 @@ page 71114 "HN Boletas Compra"
 
 page 71115 "HN Boleta Compra"
 {
-    Caption = 'Boleta de compra HN'; PageType = Document; SourceTable = "Purchase Header";
+    Caption = 'Boleta de compra HN';
+    PageType = Document;
+    SourceTable = "Purchase Header";
     SourceTableView = where("Document Type" = const(Invoice), "HN Boleta Compra" = const(true));
     DelayedInsert = true;
     layout
@@ -65,8 +74,12 @@ page 71115 "HN Boleta Compra"
                 {
                     ApplicationArea = All;
                     trigger OnValidate()
-                    var Gestion: Codeunit "HN Gestion Boletas";
-                    begin Gestion.Preparar(Rec); CurrPage.Update(false); end;
+                    var
+                        Gestion: Codeunit "HN Gestion Boletas";
+                    begin
+                        Gestion.Preparar(Rec);
+                        CurrPage.Update(false);
+                    end;
                 }
                 field(Nombre; Rec."Buy-from Vendor Name") { ApplicationArea = All; }
                 field(Direccion; Rec."Buy-from Address") { ApplicationArea = All; }
@@ -82,7 +95,8 @@ page 71115 "HN Boleta Compra"
             }
             part(Lineas; "Purch. Invoice Subform")
             {
-                ApplicationArea = All; SubPageLink = "Document Type" = field("Document Type"), "Document No." = field("No.");
+                ApplicationArea = All;
+                SubPageLink = "Document Type" = field("Document Type"), "Document No." = field("No.");
             }
             group(Exoneracion)
             {
@@ -99,36 +113,65 @@ page 71115 "HN Boleta Compra"
         {
             action(Validar)
             {
-                Caption = 'Validar boleta'; ApplicationArea = All; Image = Check;
+                Caption = 'Validar boleta';
+                ApplicationArea = All;
+                Image = Check;
                 trigger OnAction()
-                var Gestion: Codeunit "HN Gestion Boletas";
-                begin CurrPage.SaveRecord(); Gestion.Validar(Rec); Message('Boleta validada. El correlativo se asignará únicamente al registrar.'); end;
+                var
+                    Gestion: Codeunit "HN Gestion Boletas";
+                begin
+                    CurrPage.SaveRecord();
+                    Gestion.Validar(Rec);
+                    Message('Boleta validada. El correlativo se asignará únicamente al registrar.');
+                end;
             }
             action(VistaPrevia)
             {
-                Caption = 'Vista previa de registro'; ApplicationArea = All; Image = ViewPostedOrder;
+                Caption = 'Vista previa de registro';
+                ApplicationArea = All;
+                Image = ViewPostedOrder;
                 trigger OnAction()
-                var Registro: Codeunit "Purch.-Post (Yes/No)";
-                begin CurrPage.SaveRecord(); Registro.Preview(Rec); end;
+                var
+                    Registro: Codeunit "Purch.-Post (Yes/No)";
+                begin
+                    CurrPage.SaveRecord();
+                    Registro.Preview(Rec);
+                end;
             }
             action(Registrar)
             {
-                Caption = 'Registrar'; ApplicationArea = All; Image = Post;
+                Caption = 'Registrar';
+                ApplicationArea = All;
+                Image = Post;
                 trigger OnAction()
-                begin CurrPage.SaveRecord(); Rec.SendToPosting(Codeunit::"Purch.-Post (Yes/No)"); CurrPage.Update(false); end;
+                begin
+                    CurrPage.SaveRecord();
+                    Rec.SendToPosting(Codeunit::"Purch.-Post (Yes/No)");
+                    CurrPage.Update(false);
+                end;
             }
             action(Borrador)
             {
                 Visible = false;
-                Caption = 'Imprimir borrador sin validez fiscal'; ApplicationArea = All; Image = Print;
+                Caption = 'Imprimir borrador sin validez fiscal';
+                ApplicationArea = All;
+                Image = Print;
                 trigger OnAction()
-                var Documento: Record "Purchase Header";
-                begin CurrPage.SaveRecord(); Documento := Rec; Documento.SetRecFilter(); Report.RunModal(Report::"HN Borrador Boleta", true, false, Documento); end;
+                var
+                    Documento: Record "Purchase Header";
+                begin
+                    CurrPage.SaveRecord();
+                    Documento := Rec;
+                    Documento.SetRecFilter();
+                    Report.RunModal(Report::"HN Borrador Boleta", true, false, Documento);
+                end;
             }
             action(Configuracion) { Caption = 'Configuración de facturación HN'; ApplicationArea = All; Image = Setup; RunObject = page "HN Config. Facturacion"; }
             action(CAI)
             {
-                Caption = 'Configurar CAI'; ApplicationArea = All; Image = Setup;
+                Caption = 'Configurar CAI';
+                ApplicationArea = All;
+                Image = Setup;
                 trigger OnAction()
                 var
                     Autorizaciones: Record "HN CAI Authorization";
@@ -150,9 +193,14 @@ page 71115 "HN Boleta Compra"
 
 page 71116 "HN Boletas Registradas"
 {
-    Caption = 'Boletas de compra registradas HN'; PageType = List; SourceTable = "Purch. Inv. Header";
-    SourceTableView = where("HN Boleta Compra" = const(true)); Editable = false;
-    ApplicationArea = All; UsageCategory = History; CardPageId = "Posted Purchase Invoice";
+    Caption = 'Boletas de compra registradas HN';
+    PageType = List;
+    SourceTable = "Purch. Inv. Header";
+    SourceTableView = where("HN Boleta Compra" = const(true));
+    Editable = false;
+    ApplicationArea = All;
+    UsageCategory = History;
+    CardPageId = "Posted Purchase Invoice";
     layout
     {
         area(Content)
@@ -174,10 +222,17 @@ page 71116 "HN Boletas Registradas"
             action(Imprimir)
             {
                 Visible = false;
-                Caption = 'Imprimir boleta de compra'; ApplicationArea = All; Image = Print;
+                Caption = 'Imprimir boleta de compra';
+                ApplicationArea = All;
+                Image = Print;
                 trigger OnAction()
-                var Documento: Record "Purch. Inv. Header";
-                begin Documento := Rec; Documento.SetRecFilter(); Report.RunModal(Report::"HN Boleta Compra", true, false, Documento); end;
+                var
+                    Documento: Record "Purch. Inv. Header";
+                begin
+                    Documento := Rec;
+                    Documento.SetRecFilter();
+                    Report.RunModal(Report::"HN Boleta Compra", true, false, Documento);
+                end;
             }
         }
     }

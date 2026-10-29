@@ -1,6 +1,7 @@
 namespace INVTECH.Honduras.Tests;
 using INVTECH.Honduras;
 using Microsoft.Sales.Document;
+using Microsoft.Sales.History;
 using Microsoft.Purchases.Document;
 using Microsoft.Finance.GeneralLedger.Setup;
 using Microsoft.Finance.GeneralLedger.Journal;
@@ -1166,6 +1167,162 @@ codeunit 71250 "HN Core Tests"
     begin
         Number := Management.Issue(Code, "HN Fiscal Document Type"::Retention, DMY2Date(1, 12, 2026), Issued);
         Error('Fallo simulado después de asignar el correlativo %1.', Number);
+    end;
+
+    [Test]
+    procedure TransferenciaReferencias1_1()
+    var
+        Origen: Record "Sales Header" temporary;
+        Destino: Record "Sales Invoice Header" temporary;
+    begin
+        Origen.Init();
+        Origen."HN Copia 60507" := 'FUENTE-PRUEBA';
+        // El overload estándar debe funcionar incluso con las referencias retiradas.
+        Destino.TransferFields(Origen);
+        Assert(Destino."HN Copia 60507" = 'FUENTE-PRUEBA', 'Debe conservar el concepto correcto al transferir entre documento e histórico.');
+    end;
+
+    [Test]
+    procedure TransferenciaReferencias1_2()
+    var
+        Origen: Record "Sales Invoice Header" temporary;
+        Destino: Record "Sales Header" temporary;
+    begin
+        Origen.Init();
+        Origen."HN Copia 60507" := 'FUENTE-PRUEBA';
+        // El overload estándar debe funcionar incluso con las referencias retiradas.
+        Destino.TransferFields(Origen);
+        Assert(Destino."HN Copia 60507" = 'FUENTE-PRUEBA', 'Debe conservar el concepto correcto al transferir entre documento e histórico.');
+    end;
+
+    [Test]
+    procedure TransferenciaReferencias2_1()
+    var
+        Origen: Record "Sales Header" temporary;
+        Destino: Record "Sales Cr.Memo Header" temporary;
+    begin
+        Origen.Init();
+        Origen."INV POS Transaction No." := '001-001-01-00000001';
+        // El overload estándar debe funcionar incluso con las referencias retiradas.
+        Destino.TransferFields(Origen);
+        Assert(Destino."INV POS Transaction No." = '001-001-01-00000001', 'Debe conservar el concepto correcto al transferir entre documento e histórico.');
+    end;
+
+    [Test]
+    procedure TransferenciaReferencias2_2()
+    var
+        Origen: Record "Sales Cr.Memo Header" temporary;
+        Destino: Record "Sales Header" temporary;
+    begin
+        Origen.Init();
+        Origen."INV POS Transaction No." := '001-001-01-00000001';
+        // El overload estándar debe funcionar incluso con las referencias retiradas.
+        Destino.TransferFields(Origen);
+        Assert(Destino."INV POS Transaction No." = '001-001-01-00000001', 'Debe conservar el concepto correcto al transferir entre documento e histórico.');
+    end;
+
+    [Test]
+    procedure TransferenciaReferencias3_1()
+    var
+        Origen: Record "Sales Line" temporary;
+        Destino: Record "Sales Invoice Line" temporary;
+    begin
+        Origen.Init();
+        Origen."HN Copia 60450" := 456.78;
+        // El overload estándar debe funcionar incluso con las referencias retiradas.
+        Destino.TransferFields(Origen);
+        Assert(Destino."HN Copia 60450" = 456.78, 'Debe conservar el concepto correcto al transferir entre documento e histórico.');
+    end;
+
+    [Test]
+    procedure TransferenciaReferencias3_2()
+    var
+        Origen: Record "Sales Invoice Line" temporary;
+        Destino: Record "Sales Line" temporary;
+    begin
+        Origen.Init();
+        Origen."HN Copia 60450" := 456.78;
+        // El overload estándar debe funcionar incluso con las referencias retiradas.
+        Destino.TransferFields(Origen);
+        Assert(Destino."HN Copia 60450" = 456.78, 'Debe conservar el concepto correcto al transferir entre documento e histórico.');
+    end;
+
+    [Test]
+    procedure TransferenciaReferencias4_1()
+    var
+        Origen: Record "Purchase Header" temporary;
+        Destino: Record "Purch. Inv. Header" temporary;
+    begin
+        Origen.Init();
+        Origen."HN Copia 60492" := '001-001-01-00000002';
+        // El overload estándar debe funcionar incluso con las referencias retiradas.
+        Destino.TransferFields(Origen);
+        Assert(Destino."HN Copia 60492" = '001-001-01-00000002', 'Debe conservar el concepto correcto al transferir entre documento e histórico.');
+    end;
+
+    [Test]
+    procedure TransferenciaReferencias4_2()
+    var
+        Origen: Record "Purch. Inv. Header" temporary;
+        Destino: Record "Purchase Header" temporary;
+    begin
+        Origen.Init();
+        Origen."HN Copia 60492" := '001-001-01-00000002';
+        // El overload estándar debe funcionar incluso con las referencias retiradas.
+        Destino.TransferFields(Origen);
+        Assert(Destino."HN Copia 60492" = '001-001-01-00000002', 'Debe conservar el concepto correcto al transferir entre documento e histórico.');
+    end;
+
+    [Test]
+    procedure TransferenciaReferencias5_1()
+    var
+        Origen: Record "Purchase Line" temporary;
+        Destino: Record "Purch. Inv. Line" temporary;
+    begin
+        Origen.Init();
+        Origen."HN Copia 60104" := 'ISR,HON';
+        // El overload estándar debe funcionar incluso con las referencias retiradas.
+        Destino.TransferFields(Origen);
+        Assert(Destino."HN Copia 60104" = 'ISR,HON', 'Debe conservar el concepto correcto al transferir entre documento e histórico.');
+    end;
+
+    [Test]
+    procedure TransferenciaReferencias5_2()
+    var
+        Origen: Record "Purch. Inv. Line" temporary;
+        Destino: Record "Purchase Line" temporary;
+    begin
+        Origen.Init();
+        Origen."HN Copia 60104" := 'ISR,HON';
+        // El overload estándar debe funcionar incluso con las referencias retiradas.
+        Destino.TransferFields(Origen);
+        Assert(Destino."HN Copia 60104" = 'ISR,HON', 'Debe conservar el concepto correcto al transferir entre documento e histórico.');
+    end;
+
+    [Test]
+    procedure TransferenciaReferencias6_1()
+    var
+        Origen: Record "Sales Header" temporary;
+        Destino: Record "Sales Invoice Header" temporary;
+    begin
+        Origen.Init();
+        Origen."HN Copia 60508" := 'PROYECTO-PRUEBA';
+        // El overload estándar debe funcionar incluso con las referencias retiradas.
+        Destino.TransferFields(Origen);
+        Assert(Destino."HN Copia 60508" = 'PROYECTO-PRUEBA', 'Debe conservar el concepto correcto al transferir entre documento e histórico.');
+    end;
+
+    [Test]
+    procedure TransferenciaReferencias6_2()
+    var
+        Origen: Record "Sales Invoice Header" temporary;
+        Destino: Record "Sales Header" temporary;
+    begin
+        Origen.Init();
+        Origen."HN Copia 60508" := 'PROYECTO-PRUEBA';
+        // El overload estándar debe funcionar incluso con las referencias retiradas.
+        Destino.TransferFields(Origen);
+        Assert(Destino."HN Copia 60508" = 'PROYECTO-PRUEBA', 'Debe conservar el concepto correcto al transferir entre documento e histórico.');
     end;
 
     local procedure Assert(Condition: Boolean; Message: Text)

@@ -114,3 +114,7 @@ s+='''        end;
 '''
 (R/'src/Migracion/MapaCamposOrigen.al').write_text(s)
 print(len(mapa),'campos; tablas de referencia:',len(referencias))
+
+# Aplicar el plan publicado después de regenerar: nunca reactivar campos incompatibles.
+from corregir_referencias_transferencia import main as corregir_transferencia
+corregir_transferencia()

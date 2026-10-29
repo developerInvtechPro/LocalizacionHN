@@ -1,6 +1,6 @@
 # Localización Honduras V2
 
-**Primera instalación en producción:** usar el paquete **1.3.0.1**, generado con `python3 herramientas/compilar_produccion.py`. La base **1.2.6.1** conserva IDs del sandbox y colisiona con API_BCPOS; no publicarla en producción. [Procedimiento y fuentes de producción](documentacion/PRIMERA_INSTALACION_PRODUCCION.md).
+**Primera instalación en producción:** usar el paquete **1.3.0.2**, generado con `python3 herramientas/compilar_produccion.py`. La base **1.2.6.2** conserva IDs del sandbox y colisiona con API_BCPOS; no publicarla en producción. [Procedimiento y fuentes de producción](documentacion/PRIMERA_INSTALACION_PRODUCCION.md).
 
 Extensión independiente de INVTECH para Business Central 28, versión **1.2.6.0**.
 
@@ -101,3 +101,5 @@ Formatos 1.2.5.0: los 20 diseños existentes se sustituyen con referencia a las 
 
 
 Alcance vigente de impresión 1.2.6.0: [FORMATOS_V2.md](documentacion/FORMATOS_V2.md). Las referencias a sustitución de 20 formatos en versiones anteriores son históricas; 17 formatos V2 quedan pospuestos.
+
+La actualización corrige los conflictos de referencias al registrar ventas y compras. [Detalle y validación de la corrección](documentacion/CORRECCION_REGISTRO_REFERENCIAS.md).
